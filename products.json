@@ -7,7 +7,8 @@
     "debuffs": "Ancient Babble: Each time you use the Tome, roll a d20; on a roll of 1, uncontrollably start speaking in an ancient, incomprehensible language",
     "modelUrl": "https://milordtd.github.io/scene.gltf",
     "category": "pin",
-    "inStock": 5
+    "inStock": 5,
+    "price": 49.99
   },
   "yellowPotion": {
     "name": "Yellow Potion",
@@ -17,7 +18,8 @@
     "debuffs": "Light Sensitivity: Eyes become extra sensitive to bright light for 1 hour after use",
     "modelUrl": "https://milordtd.github.io/scene.gltf",
     "category": "pin",
-    "inStock": 3
+    "inStock": 3,
+    "price": 29.99
   },
   "redPotion": {
     "name": "Red Potion",
@@ -27,7 +29,8 @@
     "debuffs": "Hotheaded: Become easily angered and impulsive for 30 minutes after consumption",
     "modelUrl": "https://milordtd.github.io/scene.gltf",
     "category": "pin",
-    "inStock": 3
+    "inStock": 3,
+    "price": 34.99
   },
   "bluePotion": {
     "name": "Blue Potion",
@@ -37,7 +40,8 @@
     "debuffs": "Dehydration: Feel extremely thirsty for 1 hour after the effect wears off",
     "modelUrl": "https://milordtd.github.io/scene.gltf",
     "category": "pin",
-    "inStock": 0
+    "inStock": 2,
+    "price": 39.99
   },
   "potionSet": {
     "name": "Potion Set",
@@ -47,7 +51,8 @@
     "debuffs": "Sensory Overload: 5% chance of temporary sensory enhancement, potentially overwhelming",
     "modelUrl": "https://milordtd.github.io/scene.gltf",
     "category": "pin",
-    "inStock": 1
+    "inStock": 0,
+    "price": 99.99
   },
   "toteBag1": {
     "name": "Mystical Tote Bag",
@@ -57,7 +62,8 @@
     "debuffs": "Mischievous Pocket: 5% chance of small items playfully 'hiding' in the bag",
     "modelUrl": "https://milordtd.github.io/scene.gltf",
     "category": "bag",
-    "inStock": 0
+    "inStock": 10,
+    "price": 24.99
   },
   "toteBag2": {
     "name": "Alchemist's Carrier",
@@ -67,6 +73,7 @@
     "debuffs": "Aromatic Residue: Faint potion smell lingers on items stored inside",
     "modelUrl": "https://milordtd.github.io/scene.gltf",
     "category": "bag",
-    "inStock": 7
+    "inStock": 7,
+    "price": 34.99
   }
 }
