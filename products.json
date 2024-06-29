@@ -27,7 +27,7 @@
     "debuffs": "Hotheaded: Become easily angered and impulsive for 30 minutes after consumption",
     "modelUrl": "https://example.com/red_potion.gltf",
     "category": "pin",
-    "inStock": 0
+    "inStock": 3
   },
   "bluePotion": {
     "name": "Blue Potion",
