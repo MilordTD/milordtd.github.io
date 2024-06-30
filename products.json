@@ -8,7 +8,14 @@
     "modelUrl": "https://milordtd.github.io/scene.gltf",
     "category": "pin",
     "inStock": 5,
-    "price": 49.99
+    "price": 49.99,
+    "gallery": [
+      "/images/tome_1.jpg",
+      "/images/tome_2.jpg",
+      "/images/tome_3.jpg",
+      "/images/tome_4.jpg"
+    ]
+  },
   },
   "yellowPotion": {
     "name": "Yellow Potion",
@@ -16,10 +23,17 @@
     "characteristics": "Volume: 50ml<br>Color: Bright yellow<br>Glow-in-the-dark",
     "buffs": "Solar Boost: Gain temporary immunity to cold-based attacks",
     "debuffs": "Light Sensitivity: Eyes become extra sensitive to bright light for 1 hour after use",
-    "modelUrl": "https://milordtd.github.io/scene.gltf",
+    "modelUrl": "https://example.com/yellow_potion.gltf",
     "category": "pin",
     "inStock": 3,
-    "price": 29.99
+    "price": 29.99,
+    "gallery": [
+      "/images/tome_1.jpg",
+      "/images/tome_2.jpg",
+      "/images/tome_3.jpg",
+      "/images/tome_4.jpg"
+    ]
+  },
   },
   "redPotion": {
     "name": "Red Potion",
@@ -27,10 +41,17 @@
     "characteristics": "Volume: 30ml<br>Color: Deep crimson<br>Slightly smoking",
     "buffs": "Fireproof: Gain resistance to fire damage for 1 hour",
     "debuffs": "Hotheaded: Become easily angered and impulsive for 30 minutes after consumption",
-    "modelUrl": "https://milordtd.github.io/scene.gltf",
+    "modelUrl": "https://example.com/red_potion.gltf",
     "category": "pin",
     "inStock": 3,
-    "price": 34.99
+    "price": 34.99,
+    "gallery": [
+      "/images/tome_1.jpg",
+      "/images/tome_2.jpg",
+      "/images/tome_3.jpg",
+      "/images/tome_4.jpg"
+    ]
+  },
   },
   "bluePotion": {
     "name": "Blue Potion",
@@ -38,10 +59,17 @@
     "characteristics": "Volume: 40ml<br>Color: Shimmering azure<br>Swirling mist inside",
     "buffs": "Aqua Lungs: Gain the ability to breathe underwater for 2 hours",
     "debuffs": "Dehydration: Feel extremely thirsty for 1 hour after the effect wears off",
-    "modelUrl": "https://milordtd.github.io/scene.gltf",
+    "modelUrl": "https://example.com/blue_potion.gltf",
     "category": "pin",
     "inStock": 2,
-    "price": 39.99
+    "price": 39.99,
+    "gallery": [
+      "/images/tome_1.jpg",
+      "/images/tome_2.jpg",
+      "/images/tome_3.jpg",
+      "/images/tome_4.jpg"
+    ]
+  },
   },
   "potionSet": {
     "name": "Potion Set",
@@ -49,10 +77,17 @@
     "characteristics": "3 vials, 30ml each<br>Colors: Yellow, Red, Blue<br>Ornate wooden box included",
     "buffs": "Alchemist's Fortune: 10% chance to create a random beneficial effect when mixing potions",
     "debuffs": "Sensory Overload: 5% chance of temporary sensory enhancement, potentially overwhelming",
-    "modelUrl": "https://milordtd.github.io/scene.gltf",
+    "modelUrl": "https://example.com/potion_set.gltf",
     "category": "pin",
-    "inStock": 0,
-    "price": 99.99
+    "inStock": 1,
+    "price": 99.99,
+    "gallery": [
+      "/images/tome_1.jpg",
+      "/images/tome_2.jpg",
+      "/images/tome_3.jpg",
+      "/images/tome_4.jpg"
+    ]
+  },
   },
   "toteBag1": {
     "name": "Mystical Tote Bag",
@@ -60,10 +95,17 @@
     "characteristics": "Size: 15\" x 16\"<br>Material: 100% cotton<br>Magical expansion charm",
     "buffs": "Feather-light: The bag and its contents weigh next to nothing",
     "debuffs": "Mischievous Pocket: 5% chance of small items playfully 'hiding' in the bag",
-    "modelUrl": "https://milordtd.github.io/scene.gltf",
+    "modelUrl": "https://example.com/tote_bag_1.gltf",
     "category": "bag",
     "inStock": 10,
-    "price": 24.99
+    "price": 24.99,
+    "gallery": [
+      "/images/tome_1.jpg",
+      "/images/tome_2.jpg",
+      "/images/tome_3.jpg",
+      "/images/tome_4.jpg"
+    ]
+  },
   },
   "toteBag2": {
     "name": "Alchemist's Carrier",
@@ -71,9 +113,16 @@
     "characteristics": "Size: 14\" x 15\"<br>Material: Magical creature byproducts<br>Potion-proof lining",
     "buffs": "Preservation Charm: Keeps potions fresh and prevents breakage",
     "debuffs": "Aromatic Residue: Faint potion smell lingers on items stored inside",
-    "modelUrl": "https://milordtd.github.io/scene.gltf",
+    "modelUrl": "https://example.com/tote_bag_2.gltf",
     "category": "bag",
     "inStock": 7,
-    "price": 34.99
+    "price": 34.99,
+    "gallery": [
+      "/images/tome_1.jpg",
+      "/images/tome_2.jpg",
+      "/images/tome_3.jpg",
+      "/images/tome_4.jpg"
+    ]
+  },
   }
 }
