@@ -10,10 +10,10 @@
     "inStock": 5,
     "price": 49.99,
     "gallery": [
-      "/images/tome_1.jpg",
-      "/images/tome_2.jpg",
-      "/images/tome_3.jpg",
-      "/images/tome_4.jpg"
+      "https://github.com/MilordTD/milordtd.github.io/blob/821d5e7208929b3fb6eeea9aeb809acaa01683ba/pantone-color-chip-284-c.webp",
+      "https://github.com/MilordTD/milordtd.github.io/blob/821d5e7208929b3fb6eeea9aeb809acaa01683ba/pantone-color-chip-284-c.webp",
+      "https://github.com/MilordTD/milordtd.github.io/blob/821d5e7208929b3fb6eeea9aeb809acaa01683ba/pantone-color-chip-284-c.webp",
+      "https://github.com/MilordTD/milordtd.github.io/blob/821d5e7208929b3fb6eeea9aeb809acaa01683ba/pantone-color-chip-284-c.webp"
     ]
   },
   },
