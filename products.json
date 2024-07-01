@@ -10,12 +10,11 @@
     "inStock": 5,
     "price": 49.99,
     "gallery": [
-      "https://github.com/MilordTD/milordtd.github.io/blob/821d5e7208929b3fb6eeea9aeb809acaa01683ba/pantone-color-chip-284-c.webp",
-      "https://github.com/MilordTD/milordtd.github.io/blob/821d5e7208929b3fb6eeea9aeb809acaa01683ba/pantone-color-chip-284-c.webp",
-      "https://github.com/MilordTD/milordtd.github.io/blob/821d5e7208929b3fb6eeea9aeb809acaa01683ba/pantone-color-chip-284-c.webp",
-      "https://github.com/MilordTD/milordtd.github.io/blob/821d5e7208929b3fb6eeea9aeb809acaa01683ba/pantone-color-chip-284-c.webp"
+      "/images/tome_1.jpg",
+      "/images/tome_2.jpg",
+      "/images/tome_3.jpg",
+      "/images/tome_4.jpg"
     ]
-  },
   },
   "yellowPotion": {
     "name": "Yellow Potion",
@@ -28,12 +27,11 @@
     "inStock": 3,
     "price": 29.99,
     "gallery": [
-      "/images/tome_1.jpg",
-      "/images/tome_2.jpg",
-      "/images/tome_3.jpg",
-      "/images/tome_4.jpg"
+      "/images/yellow_potion_1.jpg",
+      "/images/yellow_potion_2.jpg",
+      "/images/yellow_potion_3.jpg",
+      "/images/yellow_potion_4.jpg"
     ]
-  },
   },
   "redPotion": {
     "name": "Red Potion",
@@ -46,12 +44,11 @@
     "inStock": 3,
     "price": 34.99,
     "gallery": [
-      "/images/tome_1.jpg",
-      "/images/tome_2.jpg",
-      "/images/tome_3.jpg",
-      "/images/tome_4.jpg"
+      "/images/red_potion_1.jpg",
+      "/images/red_potion_2.jpg",
+      "/images/red_potion_3.jpg",
+      "/images/red_potion_4.jpg"
     ]
-  },
   },
   "bluePotion": {
     "name": "Blue Potion",
@@ -64,12 +61,11 @@
     "inStock": 2,
     "price": 39.99,
     "gallery": [
-      "/images/tome_1.jpg",
-      "/images/tome_2.jpg",
-      "/images/tome_3.jpg",
-      "/images/tome_4.jpg"
+      "/images/blue_potion_1.jpg",
+      "/images/blue_potion_2.jpg",
+      "/images/blue_potion_3.jpg",
+      "/images/blue_potion_4.jpg"
     ]
-  },
   },
   "potionSet": {
     "name": "Potion Set",
@@ -82,12 +78,11 @@
     "inStock": 1,
     "price": 99.99,
     "gallery": [
-      "/images/tome_1.jpg",
-      "/images/tome_2.jpg",
-      "/images/tome_3.jpg",
-      "/images/tome_4.jpg"
+      "/images/potion_set_1.jpg",
+      "/images/potion_set_2.jpg",
+      "/images/potion_set_3.jpg",
+      "/images/potion_set_4.jpg"
     ]
-  },
   },
   "toteBag1": {
     "name": "Mystical Tote Bag",
@@ -100,12 +95,11 @@
     "inStock": 10,
     "price": 24.99,
     "gallery": [
-      "/images/tome_1.jpg",
-      "/images/tome_2.jpg",
-      "/images/tome_3.jpg",
-      "/images/tome_4.jpg"
+      "/images/tote_bag_1_1.jpg",
+      "/images/tote_bag_1_2.jpg",
+      "/images/tote_bag_1_3.jpg",
+      "/images/tote_bag_1_4.jpg"
     ]
-  },
   },
   "toteBag2": {
     "name": "Alchemist's Carrier",
@@ -118,11 +112,10 @@
     "inStock": 7,
     "price": 34.99,
     "gallery": [
-      "/images/tome_1.jpg",
-      "/images/tome_2.jpg",
-      "/images/tome_3.jpg",
-      "/images/tome_4.jpg"
+      "/images/tote_bag_2_1.jpg",
+      "/images/tote_bag_2_2.jpg",
+      "/images/tote_bag_2_3.jpg",
+      "/images/tote_bag_2_4.jpg"
     ]
-  },
   }
 }
