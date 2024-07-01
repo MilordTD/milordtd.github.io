@@ -10,10 +10,10 @@
     "inStock": 5,
     "price": 49.99,
     "gallery": [
-      "/images/tome_1.jpg",
-      "/images/tome_2.jpg",
-      "/images/tome_3.jpg",
-      "/images/tome_4.jpg"
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg"
     ]
   },
   "yellowPotion": {
@@ -27,10 +27,10 @@
     "inStock": 3,
     "price": 29.99,
     "gallery": [
-      "/images/yellow_potion_1.jpg",
-      "/images/yellow_potion_2.jpg",
-      "/images/yellow_potion_3.jpg",
-      "/images/yellow_potion_4.jpg"
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg"
     ]
   },
   "redPotion": {
@@ -44,10 +44,10 @@
     "inStock": 3,
     "price": 34.99,
     "gallery": [
-      "/images/red_potion_1.jpg",
-      "/images/red_potion_2.jpg",
-      "/images/red_potion_3.jpg",
-      "/images/red_potion_4.jpg"
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpgg"
     ]
   },
   "bluePotion": {
@@ -61,10 +61,10 @@
     "inStock": 2,
     "price": 39.99,
     "gallery": [
-      "/images/blue_potion_1.jpg",
-      "/images/blue_potion_2.jpg",
-      "/images/blue_potion_3.jpg",
-      "/images/blue_potion_4.jpg"
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg"
     ]
   },
   "potionSet": {
@@ -78,10 +78,10 @@
     "inStock": 1,
     "price": 99.99,
     "gallery": [
-      "/images/potion_set_1.jpg",
-      "/images/potion_set_2.jpg",
-      "/images/potion_set_3.jpg",
-      "/images/potion_set_4.jpg"
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg"
     ]
   },
   "toteBag1": {
@@ -95,10 +95,10 @@
     "inStock": 10,
     "price": 24.99,
     "gallery": [
-      "/images/tote_bag_1_1.jpg",
-      "/images/tote_bag_1_2.jpg",
-      "/images/tote_bag_1_3.jpg",
-      "/images/tote_bag_1_4.jpg"
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg"
     ]
   },
   "toteBag2": {
@@ -112,10 +112,10 @@
     "inStock": 7,
     "price": 34.99,
     "gallery": [
-      "/images/tote_bag_2_1.jpg",
-      "/images/tote_bag_2_2.jpg",
-      "/images/tote_bag_2_3.jpg",
-      "/images/tote_bag_2_4.jpg"
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
+      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpgg"
     ]
   }
 }
