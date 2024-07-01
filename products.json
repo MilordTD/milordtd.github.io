@@ -10,10 +10,10 @@
     "inStock": 5,
     "price": 49.99,
     "gallery": [
-      "https://milordtd.github.io/pin_photo_1",
-      "https://milordtd.github.io/pin_photo_2",
-      "https://milordtd.github.io/pin_photo_3",
-      "https://milordtd.github.io/pin_photo_4"
+      "https://milordtd.github.io/pin_photo_1.png",
+      "https://milordtd.github.io/pin_photo_2.png",
+      "https://milordtd.github.io/pin_photo_3.png",
+      "https://milordtd.github.io/pin_photo_4.png"
     ]
   },
   "yellowPotion": {
