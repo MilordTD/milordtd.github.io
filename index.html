@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KA.RHAT - Магазин</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">KA.RHAT</div>
+            <div class="menu-icon">☰</div>
+        </header>
+        <div class="artifact-collection">
+            <img src="/Users/milordtd/Desktop/KA.RHAT/images/artifact-collection-icon.png" alt="Artifact collection" width="100">
+        </div>
+        <div class="main-content">
+            <div class="product-detail">
+                <div class="product-image">
+                    <div id="book-3d-model"></div>
+                    <div class="zoom-controls">
+                        <button class="zoom-button" id="zoom-in">+</button>
+                        <button class="zoom-button" id="zoom-out">-</button>
+                    </div>
+                    <div class="product-gallery">
+                        <!-- Превью будут добавляться динамически -->
+                    </div>
+                </div>  
+                <div class="product-info">
+                    <h2 id="product-name">Tome of Thousand Truths</h2>
+                    <div class="info-blocks">
+                        <div class="info-block">
+                            <h3>Ingredients</h3>
+                            <p id="product-ingredients"></p>
+                        </div>
+                        <div class="info-block">
+                            <h3>Characteristics</h3>
+                            <p id="product-characteristics"></p>
+                        </div>
+                        <div class="info-block2">
+                            <h3>Buffs and debuffs</h3>
+                            <p id="product-buffs"></p>
+                            <p id="product-debuffs"></p>
+                        </div>
+                    </div>
+                    <button class="add-to-cart">ADD TO CART</button>
+                </div>
+            </div>
+        </div>
+        <div class="product-list-container">
+            <div class="category-filter">
+                <div class="category-filter-container">
+                    <!-- Category buttons will be dynamically added here -->
+                </div>
+            </div>
+            <div class="product-list">
+                <button class="slider-arrow left">&lt;</button>
+                <div class="product-list-wrapper">
+                    <!-- Product items will be dynamically added here -->
+                </div>
+                <button class="slider-arrow right">&gt;</button>
+            </div>
+        </div>
+        <div class="cart-container">
+            <div class="cart-header">
+                <h3>Cart</h3>
+                <button class="empty-cart-button">Empty cart</button>
+            </div>
+            <div class="cart-items"></div>
+            <div class="cart-total">Total: $<span class="total-amount">0</span></div>
+            <button class="checkout-button">To checkout</button>
+        </div>
+    </div>
+    <div class="modal" id="imageModal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>

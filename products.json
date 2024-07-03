@@ -10,11 +10,12 @@
     "inStock": 5,
     "price": 49.99,
     "gallery": [
-      "https://milordtd.github.io/pin_photo_1.png",
-      "https://milordtd.github.io/pin_photo_2.png",
-      "https://milordtd.github.io/pin_photo_3.png",
-      "https://milordtd.github.io/pin_photo_4.png"
+      "/images/tome_1.jpg",
+      "/images/tome_2.jpg",
+      "/images/tome_3.jpg",
+      "/images/tome_4.jpg"
     ]
+  },
   },
   "yellowPotion": {
     "name": "Yellow Potion",
@@ -27,11 +28,12 @@
     "inStock": 3,
     "price": 29.99,
     "gallery": [
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg"
+      "/images/tome_1.jpg",
+      "/images/tome_2.jpg",
+      "/images/tome_3.jpg",
+      "/images/tome_4.jpg"
     ]
+  },
   },
   "redPotion": {
     "name": "Red Potion",
@@ -44,11 +46,12 @@
     "inStock": 3,
     "price": 34.99,
     "gallery": [
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpgg"
+      "/images/tome_1.jpg",
+      "/images/tome_2.jpg",
+      "/images/tome_3.jpg",
+      "/images/tome_4.jpg"
     ]
+  },
   },
   "bluePotion": {
     "name": "Blue Potion",
@@ -61,11 +64,12 @@
     "inStock": 2,
     "price": 39.99,
     "gallery": [
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg"
+      "/images/tome_1.jpg",
+      "/images/tome_2.jpg",
+      "/images/tome_3.jpg",
+      "/images/tome_4.jpg"
     ]
+  },
   },
   "potionSet": {
     "name": "Potion Set",
@@ -78,11 +82,12 @@
     "inStock": 1,
     "price": 99.99,
     "gallery": [
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg"
+      "/images/tome_1.jpg",
+      "/images/tome_2.jpg",
+      "/images/tome_3.jpg",
+      "/images/tome_4.jpg"
     ]
+  },
   },
   "toteBag1": {
     "name": "Mystical Tote Bag",
@@ -95,11 +100,12 @@
     "inStock": 10,
     "price": 24.99,
     "gallery": [
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg"
+      "/images/tome_1.jpg",
+      "/images/tome_2.jpg",
+      "/images/tome_3.jpg",
+      "/images/tome_4.jpg"
     ]
+  },
   },
   "toteBag2": {
     "name": "Alchemist's Carrier",
@@ -112,10 +118,11 @@
     "inStock": 7,
     "price": 34.99,
     "gallery": [
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpg",
-      "https://github.com/MilordTD/milordtd.github.io/blob/cce0ba331162d955668fc04a2afc19c064f384c4/bgLms.jpgg"
+      "/images/tome_1.jpg",
+      "/images/tome_2.jpg",
+      "/images/tome_3.jpg",
+      "/images/tome_4.jpg"
     ]
+  },
   }
 }
