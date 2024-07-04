@@ -50,7 +50,7 @@ body, html {
     display: flex;
     flex-direction: row;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     margin-bottom: 40px;
@@ -110,7 +110,7 @@ body, html {
     flex-direction: column;
     justify-content: center;
     padding: 20px 40px;
-    background-color: rgba(255, 255, 255, 0.7);
+    background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     height: 160px;
