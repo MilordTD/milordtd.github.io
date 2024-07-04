@@ -68,7 +68,7 @@ function initializeProducts() {
         productItem.dataset.category = product.category;
 
         const img = document.createElement('img');
-        img.src = `/Users/milordtd/Desktop/KA.RHAT/images/pin_${id}.svg`;
+        img.src = `/images/pin_${id}.svg`;
         img.alt = product.name;
 
         if (product.inStock === 0) {
