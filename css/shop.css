@@ -10,7 +10,7 @@ body, html {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background-image: url('/images/background.png');
+    background-image: url('/images/background.jpg');
     background-size: cover;
     background-position: center;
 }
@@ -160,7 +160,7 @@ body, html {
     border-top: 2px solid rgba(0, 0, 0, 0); 
     border-right: 2px solid rgba(0, 0, 0, 0); 
     border-left: 2px solid rgba(0, 0, 0, 0); 
-    box-shadow: inset 0 0 0 2px white;
+    box-shadow: inset 0 0 2px 2px white;
 }
 
 .category-filter button.active::after {
