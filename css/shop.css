@@ -9,7 +9,7 @@ body, html {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    background-image: url('/Users/milordtd/Desktop/KA.RHAT/images/background.png');
+    background-image: url('https://github.com/MilordTD/milordtd.github.io/blob/d0ce63af5d045cd159d003e184558244b3560236/images/background.png');
     background-size: cover;
     background-position: center;
 }
