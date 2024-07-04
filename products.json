@@ -10,10 +10,10 @@
     "inStock": 5,
     "price": 49.99,
     "gallery": [
-      "/images/pin_photo_1.jpg",
-      "/images/pin_photo_2.jpg",
-      "/images/pin_photo_3.jpg",
-      "/images/pin_photo_4.jpg"
+      "/images/pin_photo_1.png",
+      "/images/pin_photo_2.png",
+      "/images/pin_photo_3.png",
+      "/images/pin_photo_4.png"
     ]
   },
   "yellowPotion": {
@@ -27,10 +27,10 @@
     "inStock": 3,
     "price": 29.99,
     "gallery": [
-      "/images/pin_photo_1.jpg",
-      "/images/pin_photo_2.jpg",
-      "/images/pin_photo_3.jpg",
-      "/images/pin_photo_4.jpg"
+      "/images/pin_photo_1.png",
+      "/images/pin_photo_2.png",
+      "/images/pin_photo_3.png",
+      "/images/pin_photo_4.png"
     ]
   },
   "redPotion": {
@@ -44,10 +44,10 @@
     "inStock": 3,
     "price": 34.99,
     "gallery": [
-      "/images/pin_photo_1.jpg",
-      "/images/pin_photo_2.jpg",
-      "/images/pin_photo_3.jpg",
-      "/images/pin_photo_4.jpg"
+      "/images/pin_photo_1.png",
+      "/images/pin_photo_2.png",
+      "/images/pin_photo_3.png",
+      "/images/pin_photo_4.png"
     ]
   },
   "bluePotion": {
@@ -61,10 +61,10 @@
     "inStock": 2,
     "price": 39.99,
     "gallery": [
-      "/images/pin_photo_1.jpg",
-      "/images/pin_photo_2.jpg",
-      "/images/pin_photo_3.jpg",
-      "/images/pin_photo_4.jpg"
+      "/images/pin_photo_1.png",
+      "/images/pin_photo_2.png",
+      "/images/pin_photo_3.png",
+      "/images/pin_photo_4.png"
     ]
   },
   "potionSet": {
@@ -78,10 +78,10 @@
     "inStock": 1,
     "price": 99.99,
     "gallery": [
-      "/images/pin_photo_1.jpg",
-      "/images/pin_photo_2.jpg",
-      "/images/pin_photo_3.jpg",
-      "/images/pin_photo_4.jpg"
+      "/images/pin_photo_1.png",
+      "/images/pin_photo_2.png",
+      "/images/pin_photo_3.png",
+      "/images/pin_photo_4.png"
     ]
   },
   "toteBag1": {
@@ -95,10 +95,10 @@
     "inStock": 10,
     "price": 24.99,
     "gallery": [
-      "/images/pin_photo_1.jpg",
-      "/images/pin_photo_2.jpg",
-      "/images/pin_photo_3.jpg",
-      "/images/pin_photo_4.jpg"
+      "/images/pin_photo_1.png",
+      "/images/pin_photo_2.png",
+      "/images/pin_photo_3.png",
+      "/images/pin_photo_4.png"
     ]
   },
   "toteBag2": {
@@ -112,10 +112,10 @@
     "inStock": 7,
     "price": 34.99,
     "gallery": [
-      "/images/pin_photo_1.jpg",
-      "/images/pin_photo_2.jpg",
-      "/images/pin_photo_3.jpg",
-      "/images/pin_photo_4.jpg"
+      "/images/pin_photo_1.png",
+      "/images/pin_photo_2.png",
+      "/images/pin_photo_3.png",
+      "/images/pin_photo_4.png"
     ]
   }
 }
