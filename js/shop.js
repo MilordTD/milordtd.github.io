@@ -48,7 +48,7 @@ const cartTotal = document.querySelector('.total-amount');
 const productListContainer = document.querySelector('.product-list-container');
 
 // Загрузка данных о товарах из JSON файла на GitHub Pages
-fetch('https://milordtd.github.io/products.json')
+fetch('/products.json')
     .then(response => response.json())
     .then(data => {
         products = data;
