@@ -50,7 +50,9 @@ body, html {
     display: flex;
     flex-direction: row;
     padding: 20px;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     margin-bottom: 40px;
     width: fit-content;
     border-radius: 12px;
@@ -70,8 +72,8 @@ body, html {
     width: 200px;
     font-size: 12px;
     background-color: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
     padding: 20px;
     padding-top: 0px;
     border-radius: 8px;
@@ -108,7 +110,9 @@ body, html {
     flex-direction: column;
     justify-content: center;
     padding: 20px 40px;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     height: 160px;
     z-index: 1000;
     border-radius: 12px;
