@@ -108,37 +108,45 @@ body, html {
     right: 40px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding: 20px 40px;
-    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: flex-end;
+    background-color: rgba(51, 51, 51, 0.9);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    height: 160px;
-    z-index: 1000;
     border-radius: 12px;
     transition: margin-right 0.3s ease;
+    overflow: hidden;
 }
 .category-filter {
     display: flex;
     justify-content: flex-start;
-    margin-bottom: 20px;
+    background-color: rgba(68, 68, 68, 0.9);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    padding: 10px 20px 0;
 }
-.category-filter-container {
+/* .category-filter-container {
     display: flex;
     background-color: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 10px;
     padding: 5px;
+}*/
+
+.category-filter button.active {
+    background-color: rgba(51, 51, 51, 0.9);
 }
-.category-filter button {
-    margin: 0 5px;
-    padding: 5px 10px;
+/*.category-filter button {
+    padding: 10px 20px;
     background-color: transparent;
     border: none;
     cursor: pointer;
+    color: #ffffff;
+    font-size: 16px;
     transition: background-color 0.3s;
-}
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}*/
 .category-filter button:hover {
     background-color: rgba(0, 0, 0, 0.1);
 }
@@ -146,10 +154,36 @@ body, html {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    overflow-x: hidden;
+    overflow-x: auto;
+    padding: 20px;
     position: relative;
-    width: 100%;
-    margin: 0 auto;
+}
+.product-list::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 20px;
+    right: 20px;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Скрываем полосу прокрутки для Webkit браузеров */
+.product-list::-webkit-scrollbar {
+    display: none;
+}
+
+/* Скрываем полосу прокрутки для Firefox */
+.product-list {
+    scrollbar-width: none;
+}
+
+/* Стили для поддержки в браузерах без backdrop-filter */
+@supports not (backdrop-filter: blur(10px)) {
+    .product-list-container,
+    .category-filter {
+        background-color: rgba(51, 51, 51, 0.95);
+    }
 }
 .product-list-wrapper {
     display: flex;
