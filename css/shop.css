@@ -129,7 +129,7 @@ body, html {
     display: flex;
     justify-content: flex-start;
     background-color: transparent;
-    padding: 10px 10px 0;
+    padding: 5px 5px 0;
     position: relative;
     z-index: 1;
     background-color: rgba(0, 0, 0, 0.7);
