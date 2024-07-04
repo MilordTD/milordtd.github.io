@@ -20,8 +20,8 @@ body, html {
     justify-content: left;
     align-items: left;
     background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(60px);
-    -webkit-backdrop-filter: blur(60px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     color: white;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -60,8 +60,8 @@ body, html {
     flex-direction: row;
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(60px);
-    -webkit-backdrop-filter: blur(60px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     margin-bottom: 40px;
     width: fit-content;
     border-radius: 12px;
@@ -103,9 +103,7 @@ body, html {
 }
 
 .add-to-cart {
-    background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(60px);
-    -webkit-backdrop-filter: blur(60px);
+    background-color: rgba(0, 0, 0, 1);
     color: white;
     padding: 10px 20px;
     border: none;
@@ -129,8 +127,8 @@ body, html {
     flex-direction: column;
     justify-content: flex-end;
     background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(60px);
-    -webkit-backdrop-filter: blur(60px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-radius: 12px;
     transition: margin-right 0.3s ease;
     overflow: hidden;
@@ -139,7 +137,9 @@ body, html {
 .category-filter {
     display: flex;
     justify-content: flex-start;
-    background-color: rgba(68, 68, 68, 0.9);
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
     padding: 10px 20px 0;
@@ -159,8 +159,8 @@ body, html {
 
 .category-filter button.active {
     background-color: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(60px);
-    -webkit-backdrop-filter: blur(60px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
 }
 
 .product-list {
@@ -268,8 +268,8 @@ body, html {
     bottom: 20px;
     width: 280px;
     background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(60px);
-    -webkit-backdrop-filter: blur(60px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     color: white;
     padding: 20px;
     border-radius: 12px;
@@ -373,8 +373,6 @@ body, html {
     height: 100%;
     overflow: auto;
     background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(60px);
-    -webkit-backdrop-filter: blur(60px);ы
 }
 
 .modal-content {
