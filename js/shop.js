@@ -47,19 +47,21 @@ const cartItems = document.querySelector('.cart-items');
 const cartTotal = document.querySelector('.total-amount');
 const productListContainer = document.querySelector('.product-list-container');
 
-// Загрузка данных о товарах из JSON файла на GitHub Pages
-fetch('/products.json')
-    .then(response => response.json())
-    .then(data => {
-        products = data;
-        initializeProducts();
-    })
-    .catch(error => console.error('Error loading products:', error));
+// Загрузка данных о товарах из JSON файла
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('/products.json')
+        .then(response => response.json())
+        .then(data => {
+            products = data;
+            initializeProducts();
+        })
+        .catch(error => console.error('Error loading products:', error));
+});
 
 function initializeProducts() {
     // Создание элементов товаров
-    const productListWrapper = document.querySelector('.product-list-wrapper');
-    productListWrapper.innerHTML = '';
+    const productList = document.querySelector('.product-list');
+    productList.innerHTML = '';
 
     for (const [id, product] of Object.entries(products)) {
         const productItem = document.createElement('div');
@@ -85,7 +87,7 @@ function initializeProducts() {
 
         productItem.appendChild(img);
         productItem.appendChild(removeButton);
-        productListWrapper.appendChild(productItem);
+        productList.appendChild(productItem);
     }
 
     // Обновление обработчиков событий для продуктов
@@ -100,8 +102,7 @@ function initializeProducts() {
     const firstProductId = Object.keys(products)[0];
     updateProductInfo(firstProductId);
 
-    // Обновление слайдера и фильтров
-    initializeSlider();
+    // Обновление фильтров категорий
     updateCategoryFilter();
 }
 
@@ -119,7 +120,7 @@ function updateProductInfo(productId) {
     if (product.gallery && Array.isArray(product.gallery)) {
         updateGallery(product.gallery);
     } else {
-        productGallery.innerHTML = ''; // Очистка галереи, если изображений нет
+        productGallery.innerHTML = '';
     }
 
     document.querySelectorAll('.product-item').forEach(item => {
@@ -184,23 +185,22 @@ window.onclick = function(event) {
 // Обновление фильтра категорий
 function updateCategoryFilter() {
     const categories = [...new Set(Object.values(products).map(product => product.category))];
-    const categoryFilter = document.querySelector('.category-filter-container');
-    categoryFilter.innerHTML = '<button class="category-button active" data-category="all">All</button>';
+    const categoryFilter = document.querySelector('.category-filter');
+    categoryFilter.innerHTML = '<button class="active" data-category="all">All</button>';
     
     categories.forEach(category => {
         const button = document.createElement('button');
-        button.className = 'category-button';
         button.dataset.category = category;
         button.textContent = category.charAt(0).toUpperCase() + category.slice(1) + 's';
         categoryFilter.appendChild(button);
     });
 
     // Обновление обработчиков событий для кнопок категорий
-    document.querySelectorAll('.category-button').forEach(button => {
+    document.querySelectorAll('.category-filter button').forEach(button => {
         button.addEventListener('click', function() {
             const category = this.dataset.category;
 
-            document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.category-filter button').forEach(btn => btn.classList.remove('active'));
             this.classList.add('active');
 
             document.querySelectorAll('.product-item').forEach(item => {
@@ -210,67 +210,7 @@ function updateCategoryFilter() {
                     item.style.display = 'none';
                 }
             });
-
-            currentPosition = 0;
-            updateSliderPosition();
-            
-            setTimeout(updateArrowVisibility, 0);
         });
-    });
-}
-
-// Реализация горизонтального слайдера
-const productList = document.querySelector('.product-list-wrapper');
-const leftArrow = document.querySelector('.slider-arrow.left');
-const rightArrow = document.querySelector('.slider-arrow.right');
-let currentPosition = 0;
-
-function updateSliderPosition() {
-    productList.style.transform = `translateX(${currentPosition}px)`;
-}
-
-function updateArrowVisibility() {
-    const productListWidth = productList.scrollWidth;
-    const containerWidth = productListContainer.clientWidth;
-    
-    if (productListWidth <= containerWidth) {
-        leftArrow.style.display = 'none';
-        rightArrow.style.display = 'none';
-    } else {
-        // Проверяем, нужно ли показать левую стрелку
-        if (currentPosition < 0) {
-            leftArrow.style.display = 'flex';
-        } else {
-            leftArrow.style.display = 'none';
-        }
-        
-        // Проверяем, нужно ли показать правую стрелку
-        if (currentPosition > containerWidth - productListWidth) {
-            rightArrow.style.display = 'flex';
-        } else {
-            rightArrow.style.display = 'none';
-        }
-    }
-}
-
-function initializeSlider() {
-    updateArrowVisibility();
-    
-    window.addEventListener('resize', updateArrowVisibility);
-    
-    leftArrow.addEventListener('click', () => {
-        currentPosition += 120;
-        if (currentPosition > 0) currentPosition = 0;
-        updateSliderPosition();
-        updateArrowVisibility();
-    });
-
-    rightArrow.addEventListener('click', () => {
-        const maxPosition = -(productList.scrollWidth - productListContainer.clientWidth);
-        currentPosition -= 120;
-        if (currentPosition < maxPosition) currentPosition = maxPosition;
-        updateSliderPosition();
-        updateArrowVisibility();
     });
 }
 
