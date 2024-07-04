@@ -169,7 +169,7 @@ body, html {
 
 .category-filter button.active {
     background: linear-gradient(to bottom, rgba(188, 126, 53, 1), rgba(0, 0, 0, 0.6));
-    box-shadow: inset 0 1px 0 0 white, inset 2px 0 0 0 white, inset -2px 0 0 0 white, inset 0 -2px 0 0 rgb(0 0 0 / 70%);
+    box-shadow: inset 0 2px 0 0 white, inset 2px 0 0 0 white, inset -2px 0 0 0 white, inset 0 -2px 0 0 rgb(0 0 0 / 70%);
     margin-bottom: -2px;
     position: relative;
     z-index: 2;
