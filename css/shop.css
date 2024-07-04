@@ -277,7 +277,9 @@ body, html {
     right: 40px;
     bottom: 20px;
     width: 280px;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     color: white;
     padding: 20px;
     border-radius: 12px;
@@ -288,9 +290,8 @@ body, html {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
-    height: calc(100% - 40px - 20px);
-    max-height: calc(100vh - 40px - 20px);
     overflow-y: auto;
+    height: min-content;
 }
 
 .cart-container.active {
@@ -301,8 +302,8 @@ body, html {
 .cart-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
+    align-items: flex-start;
+    height: 55px
 }
 
 .empty-cart-button {
