@@ -16,7 +16,6 @@
       "/images/tome_4.jpg"
     ]
   },
-  },
   "yellowPotion": {
     "name": "Yellow Potion",
     "ingredients": "Sunflower petals<br>Liquid sunshine<br>Powdered gold",
@@ -33,7 +32,6 @@
       "/images/tome_3.jpg",
       "/images/tome_4.jpg"
     ]
-  },
   },
   "redPotion": {
     "name": "Red Potion",
@@ -52,7 +50,6 @@
       "/images/tome_4.jpg"
     ]
   },
-  },
   "bluePotion": {
     "name": "Blue Potion",
     "ingredients": "Essence of sapphire<br>Mermaid's tear<br>Powdered starlight",
@@ -69,7 +66,6 @@
       "/images/tome_3.jpg",
       "/images/tome_4.jpg"
     ]
-  },
   },
   "potionSet": {
     "name": "Potion Set",
@@ -88,7 +84,6 @@
       "/images/tome_4.jpg"
     ]
   },
-  },
   "toteBag1": {
     "name": "Mystical Tote Bag",
     "ingredients": "Enchanted cotton<br>Moonlight-infused thread<br>Stardust lining",
@@ -105,7 +100,6 @@
       "/images/tome_3.jpg",
       "/images/tome_4.jpg"
     ]
-  },
   },
   "toteBag2": {
     "name": "Alchemist's Carrier",
@@ -124,5 +118,4 @@
       "/images/tome_4.jpg"
     ]
   },
-  }
 }
