@@ -334,7 +334,7 @@ body, html {
 
 .checkout-button {
     background-color: rgba(155, 183, 100, 1);
-    color: black;
+    color: white;
     border: none;
     padding: 10px;
     width: 100%;
@@ -343,7 +343,8 @@ body, html {
 }
 
 .checkout-button:hover {
-    color: rgba(208, 236, 153, 1);
+    background-color: rgba(208, 236, 153, 1);
+    border: 1px solid white;
 }
 
 .product-list-container.with-cart {
