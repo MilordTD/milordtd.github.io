@@ -335,7 +335,7 @@ body, html {
 .checkout-button {
     background-color: rgba(155, 183, 100, 1);
     color: white;
-    border: none;
+    border: 2px solid rgba(155, 183, 100, 1);
     padding: 10px;
     width: 100%;
     border-radius: 5px;
@@ -344,9 +344,7 @@ body, html {
 
 .checkout-button:hover {
     box-sizing: border-box;
-    border: 4px solid rgba(155, 183, 100, 1);
     box-shadow: inset 0 0 0 2px white;
-
 }
 
 .product-list-container.with-cart {
