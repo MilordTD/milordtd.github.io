@@ -23,18 +23,18 @@ function loadModel(modelUrl) {
         scene.add(currentModel);
         
         // Настройка камеры и освещения
-        camera.position.z = 5;
-        const light = new THREE.PointLight(0xffffff, 1, 100);
+        camera.position.z = 10;
+        const light = new THREE.PointLight(0xffffff, 1, 10);
         light.position.set(0, 0, 10);
         scene.add(light);
 
-        // Анимация
+        /*// Анимация
         function animate() {
             requestAnimationFrame(animate);
             currentModel.rotation.y += 0.01;
             renderer.render(scene, camera);
         }
-        animate();
+        animate();*/
     }, undefined, (error) => {
         console.error('An error happened', error);
     });
