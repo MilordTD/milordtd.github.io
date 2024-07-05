@@ -67,6 +67,9 @@ const cartContainer = document.querySelector('.cart-container');
 const cartItems = document.querySelector('.cart-items');
 const cartTotal = document.querySelector('.total-amount');
 const productListContainer = document.querySelector('.product-list-container');
+const productListWrapper = document.querySelector('.product-list-wrapper');
+const leftArrow = document.querySelector('.slider-arrow.left');
+const rightArrow = document.querySelector('.slider-arrow.right');
 
 // Загрузка данных о товарах из JSON файла
 fetch('/products.json')
@@ -87,7 +90,6 @@ fetch('/products.json')
 
 function initializeProducts() {
     // Создание элементов товаров
-    const productListWrapper = document.querySelector('.product-list-wrapper');
     productListWrapper.innerHTML = '';
 
     for (const [id, product] of Object.entries(products)) {
@@ -249,17 +251,14 @@ function updateCategoryFilter() {
 }
 
 // Реализация горизонтального слайдера
-const productList = document.querySelector('.product-list-wrapper');
-const leftArrow = document.querySelector('.slider-arrow.left');
-const rightArrow = document.querySelector('.slider-arrow.right');
 let currentPosition = 0;
 
 function updateSliderPosition() {
-    productList.style.transform = `translateX(${currentPosition}px)`;
+    productListWrapper.style.transform = `translateX(${currentPosition}px)`;
 }
 
 function updateArrowVisibility() {
-    const productListWidth = productList.scrollWidth;
+    const productListWidth = productListWrapper.scrollWidth;
     const containerWidth = productListContainer.clientWidth;
     
     if (productListWidth <= containerWidth) {
@@ -295,7 +294,7 @@ function initializeSlider() {
     });
 
     rightArrow.addEventListener('click', () => {
-        const maxPosition = -(productList.scrollWidth - productListContainer.clientWidth);
+        const maxPosition = -(productListWrapper.scrollWidth - productListContainer.clientWidth);
         currentPosition -= 120;
         if (currentPosition < maxPosition) currentPosition = maxPosition;
         updateSliderPosition();
