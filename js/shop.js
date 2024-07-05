@@ -1,3 +1,6 @@
+import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js';
+import { GLTFLoader } from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/jsm/loaders/GLTFLoader.js';
+
 // Инициализация 3D сцены
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
@@ -11,7 +14,7 @@ renderer.setSize(200, 200);
 document.getElementById('book-3d-model').appendChild(renderer.domElement);
 
 // Загрузка 3D модели
-const loader = new THREE.GLTFLoader();
+const loader = new GLTFLoader();
 let currentModel;
 
 let mouseX = 0;
