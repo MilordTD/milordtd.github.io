@@ -68,14 +68,22 @@ const cartItems = document.querySelector('.cart-items');
 const cartTotal = document.querySelector('.total-amount');
 const productListContainer = document.querySelector('.product-list-container');
 
-// Загрузка данных о товарах из JSON файла на GitHub Pages
+// Загрузка данных о товарах из JSON файла
 fetch('/products.json')
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
     .then(data => {
         products = data;
         initializeProducts();
     })
-    .catch(error => console.error('Error loading products:', error));
+    .catch(error => {
+        console.error('Error loading products:', error);
+        // Здесь можно добавить код для отображения ошибки пользователю
+    });
 
 function initializeProducts() {
     // Создание элементов товаров
