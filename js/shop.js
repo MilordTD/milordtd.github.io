@@ -32,8 +32,8 @@ function onDocumentMouseMove(event) {
 function animate() {
     requestAnimationFrame(animate);
     if (currentModel) {
-        currentModel.rotation.y = mouseX * 0.01;
-        currentModel.rotation.x = mouseY * 0.01;
+        currentModel.rotation.y = mouseX * 0.005;
+        currentModel.rotation.x = mouseY * 0.005;
     }
     renderer.render(scene, camera);
 }
@@ -56,6 +56,7 @@ function loadModel(modelUrl) {
         scene.add(currentModel);
         
         camera.position.z = 5;
+        camera.position.x = 5;
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
         scene.add(ambientLight);
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
@@ -212,40 +213,67 @@ function animateAddToCart() {
     }
 
     const productImage = activeProduct.querySelector('img').src;
-    const rect = modelContainer.getBoundingClientRect();
-    const cartRect = cartIcon.getBoundingClientRect();
+    const startRect = modelContainer.getBoundingClientRect();
+    const endRect = cartIcon.getBoundingClientRect();
 
-    console.log('Rectangles:', { modelRect: rect, cartRect });
+    console.log('Rectangles:', { startRect, endRect });
 
     // Создаем элемент изображения для анимации
     const animatedImage = document.createElement('img');
     animatedImage.src = productImage;
     animatedImage.style.position = 'fixed';
-    animatedImage.style.left = `${rect.left}px`;
-    animatedImage.style.top = `${rect.top}px`;
-    animatedImage.style.width = `${rect.width}px`;
-    animatedImage.style.height = `${rect.height}px`;
-    animatedImage.style.transition = 'all 1s ease-in-out';
+    animatedImage.style.left = `${startRect.left}px`;
+    animatedImage.style.top = `${startRect.top}px`;
+    animatedImage.style.width = `${startRect.width}px`;
+    animatedImage.style.height = `${startRect.height}px`;
     animatedImage.style.zIndex = '9999';
     animatedImage.style.pointerEvents = 'none';
     document.body.appendChild(animatedImage);
 
     console.log('Animated image created and appended to body');
 
-    // Запускаем анимацию в следующем кадре
-    requestAnimationFrame(() => {
-        animatedImage.style.transform = 'scale(0.1)';
-        animatedImage.style.left = `${cartRect.right - 20}px`;
-        animatedImage.style.top = `${cartRect.bottom - 20}px`;
-        animatedImage.style.opacity = '0';
-        console.log('Animation started');
-    });
+    // Функция для расчета положения на дуге
+    function calculatePosition(progress) {
+        const startX = startRect.left;
+        const startY = startRect.top;
+        const endX = endRect.right - 20;
+        const endY = endRect.bottom - 20;
 
-    // Удаляем анимированное изображение после завершения анимации
-    setTimeout(() => {
-        document.body.removeChild(animatedImage);
-        console.log('Animated image removed');
-    }, 1000);
+        // Контрольная точка для кривой Безье (вершина дуги)
+        const controlX = (startX + endX) / 2;
+        const controlY = startY - 100; // Регулируйте это значение для изменения высоты дуги
+
+        const x = Math.pow(1 - progress, 2) * startX + 
+                  2 * (1 - progress) * progress * controlX + 
+                  Math.pow(progress, 2) * endX;
+        const y = Math.pow(1 - progress, 2) * startY + 
+                  2 * (1 - progress) * progress * controlY + 
+                  Math.pow(progress, 2) * endY;
+
+        return { x, y };
+    }
+
+    // Функция анимации
+    function animate(currentTime) {
+        const duration = 1000; // Продолжительность анимации в мс
+        const progress = Math.min((currentTime - startTime) / duration, 1);
+        const { x, y } = calculatePosition(progress);
+
+        animatedImage.style.left = `${x}px`;
+        animatedImage.style.top = `${y}px`;
+        animatedImage.style.transform = `scale(${1 - progress * 0.9})`;
+        animatedImage.style.opacity = 1 - progress;
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            document.body.removeChild(animatedImage);
+            console.log('Animated image removed');
+        }
+    }
+
+    const startTime = performance.now();
+    requestAnimationFrame(animate);
 }
 
 function updateGallery(galleryImages) {
