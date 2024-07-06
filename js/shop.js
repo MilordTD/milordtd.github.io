@@ -54,7 +54,7 @@ function loadModel(modelUrl) {
         
         // Настройка камеры и освещения
         camera.position.z = 5;
-        camera.position.y = -1;
+        camera.position.y = 1;
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
         scene.add(ambientLight);
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
