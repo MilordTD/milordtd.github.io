@@ -178,6 +178,7 @@ function updateProductInfo(productId) {
         addToCartButton.textContent = 'ADD TO CART';
         addToCartButton.disabled = false;
         addToCartButton.onclick = () => {
+            console.log('Add to cart button clicked');
             cart.push(productId);
             updateCart();
             removeFromCartButton.style.display = 'block';
@@ -199,10 +200,20 @@ function updateProductInfo(productId) {
 }
 
 function animateAddToCart() {
+    console.log('animateAddToCart function called'); // Добавляем лог
+
     const modelContainer = document.getElementById('book-3d-model');
     const cartIcon = document.querySelector('.cart-container');
+    
+    if (!modelContainer || !cartIcon) {
+        console.error('Required elements not found:', { modelContainer, cartIcon });
+        return;
+    }
+
     const rect = modelContainer.getBoundingClientRect();
     const cartRect = cartIcon.getBoundingClientRect();
+
+    console.log('Rectangles:', { modelRect: rect, cartRect });
 
     // Создаем копию контейнера модели
     const clone = modelContainer.cloneNode(true);
