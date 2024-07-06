@@ -32,8 +32,8 @@ function onDocumentMouseMove(event) {
 function animate() {
     requestAnimationFrame(animate);
     if (currentModel) {
-        currentModel.rotation.y = mouseX * 0.1;
-        currentModel.rotation.x = mouseY * 0.1;
+        currentModel.rotation.y = mouseX * 0.01;
+        currentModel.rotation.x = mouseY * 0.01;
     }
     renderer.render(scene, camera);
 }
