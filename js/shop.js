@@ -200,7 +200,7 @@ function updateProductInfo(productId) {
 }
 
 function animateAddToCart() {
-    console.log('animateAddToCart function called'); // Добавляем лог
+    console.log('animateAddToCart function called');
 
     const modelContainer = document.getElementById('book-3d-model');
     const cartIcon = document.querySelector('.cart-container');
@@ -224,7 +224,10 @@ function animateAddToCart() {
     clone.style.height = `${rect.height}px`;
     clone.style.transition = 'all 1s ease-in-out';
     clone.style.zIndex = '9999';
+    clone.style.pointerEvents = 'none'; // Чтобы клон не мешал взаимодействию с страницей
     document.body.appendChild(clone);
+
+    console.log('Clone created and appended to body');
 
     // Запускаем анимацию в следующем кадре
     requestAnimationFrame(() => {
@@ -232,11 +235,13 @@ function animateAddToCart() {
         clone.style.left = `${cartRect.right - 20}px`;
         clone.style.top = `${cartRect.bottom - 20}px`;
         clone.style.opacity = '0';
+        console.log('Animation started');
     });
 
     // Удаляем клон после завершения анимации
     setTimeout(() => {
         document.body.removeChild(clone);
+        console.log('Clone removed');
     }, 1000);
 }
 
