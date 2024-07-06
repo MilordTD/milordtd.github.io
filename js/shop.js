@@ -378,8 +378,12 @@ updateCart();
 const checkoutButton = document.querySelector('.checkout-button');
 if (checkoutButton) {
     checkoutButton.addEventListener('click', () => {
-        alert('Переход к оформлению заказа');
-        // Здесь можно добавить логику перехода на страницу оформления заказа
+        // Сохранение данных корзины в localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem('products', JSON.stringify(products));
+        
+        // Переход на страницу оформления заказа
+        window.location.href = '/checkout.html';
     });
 }
 
