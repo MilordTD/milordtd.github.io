@@ -59,23 +59,26 @@ body, html {
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.8);
     margin-bottom: 40px;
-    width: fit-content;
+    width: 620px; /* Fixed width as requested */
     border-radius: 12px;
-    flex-shrink: 0;
+    position: relative; /* Added for absolute positioning of child elements */
 }
 
 .product-image {
-    max-width: 200px;
-    width: 100%;
-    padding-right: 20px;
-    flex-shrink: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: calc(100% - 220px); /* 620px - 200px - 20px (right padding) */
 }
 
+
 #book-3d-model {
-    width: 200px;
-    height: 200px;
-    position: relative;
-    z-index: 1;
+    width: 100%;
+    height: calc(100% - 105px); /* Full height minus gallery height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .product-info {
@@ -90,6 +93,11 @@ body, html {
     transition: width 0.5s ease;
     display: flex;
     flex-direction: column;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    bottom: 20px;
+    overflow-y: auto;
 }
 
 .product-info h2 {
@@ -363,13 +371,14 @@ body, html {
 }
 
 .product-gallery {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    display: flex;
+    justify-content: space-between;
+    height: 95px;
+    margin-top: 10px;
 }
 
 .gallery-item {
-    width: 100%;
+    width: 95px;
     height: 95px;
     object-fit: cover;
     cursor: pointer;

@@ -56,7 +56,7 @@ function loadModel(modelUrl) {
         scene.add(currentModel);
         
         camera.position.z = 5;
-        camera.position.x = 1;
+        camera.position.x = 0.5;
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
         scene.add(ambientLight);
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
@@ -279,12 +279,14 @@ function animateAddToCart() {
 function updateGallery(galleryImages) {
     productGallery.innerHTML = '';
     galleryImages.forEach((imgSrc, index) => {
-        const img = document.createElement('img');
-        img.src = imgSrc;
-        img.alt = `Product image ${index + 1}`;
-        img.classList.add('gallery-item');
-        img.addEventListener('click', () => openModal(imgSrc));
-        productGallery.appendChild(img);
+        if (index < 4) { // Limit to 4 images
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.alt = `Product image ${index + 1}`;
+            img.classList.add('gallery-item');
+            img.addEventListener('click', () => openModal(imgSrc));
+            productGallery.appendChild(img);
+        }
     });
 }
 
