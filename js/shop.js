@@ -32,8 +32,8 @@ function onDocumentMouseMove(event) {
 function animate() {
     requestAnimationFrame(animate);
     if (currentModel) {
-        currentModel.rotation.y = mouseX * 0.1;
-        currentModel.rotation.x = mouseY * 0.1;
+        currentModel.rotation.y = mouseX * 0.9;
+        currentModel.rotation.x = mouseY * 0.9;
     }
     renderer.render(scene, camera);
 }
@@ -48,10 +48,10 @@ function loadModel(modelUrl) {
     loader.load(modelUrl, (gltf) => {
         currentModel = gltf.scene;
         
-        // Масштабируем модель до высоты 150px (было 6)
+        // Масштабируем модель до высоты 6px
         const box = new THREE.Box3().setFromObject(currentModel);
         const height = box.max.y - box.min.y;
-        const scale = 150 / height;
+        const scale = 6 / height;
         currentModel.scale.set(scale, scale, scale);
         
         scene.add(currentModel);
