@@ -9,13 +9,16 @@ document.addEventListener('DOMContentLoaded', function() {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const products = JSON.parse(localStorage.getItem('products')) || {};
 
+    console.log('Initial Cart:', cart);
+    console.log('Products:', products);
+
     // Отображение товаров в корзине
     function displayCartItems() {
         cartItems.innerHTML = '';
         let total = 0;
-        cart.forEach((item, index) => {
-            const product = products[item.id];
-            if (product) {
+        cart = cart.filter(item => {
+            if (item && item.id && products[item.id]) {
+                const product = products[item.id];
                 const li = document.createElement('li');
                 li.className = 'cart-item';
                 li.innerHTML = `
@@ -23,18 +26,18 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span>${product.name} - ${product.price}€</span>
                     </div>
                     <div class="item-quantity">
-                        <button class="quantity-btn minus" data-index="${index}">-</button>
+                        <button class="quantity-btn minus" data-id="${item.id}">-</button>
                         <span>${item.quantity}</span>
-                        <button class="quantity-btn plus" data-index="${index}">+</button>
+                        <button class="quantity-btn plus" data-id="${item.id}">+</button>
                     </div>
-                    <button class="remove-item" data-index="${index}">Remove</button>
+                    <button class="remove-item" data-id="${item.id}">Remove</button>
                 `;
                 cartItems.appendChild(li);
                 total += product.price * item.quantity;
+                return true;
             } else {
-                console.warn(`Product with id ${item.id} not found`);
-                // Удаляем товар из корзины, если он не найден в products
-                cart.splice(index, 1);
+                console.warn(`Invalid item or product not found:`, item);
+                return false;
             }
         });
         cartTotal.textContent = `${total.toFixed(2)}€`;
@@ -48,29 +51,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // Обновление localStorage
     function updateLocalStorage() {
         localStorage.setItem('cart', JSON.stringify(cart));
+        console.log('Updated Cart:', cart);
     }
 
     // Обработчики событий для кнопок изменения количества и удаления
     cartItems.addEventListener('click', function(e) {
+        const id = e.target.dataset.id;
         if (e.target.classList.contains('quantity-btn')) {
-            const index = parseInt(e.target.dataset.index);
-            if (e.target.classList.contains('minus')) {
-                if (cart[index].quantity > 1) {
-                    cart[index].quantity--;
+            const item = cart.find(item => item.id === id);
+            if (item) {
+                if (e.target.classList.contains('minus') && item.quantity > 1) {
+                    item.quantity--;
+                } else if (e.target.classList.contains('plus')) {
+                    item.quantity++;
                 }
-            } else if (e.target.classList.contains('plus')) {
-                cart[index].quantity++;
             }
-            displayCartItems();
         } else if (e.target.classList.contains('remove-item')) {
-            const index = parseInt(e.target.dataset.index);
-            cart.splice(index, 1);
-            displayCartItems();
+            cart = cart.filter(item => item.id !== id);
         }
+        displayCartItems();
     });
-
-    displayCartItems();
-
 
     // Обработка выбора способа доставки
     document.querySelectorAll('input[name="delivery"]').forEach(input => {
@@ -120,4 +120,19 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.removeItem('cart');
         window.location.href = '/index.html'; // Перенаправление на главную страницу
     });
+
+    // Инициализация страницы
+    displayCartItems();
+
+    // Дополнительная функция для обновления общей суммы заказа
+    function updateTotalAmount() {
+        let total = cart.reduce((sum, item) => {
+            const product = products[item.id];
+            return sum + (product ? product.price * item.quantity : 0);
+        }, 0);
+        cartTotal.textContent = `${total.toFixed(2)}€`;
+    }
+
+    // Обновление общей суммы при загрузке страницы
+    updateTotalAmount();
 });
