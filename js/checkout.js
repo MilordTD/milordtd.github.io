@@ -6,22 +6,58 @@ document.addEventListener('DOMContentLoaded', function() {
     const checkoutForm = document.getElementById('checkout-form');
 
     // Получение данных корзины из localStorage
-    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const products = JSON.parse(localStorage.getItem('products')) || {};
 
     // Отображение товаров в корзине
     function displayCartItems() {
         cartItems.innerHTML = '';
         let total = 0;
-        cart.forEach(productId => {
-            const product = products[productId];
+        cart.forEach((item, index) => {
+            const product = products[item.id];
             const li = document.createElement('li');
-            li.textContent = `${product.name} - ${product.price}€`;
+            li.className = 'cart-item';
+            li.innerHTML = `
+                <div class="item-details">
+                    <span>${product.name} - ${product.price}€</span>
+                </div>
+                <div class="item-quantity">
+                    <button class="quantity-btn minus" data-index="${index}">-</button>
+                    <span>${item.quantity}</span>
+                    <button class="quantity-btn plus" data-index="${index}">+</button>
+                </div>
+                <button class="remove-item" data-index="${index}">Remove</button>
+            `;
             cartItems.appendChild(li);
-            total += product.price;
+            total += product.price * item.quantity;
         });
-        cartTotal.textContent = `${total}€`;
+        cartTotal.textContent = `${total.toFixed(2)}€`;
+        updateLocalStorage();
     }
+
+    // Обновление localStorage
+    function updateLocalStorage() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    // Обработчики событий для кнопок изменения количества и удаления
+    cartItems.addEventListener('click', function(e) {
+        if (e.target.classList.contains('quantity-btn')) {
+            const index = parseInt(e.target.dataset.index);
+            if (e.target.classList.contains('minus')) {
+                if (cart[index].quantity > 1) {
+                    cart[index].quantity--;
+                }
+            } else if (e.target.classList.contains('plus')) {
+                cart[index].quantity++;
+            }
+            displayCartItems();
+        } else if (e.target.classList.contains('remove-item')) {
+            const index = parseInt(e.target.dataset.index);
+            cart.splice(index, 1);
+            displayCartItems();
+        }
+    });
 
     displayCartItems();
 
@@ -52,7 +88,11 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         const formData = new FormData(this);
         const orderData = {
-            items: cart.map(productId => products[productId].name),
+            items: cart.map(item => ({
+                name: products[item.id].name,
+                quantity: item.quantity,
+                price: products[item.id].price
+            })),
             total: cartTotal.textContent,
             deliveryMethod: formData.get('delivery'),
             offlineOption: formData.get('offline-option'),
@@ -63,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Здесь будет логика отправки данных в Telegram
         console.log('Order data:', orderData);
-        alert('Заказ оформлен успешно!');
+        alert('Order placed successfully!');
         
         // Очистка корзины
         localStorage.removeItem('cart');

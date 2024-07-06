@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KA.RHAT - Оформление заказа</title>
+    <title>KA.RHAT - Checkout</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/shop.css">
     <link rel="stylesheet" href="/css/checkout.css">
 </head>
 <body>
@@ -13,47 +14,47 @@
             <div class="logo">KA.RHAT</div>
         </header>
         <main class="checkout-content">
-            <h1>Оформление заказа</h1>
+            <h1>Checkout</h1>
             <div class="cart-summary">
-                <h2>Ваш заказ</h2>
+                <h2>Your Order</h2>
                 <ul id="cart-items"></ul>
-                <div class="total">Итого: <span id="cart-total"></span></div>
+                <div class="total">Total: <span id="cart-total"></span></div>
             </div>
             <div class="delivery-options">
-                <h2>Способ получения</h2>
+                <h2>Delivery Method</h2>
                 <div class="option">
                     <input type="radio" id="offline" name="delivery" value="offline" checked>
-                    <label for="offline">Оффлайн в Порту</label>
+                    <label for="offline">Offline in Porto</label>
                 </div>
                 <div class="option">
                     <input type="radio" id="europe" name="delivery" value="europe" disabled>
-                    <label for="europe">Доставка по Европе <span class="soon-badge">Скоро</span></label>
+                    <label for="europe">Delivery in Europe <span class="soon-badge">Soon</span></label>
                 </div>
             </div>
             <div id="offline-options" class="offline-options">
                 <div class="option">
                     <input type="radio" id="cafe" name="offline-option" value="cafe" checked>
-                    <label for="cafe">Забрать из кафе</label>
+                    <label for="cafe">Pick up from cafe</label>
                 </div>
                 <div class="option">
                     <input type="radio" id="local-delivery" name="offline-option" value="local-delivery">
-                    <label for="local-delivery">Заказать доставку (+5€)</label>
+                    <label for="local-delivery">Order delivery (+5€)</label>
                 </div>
             </div>
             <form id="checkout-form" class="checkout-form">
                 <div class="form-group">
-                    <label for="name">Имя:</label>
+                    <label for="name">Name:</label>
                     <input type="text" id="name" name="name" required>
                 </div>
                 <div class="form-group">
-                    <label for="phone">Телефон:</label>
+                    <label for="phone">Phone:</label>
                     <input type="tel" id="phone" name="phone" required>
                 </div>
                 <div id="address-group" class="form-group" style="display: none;">
-                    <label for="address">Адрес:</label>
+                    <label for="address">Address:</label>
                     <textarea id="address" name="address" required></textarea>
                 </div>
-                <button type="submit" class="submit-btn">Оформить заказ</button>
+                <button type="submit" class="submit-btn">Place Order</button>
             </form>
         </main>
     </div>
