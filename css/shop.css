@@ -58,7 +58,7 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: opacity 1s ease-in-out, background-size 1s ease-in-out;
+    transition: opacity 2s ease-in-out, background-size 2s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .intro-content {
@@ -97,8 +97,8 @@ body, html {
 }
 
 .fade-out {
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
+    opacity: 0 !important;
+    transition: opacity 2s ease-in-out;
 }
 
 .main-content {

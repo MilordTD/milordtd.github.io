@@ -33,8 +33,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Удаляем оверлей после завершения анимации
     setTimeout(() => {
         introOverlay.remove();
-    }, 1000);
-});
+    }, 2000); // Увеличиваем время до 2000 мс (2 секунды)
+    });
+
 });
 
 
