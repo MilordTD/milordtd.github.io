@@ -15,24 +15,34 @@ document.addEventListener('DOMContentLoaded', function() {
         let total = 0;
         cart.forEach((item, index) => {
             const product = products[item.id];
-            const li = document.createElement('li');
-            li.className = 'cart-item';
-            li.innerHTML = `
-                <div class="item-details">
-                    <span>${product.name} - ${product.price}€</span>
-                </div>
-                <div class="item-quantity">
-                    <button class="quantity-btn minus" data-index="${index}">-</button>
-                    <span>${item.quantity}</span>
-                    <button class="quantity-btn plus" data-index="${index}">+</button>
-                </div>
-                <button class="remove-item" data-index="${index}">Remove</button>
-            `;
-            cartItems.appendChild(li);
-            total += product.price * item.quantity;
+            if (product) {
+                const li = document.createElement('li');
+                li.className = 'cart-item';
+                li.innerHTML = `
+                    <div class="item-details">
+                        <span>${product.name} - ${product.price}€</span>
+                    </div>
+                    <div class="item-quantity">
+                        <button class="quantity-btn minus" data-index="${index}">-</button>
+                        <span>${item.quantity}</span>
+                        <button class="quantity-btn plus" data-index="${index}">+</button>
+                    </div>
+                    <button class="remove-item" data-index="${index}">Remove</button>
+                `;
+                cartItems.appendChild(li);
+                total += product.price * item.quantity;
+            } else {
+                console.warn(`Product with id ${item.id} not found`);
+                // Удаляем товар из корзины, если он не найден в products
+                cart.splice(index, 1);
+            }
         });
         cartTotal.textContent = `${total.toFixed(2)}€`;
         updateLocalStorage();
+
+        if (cart.length === 0) {
+            cartItems.innerHTML = '<li>Your cart is empty</li>';
+        }
     }
 
     // Обновление localStorage
@@ -60,6 +70,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     displayCartItems();
+
 
     // Обработка выбора способа доставки
     document.querySelectorAll('input[name="delivery"]').forEach(input => {
