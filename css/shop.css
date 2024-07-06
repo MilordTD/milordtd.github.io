@@ -63,6 +63,7 @@ body, html {
     border-radius: 12px;
     box-sizing: border-box;
     position: relative;
+    height: 460px;
 }
 
 #product-name {
@@ -72,13 +73,14 @@ body, html {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    align-self: center;
 }
 
 .product-image {
     flex: 1;
     display: flex;
     flex-direction: column;
-    margin-right: 20px;
+    margin-right: 220px;
 }
 
 #book-3d-model {
@@ -437,23 +439,6 @@ body, html {
     cursor: pointer;
 }
 
-@media screen and (max-height: 900px) {
-    .product-info {
-        width: 350px;
-    }
-}
-
-@media screen and (max-height: 800px) {
-    .product-info {
-        width: 400px;
-    }
-}
-
-@media screen and (max-height: 700px) {
-    .product-info {
-        width: 450px;
-    }
-}
 
 @supports not (backdrop-filter: blur(10px)) {
     .product-list-container {
