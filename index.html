@@ -19,6 +19,11 @@
         }
         .container {
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
         #lottie-container {
             width: 40vw;
@@ -55,13 +60,18 @@
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            lottie.loadAnimation({
-                container: document.getElementById('lottie-container'),
-                renderer: 'svg',
-                loop: true,
-                autoplay: true,
-                path: '/images/cow.json'
-            });
+            fetch('/images/cow.json')
+                .then(response => response.json())
+                .then(animationData => {
+                    lottie.loadAnimation({
+                        container: document.getElementById('lottie-container'),
+                        renderer: 'svg',
+                        loop: true,
+                        autoplay: true,
+                        animationData: animationData
+                    });
+                })
+                .catch(error => console.error('Error loading the Lottie animation:', error));
         });
     </script>
 </body>
