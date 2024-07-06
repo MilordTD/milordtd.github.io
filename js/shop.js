@@ -4,12 +4,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 // Инициализация 3D сцены
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ 
-    alpha: true,
-    antialias: true
-});
-renderer.setClearColor(0x000000, 0);
-renderer.setPixelRatio(window.devicePixelRatio);
+const renderer = new THREE.WebGLRenderer({ alpha: true });
+renderer.setClearColor(0x000000, 0); // Полностью прозрачный фон
 const productGallery = document.querySelector('.product-gallery');
 const modal = document.getElementById('imageModal');
 const modalImg = document.getElementById('modalImage');
@@ -32,8 +28,8 @@ function onDocumentMouseMove(event) {
 function animate() {
     requestAnimationFrame(animate);
     if (currentModel) {
-        currentModel.rotation.y = mouseX * 0.009;
-        currentModel.rotation.x = mouseY * 0.009;
+        currentModel.rotation.y = mouseX * 0.1;
+        currentModel.rotation.x = mouseY * 0.1;
     }
     renderer.render(scene, camera);
 }
@@ -48,6 +44,7 @@ function loadModel(modelUrl) {
     loader.load(modelUrl, (gltf) => {
         currentModel = gltf.scene;
         
+        // Масштабируем модель до высоты 200px
         const box = new THREE.Box3().setFromObject(currentModel);
         const height = box.max.y - box.min.y;
         const scale = 6 / height;
@@ -55,11 +52,11 @@ function loadModel(modelUrl) {
         
         scene.add(currentModel);
         
+        // Настройка камеры и освещения
         camera.position.z = 5;
-        camera.position.x = 0.5;
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
         scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.2);
         directionalLight.position.set(5, 5, 5);
         scene.add(directionalLight);
     }, undefined, (error) => {
@@ -86,27 +83,19 @@ fetch('/products.json')
         return response.json();
     })
     .then(data => {
-        console.log('Loaded products data:', data);
         products = data;
         initializeProducts();
     })
     .catch(error => {
         console.error('Error loading products:', error);
+        // Здесь можно добавить код для отображения ошибки пользователю
     });
 
 function initializeProducts() {
-    console.log('Initializing products with data:', products);
-    
-    if (!products || Object.keys(products).length === 0) {
-        console.error('No product data available');
-        return;
-    }
-
+    // Создание элементов товаров
     productListWrapper.innerHTML = '';
 
     for (const [id, product] of Object.entries(products)) {
-        console.log(`Creating product item for ${id}:`, product);
-        
         const productItem = document.createElement('div');
         productItem.className = 'product-item';
         productItem.dataset.productId = id;
@@ -133,6 +122,7 @@ function initializeProducts() {
         productListWrapper.appendChild(productItem);
     }
 
+    // Обновление обработчиков событий для продуктов
     document.querySelectorAll('.product-item').forEach(item => {
         item.addEventListener('click', function() {
             const productId = this.dataset.productId;
@@ -140,17 +130,16 @@ function initializeProducts() {
         });
     });
 
+    // Инициализация первого товара
     const firstProductId = Object.keys(products)[0];
-    if (firstProductId) {
-        updateProductInfo(firstProductId);
-    } else {
-        console.error('No products found to initialize');
-    }
+    updateProductInfo(firstProductId);
 
+    // Обновление слайдера и фильтров
     initializeSlider();
     updateCategoryFilter();
 }
 
+// Обновление информации о продукте
 function updateProductInfo(productId) {
     const product = products[productId];
     document.getElementById('product-name').textContent = product.name;
@@ -160,10 +149,11 @@ function updateProductInfo(productId) {
     document.getElementById('product-debuffs').innerHTML = product.debuffs;
     loadModel(product.modelUrl);
 
+    // Обновление галереи
     if (product.gallery && Array.isArray(product.gallery)) {
         updateGallery(product.gallery);
     } else {
-        productGallery.innerHTML = '';
+        productGallery.innerHTML = ''; // Очистка галереи, если изображений нет
     }
 
     document.querySelectorAll('.product-item').forEach(item => {
@@ -179,11 +169,9 @@ function updateProductInfo(productId) {
         addToCartButton.textContent = 'ADD TO CART';
         addToCartButton.disabled = false;
         addToCartButton.onclick = () => {
-            console.log('Add to cart button clicked');
             cart.push(productId);
             updateCart();
             removeFromCartButton.style.display = 'block';
-            animateAddToCart();
         };
         removeFromCartButton.onclick = (event) => {
             event.stopPropagation();
@@ -198,82 +186,6 @@ function updateProductInfo(productId) {
     }
 
     removeFromCartButton.style.display = cart.includes(productId) ? 'block' : 'none';
-}
-
-function animateAddToCart() {
-    console.log('animateAddToCart function called');
-
-    const modelContainer = document.getElementById('book-3d-model');
-    const cartIcon = document.querySelector('.cart-container');
-    const activeProduct = document.querySelector('.product-item.active');
-    
-    if (!modelContainer || !cartIcon || !activeProduct) {
-        console.error('Required elements not found');
-        return;
-    }
-
-    const productImage = activeProduct.querySelector('img').src;
-    const startRect = modelContainer.getBoundingClientRect();
-    const endRect = cartIcon.getBoundingClientRect();
-
-    console.log('Rectangles:', { startRect, endRect });
-
-    // Создаем элемент изображения для анимации
-    const animatedImage = document.createElement('img');
-    animatedImage.src = productImage;
-    animatedImage.style.position = 'fixed';
-    animatedImage.style.left = `${startRect.left}px`;
-    animatedImage.style.top = `${startRect.top}px`;
-    animatedImage.style.width = `${startRect.width}px`;
-    animatedImage.style.height = `${startRect.height}px`;
-    animatedImage.style.zIndex = '9999';
-    animatedImage.style.pointerEvents = 'none';
-    document.body.appendChild(animatedImage);
-
-    console.log('Animated image created and appended to body');
-
-    // Функция для расчета положения на дуге
-    function calculatePosition(progress) {
-        const startX = startRect.left;
-        const startY = startRect.top;
-        const endX = endRect.right - 20;
-        const endY = endRect.bottom - 20;
-
-        // Контрольная точка для кривой Безье (вершина дуги)
-        const controlX = (startX + endX) / 2;
-        const controlY = startY - 100; // Регулируйте это значение для изменения высоты дуги
-
-        const x = Math.pow(1 - progress, 2) * startX + 
-                  2 * (1 - progress) * progress * controlX + 
-                  Math.pow(progress, 2) * endX;
-        const y = Math.pow(1 - progress, 2) * startY + 
-                  2 * (1 - progress) * progress * controlY + 
-                  Math.pow(progress, 2) * endY;
-
-        return { x, y };
-    }
-
-    // Функция анимации
-    function animate(currentTime) {
-        const duration = 1000; // Продолжительность анимации в мс
-        const progress = Math.min((currentTime - startTime) / duration, 1);
-        const { x, y } = calculatePosition(progress);
-
-        animatedImage.style.left = `${x}px`;
-        animatedImage.style.top = `${y}px`;
-        animatedImage.style.transform = `scale(${1 - progress * 0.9})`;
-        animatedImage.style.opacity = 1 - progress;
-
-        if (progress < 1) {
-            requestAnimationFrame(animate);
-        } else {
-            document.body.removeChild(animatedImage);
-            console.log('Animated image removed');
-        }
-    }
-
-    const startTime = performance.now();
-    requestAnimationFrame(animate);
 }
 
 function updateGallery(galleryImages) {
@@ -305,6 +217,7 @@ window.onclick = function(event) {
     }
 }
 
+// Обновление фильтра категорий
 function updateCategoryFilter() {
     const categories = [...new Set(Object.values(products).map(product => product.category))];
     const categoryFilter = document.querySelector('.category-filter-container');
@@ -318,6 +231,7 @@ function updateCategoryFilter() {
         categoryFilter.appendChild(button);
     });
 
+    // Обновление обработчиков событий для кнопок категорий
     document.querySelectorAll('.category-button').forEach(button => {
         button.addEventListener('click', function() {
             const category = this.dataset.category;
@@ -341,6 +255,7 @@ function updateCategoryFilter() {
     });
 }
 
+// Реализация горизонтального слайдера
 let currentPosition = 0;
 
 function updateSliderPosition() {
@@ -355,8 +270,19 @@ function updateArrowVisibility() {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
     } else {
-        leftArrow.style.display = currentPosition < 0 ? 'flex' : 'none';
-        rightArrow.style.display = currentPosition > containerWidth - productListWidth ? 'flex' : 'none';
+        // Проверяем, нужно ли показать левую стрелку
+        if (currentPosition < 0) {
+            leftArrow.style.display = 'flex';
+        } else {
+            leftArrow.style.display = 'none';
+        }
+        
+        // Проверяем, нужно ли показать правую стрелку
+        if (currentPosition > containerWidth - productListWidth) {
+            rightArrow.style.display = 'flex';
+        } else {
+            rightArrow.style.display = 'none';
+        }
     }
 }
 
@@ -381,6 +307,7 @@ function initializeSlider() {
     });
 }
 
+// Функция обновления корзины
 function updateCart() {
     const cartItemCount = cart.length;
     
@@ -397,6 +324,7 @@ function updateCart() {
         productListContainer.classList.remove('with-cart');
     }
 
+    // Обновляем видимость кнопок удаления из корзины
     document.querySelectorAll('.product-item').forEach(item => {
         const productId = item.dataset.productId;
         const removeButton = item.querySelector('.remove-from-cart');
@@ -406,20 +334,27 @@ function updateCart() {
     });
 }
 
+// Обработчик для кнопки "Empty cart"
 const emptyCartButton = document.querySelector('.empty-cart-button');
 if (emptyCartButton) {
     emptyCartButton.addEventListener('click', () => {
         cart = [];
         updateCart();
-        updateProductInfo(Object.keys(products)[0]);
+        updateProductInfo(Object.keys(products)[0]); // Обновляем информацию о первом продукте
     });
 }
 
+// Инициализация корзины
+updateCart();
+
+// Обработчик для кнопки оформления заказа
 const checkoutButton = document.querySelector('.checkout-button');
 if (checkoutButton) {
     checkoutButton.addEventListener('click', () => {
         alert('Переход к оформлению заказа');
+        // Здесь можно добавить логику перехода на страницу оформления заказа
     });
 }
 
+// Запуск анимации
 animate();
