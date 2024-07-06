@@ -116,10 +116,8 @@ body, html {
     background-color: rgba(255, 255, 255, 1);
     padding: 15px;
     border-radius: 8px;
-    display: flex;
     flex-direction: column;
     overflow-y: auto;
-    max-height: 400px;
     position: absolute;
     right: 20px;
     top: 60px;
@@ -133,6 +131,8 @@ body, html {
 .info-block h3 {
     font-size: 14px;
     margin-bottom: 5px;
+    margin-top: 0px;
+
 }
 
 .info-block p {
