@@ -9,7 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
         const storedProducts = JSON.parse(localStorage.getItem('products')) || {};
         
-        const cart = storedCart.filter(itemId => storedProducts[itemId]);
+        // Convert cart to object with quantities
+        const cart = storedCart.reduce((acc, itemId) => {
+            acc[itemId] = (acc[itemId] || 0) + 1;
+            return acc;
+        }, {});
+        
         localStorage.setItem('cart', JSON.stringify(cart));
         
         return { cart, products: storedProducts };
@@ -20,11 +25,10 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Initial Cart:', cart);
     console.log('Products:', products);
 
-    // Отображение товаров в корзине
     function displayCartItems() {
         cartItems.innerHTML = '';
         let total = 0;
-        cart.forEach(productId => {
+        Object.entries(cart).forEach(([productId, quantity]) => {
             if (products[productId]) {
                 const product = products[productId];
                 const li = document.createElement('li');
@@ -34,47 +38,55 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span>${product.name} - ${product.price}€</span>
                     </div>
                     <div class="item-quantity">
-                        <button class="quantity-btn minus" data-id="${productId}">-</button>
-                        <span>1</span>
+                        <button class="quantity-btn minus" data-id="${productId}" ${quantity < 2 ? 'style="display:none;"' : ''}>-</button>
+                        <span>${quantity}</span>
                         <button class="quantity-btn plus" data-id="${productId}">+</button>
                     </div>
                     <button class="remove-item" data-id="${productId}">Remove</button>
                 `;
                 cartItems.appendChild(li);
-                total += product.price;
+                total += product.price * quantity;
             } else {
                 console.warn(`Product not found:`, productId);
             }
         });
         cartTotal.textContent = `${total.toFixed(2)}€`;
 
-        if (cart.length === 0) {
+        if (Object.keys(cart).length === 0) {
             cartItems.innerHTML = '<li>Your cart is empty</li>';
         }
     }
 
-    // Инициализация страницы
-    displayCartItems();
+    function updateTotalAmount() {
+        let total = Object.entries(cart).reduce((sum, [id, quantity]) => {
+            const product = products[id];
+            return sum + (product ? product.price * quantity : 0);
+        }, 0);
+        cartTotal.textContent = `${total.toFixed(2)}€`;
+    }
 
-    // Обработчики событий для кнопок изменения количества и удаления
+    displayCartItems();
+    updateTotalAmount();
+
     cartItems.addEventListener('click', function(e) {
         const id = e.target.dataset.id;
         if (e.target.classList.contains('quantity-btn')) {
-            // Здесь можно добавить логику изменения количества
-            // Пока что просто перерисовываем корзину
-            displayCartItems();
-        } else if (e.target.classList.contains('remove-item')) {
-            const index = cart.indexOf(id);
-            if (index > -1) {
-                cart.splice(index, 1);
+            if (e.target.classList.contains('plus')) {
+                cart[id] = (cart[id] || 0) + 1;
+            } else if (e.target.classList.contains('minus') && cart[id] > 1) {
+                cart[id]--;
             }
             localStorage.setItem('cart', JSON.stringify(cart));
             displayCartItems();
+            updateTotalAmount();
+        } else if (e.target.classList.contains('remove-item')) {
+            delete cart[id];
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayCartItems();
+            updateTotalAmount();
         }
     });
 
-
-    // Обработка выбора способа доставки
     document.querySelectorAll('input[name="delivery"]').forEach(input => {
         input.addEventListener('change', function() {
             if (this.value === 'offline') {
@@ -85,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Обработка выбора офлайн опции
     document.querySelectorAll('input[name="offline-option"]').forEach(input => {
         input.addEventListener('change', function() {
             if (this.value === 'local-delivery') {
@@ -96,15 +107,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Обработка отправки формы
     checkoutForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const formData = new FormData(this);
         const orderData = {
-            items: cart.map(item => ({
-                name: products[item.id].name,
-                quantity: item.quantity,
-                price: products[item.id].price
+            items: Object.entries(cart).map(([id, quantity]) => ({
+                name: products[id].name,
+                quantity: quantity,
+                price: products[id].price
             })),
             total: cartTotal.textContent,
             deliveryMethod: formData.get('delivery'),
@@ -114,27 +124,12 @@ document.addEventListener('DOMContentLoaded', function() {
             address: formData.get('address')
         };
 
-        // Здесь будет логика отправки данных в Telegram
+        // Here will be the logic for sending data to Telegram
         console.log('Order data:', orderData);
         alert('Order placed successfully!');
         
-        // Очистка корзины
+        // Clear the cart
         localStorage.removeItem('cart');
-        window.location.href = '/index.html'; // Перенаправление на главную страницу
+        window.location.href = '/index.html'; // Redirect to the main page
     });
-
-    // Инициализация страницы
-    displayCartItems();
-
-    // Дополнительная функция для обновления общей суммы заказа
-    function updateTotalAmount() {
-        let total = cart.reduce((sum, item) => {
-            const product = products[item.id];
-            return sum + (product ? product.price * item.quantity : 0);
-        }, 0);
-        cartTotal.textContent = `${total.toFixed(2)}€`;
-    }
-
-    // Обновление общей суммы при загрузке страницы
-    updateTotalAmount();
 });
