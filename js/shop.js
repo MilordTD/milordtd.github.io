@@ -32,8 +32,8 @@ function onDocumentMouseMove(event) {
 function animate() {
     requestAnimationFrame(animate);
     if (currentModel) {
-        currentModel.rotation.y = mouseX * 0.005;
-        currentModel.rotation.x = mouseY * 0.005;
+        currentModel.rotation.y = mouseX * 0.009;
+        currentModel.rotation.x = mouseY * 0.009;
     }
     renderer.render(scene, camera);
 }
@@ -56,7 +56,7 @@ function loadModel(modelUrl) {
         scene.add(currentModel);
         
         camera.position.z = 5;
-        camera.position.x = 5;
+        camera.position.x = 1;
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
         scene.add(ambientLight);
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
