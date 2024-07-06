@@ -13,6 +13,30 @@ const closeButton = document.getElementsByClassName('close')[0];
 renderer.setSize(260, 260);
 document.getElementById('book-3d-model').appendChild(renderer.domElement);
 
+
+document.addEventListener('DOMContentLoaded', () => {
+    const introOverlay = document.querySelector('.intro-overlay');
+    const introContent = document.querySelector('.intro-content');
+    const introButton = document.querySelector('.intro-button');
+
+    // Показываем контент с эффектом fade in
+    setTimeout(() => {
+        introContent.style.opacity = '1';
+    }, 500);
+
+    introButton.addEventListener('click', () => {
+        // Применяем эффект fade out
+        introOverlay.classList.add('fade-out');
+        introContent.classList.add('fade-out');
+
+        // Удаляем оверлей после завершения анимации
+        setTimeout(() => {
+            introOverlay.remove();
+        }, 1000);
+    });
+});
+
+
 // Загрузка 3D модели
 const loader = new GLTFLoader();
 let currentModel;
