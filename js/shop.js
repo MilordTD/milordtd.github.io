@@ -50,15 +50,15 @@ function loadModel(modelUrl) {
         
         const box = new THREE.Box3().setFromObject(currentModel);
         const height = box.max.y - box.min.y;
-        const scale = 7 / height;
+        const scale = 6.5 / height;
         currentModel.scale.set(scale, scale, scale);
         
         scene.add(currentModel);
         
         camera.position.z = 5;
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
         scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
         directionalLight.position.set(5, 5, 5);
         scene.add(directionalLight);
     }, undefined, (error) => {
