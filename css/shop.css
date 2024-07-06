@@ -52,22 +52,27 @@ body, html {
     width: 100%;
     height: 100%;
     background-image: url('/images/background.png');
-    background-size: 120% 120%;
+    background-size: 140% 140%;
     background-position: center;
     z-index: 9999;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: opacity 1s ease-in-out, background-size 1s ease-in-out;
 }
 
 .intro-content {
     background-color: rgba(0, 0, 0, 0.7);
     padding: 20px;
     border-radius: 10px;
-    max-width: 600px;
+    width: 200px;
     text-align: center;
     opacity: 0;
     transition: opacity 1s ease-in-out;
+}
+
+.shrink-background {
+    background-size: 100% 100% !important;
 }
 
 .intro-text {
@@ -77,17 +82,18 @@ body, html {
 }
 
 .intro-button {
-    background-color: #9BB764;
+    background-color: rgba(155, 183, 100, 1);
     color: white;
-    border: none;
+    border: 2px solid rgba(155, 183, 100, 1);
     padding: 10px 20px;
     font-size: 16px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .intro-button:hover {
-    background-color: #8CA658;
+    box-shadow: inset 0 0 0 2px white;
 }
 
 .fade-out {

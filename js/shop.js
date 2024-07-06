@@ -25,15 +25,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
 
     introButton.addEventListener('click', () => {
-        // Применяем эффект fade out
-        introOverlay.classList.add('fade-out');
-        introContent.classList.add('fade-out');
+    // Применяем эффект fade out и уменьшения фона
+    introOverlay.classList.add('fade-out');
+    introOverlay.classList.add('shrink-background');
+    introContent.classList.add('fade-out');
 
-        // Удаляем оверлей после завершения анимации
-        setTimeout(() => {
-            introOverlay.remove();
-        }, 1000);
-    });
+    // Удаляем оверлей после завершения анимации
+    setTimeout(() => {
+        introOverlay.remove();
+    }, 1000);
+});
 });
 
 
