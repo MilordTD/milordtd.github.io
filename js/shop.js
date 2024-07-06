@@ -32,8 +32,8 @@ function onDocumentMouseMove(event) {
 function animate() {
     requestAnimationFrame(animate);
     if (currentModel) {
-        currentModel.rotation.y = mouseX * 0.01;
-        currentModel.rotation.x = mouseY * 0.01;
+        currentModel.rotation.y = mouseX * 0.1;
+        currentModel.rotation.x = mouseY * 0.1;
     }
     renderer.render(scene, camera);
 }
@@ -50,7 +50,7 @@ function loadModel(modelUrl) {
         
         const box = new THREE.Box3().setFromObject(currentModel);
         const height = box.max.y - box.min.y;
-        const scale = 6 / height;
+        const scale = 7 / height;
         currentModel.scale.set(scale, scale, scale);
         
         scene.add(currentModel);
@@ -275,7 +275,6 @@ window.onclick = function(event) {
     }
 }
 
-// Обновление фильтра категорий
 function updateCategoryFilter() {
     const categories = [...new Set(Object.values(products).map(product => product.category))];
     const categoryFilter = document.querySelector('.category-filter-container');
@@ -289,7 +288,6 @@ function updateCategoryFilter() {
         categoryFilter.appendChild(button);
     });
 
-    // Обновление обработчиков событий для кнопок категорий
     document.querySelectorAll('.category-button').forEach(button => {
         button.addEventListener('click', function() {
             const category = this.dataset.category;
@@ -313,7 +311,6 @@ function updateCategoryFilter() {
     });
 }
 
-// Реализация горизонтального слайдера
 let currentPosition = 0;
 
 function updateSliderPosition() {
@@ -328,19 +325,8 @@ function updateArrowVisibility() {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
     } else {
-        // Проверяем, нужно ли показать левую стрелку
-        if (currentPosition < 0) {
-            leftArrow.style.display = 'flex';
-        } else {
-            leftArrow.style.display = 'none';
-        }
-        
-        // Проверяем, нужно ли показать правую стрелку
-        if (currentPosition > containerWidth - productListWidth) {
-            rightArrow.style.display = 'flex';
-        } else {
-            rightArrow.style.display = 'none';
-        }
+        leftArrow.style.display = currentPosition < 0 ? 'flex' : 'none';
+        rightArrow.style.display = currentPosition > containerWidth - productListWidth ? 'flex' : 'none';
     }
 }
 
@@ -365,7 +351,6 @@ function initializeSlider() {
     });
 }
 
-// Функция обновления корзины
 function updateCart() {
     const cartItemCount = cart.length;
     
@@ -382,7 +367,6 @@ function updateCart() {
         productListContainer.classList.remove('with-cart');
     }
 
-    // Обновляем видимость кнопок удаления из корзины
     document.querySelectorAll('.product-item').forEach(item => {
         const productId = item.dataset.productId;
         const removeButton = item.querySelector('.remove-from-cart');
@@ -391,90 +375,21 @@ function updateCart() {
         }
     });
 }
-//Анимируем добавление 3d модели в корзину
-function animateAddToCart() {
-    if (!currentModel) return;
 
-    // Создаем копию текущей модели
-    const modelCopy = currentModel.clone();
-    scene.add(modelCopy);
-
-    // Получаем позицию корзины
-    const cartRect = document.querySelector('.cart-container').getBoundingClientRect();
-    const cartPosition = new THREE.Vector3(
-        (cartRect.right / window.innerWidth) * 2 - 1,
-        -(cartRect.bottom / window.innerHeight) * 2 + 1,
-        0
-    );
-
-    // Начальная и конечная позиции для анимации
-    const startPosition = new THREE.Vector3(0, 0, 0);
-    const endPosition = cartPosition;
-
-    // Параметры анимации
-    const duration = 1000; // миллисекунды
-    const startTime = Date.now();
-
-    function animateFrame() {
-        const now = Date.now();
-        const progress = Math.min((now - startTime) / duration, 1);
-
-        // Вычисляем текущую позицию по дуге
-        const x = startPosition.x + (endPosition.x - startPosition.x) * progress;
-        const y = startPosition.y + (endPosition.y - startPosition.y) * progress + Math.sin(progress * Math.PI) * 0.5;
-        const z = startPosition.z + (endPosition.z - startPosition.z) * progress;
-
-        modelCopy.position.set(x, y, z);
-
-        // Уменьшаем размер модели
-        const scale = 1 - progress * 0.9;
-        modelCopy.scale.set(scale, scale, scale);
-
-        if (progress < 1) {
-            requestAnimationFrame(animateFrame);
-        } else {
-            scene.remove(modelCopy);
-        }
-
-        renderer.render(scene, camera);
-    }
-
-    animateFrame();
-}
-
-// Обновляем обработчик кнопки "Add to Cart"
-document.querySelector('.add-to-cart').addEventListener('click', () => {
-    // Существующая логика добавления в корзину
-    cart.push(productId);
-    updateCart();
-    removeFromCartButton.style.display = 'block';
-
-    // Запускаем анимацию
-    animateAddToCart();
-});
-
-
-// Обработчик для кнопки "Empty cart"
 const emptyCartButton = document.querySelector('.empty-cart-button');
 if (emptyCartButton) {
     emptyCartButton.addEventListener('click', () => {
         cart = [];
         updateCart();
-        updateProductInfo(Object.keys(products)[0]); // Обновляем информацию о первом продукте
+        updateProductInfo(Object.keys(products)[0]);
     });
 }
 
-// Инициализация корзины
-updateCart();
-
-// Обработчик для кнопки оформления заказа
 const checkoutButton = document.querySelector('.checkout-button');
 if (checkoutButton) {
     checkoutButton.addEventListener('click', () => {
         alert('Переход к оформлению заказа');
-        // Здесь можно добавить логику перехода на страницу оформления заказа
     });
 }
 
-// Запуск анимации
 animate();
