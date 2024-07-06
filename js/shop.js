@@ -28,8 +28,8 @@ function onDocumentMouseMove(event) {
 function animate() {
     requestAnimationFrame(animate);
     if (currentModel) {
-        currentModel.rotation.y = mouseX * 0.1;
-        currentModel.rotation.x = mouseY * 0.1;
+        currentModel.rotation.y = mouseX * 0.01;
+        currentModel.rotation.x = mouseY * 0.01;
     }
     renderer.render(scene, camera);
 }
@@ -47,16 +47,17 @@ function loadModel(modelUrl) {
         // Масштабируем модель до высоты 200px
         const box = new THREE.Box3().setFromObject(currentModel);
         const height = box.max.y - box.min.y;
-        const scale = 6 / height;
+        const scale = 7 / height;
         currentModel.scale.set(scale, scale, scale);
         
         scene.add(currentModel);
         
         // Настройка камеры и освещения
         camera.position.z = 5;
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        camera.position.y = -1;
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
         scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.2);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
         directionalLight.position.set(5, 5, 5);
         scene.add(directionalLight);
     }, undefined, (error) => {
