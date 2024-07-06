@@ -199,53 +199,34 @@ function updateProductInfo(productId) {
 }
 
 function animateAddToCart() {
-    if (!currentModel) return;
+    const modelContainer = document.getElementById('book-3d-model');
+    const cartIcon = document.querySelector('.cart-container');
+    const rect = modelContainer.getBoundingClientRect();
+    const cartRect = cartIcon.getBoundingClientRect();
 
-    const modelCopy = currentModel.clone();
-    scene.add(modelCopy);
+    // Создаем копию контейнера модели
+    const clone = modelContainer.cloneNode(true);
+    clone.style.position = 'fixed';
+    clone.style.left = `${rect.left}px`;
+    clone.style.top = `${rect.top}px`;
+    clone.style.width = `${rect.width}px`;
+    clone.style.height = `${rect.height}px`;
+    clone.style.transition = 'all 1s ease-in-out';
+    clone.style.zIndex = '9999';
+    document.body.appendChild(clone);
 
-    const cartRect = document.querySelector('.cart-container').getBoundingClientRect();
-    const cartPosition = new THREE.Vector3(
-        (cartRect.right / window.innerWidth) * 2 - 1,
-        -(cartRect.bottom / window.innerHeight) * 2 + 1,
-        0
-    );
+    // Запускаем анимацию в следующем кадре
+    requestAnimationFrame(() => {
+        clone.style.transform = 'scale(0.1)';
+        clone.style.left = `${cartRect.right - 20}px`;
+        clone.style.top = `${cartRect.bottom - 20}px`;
+        clone.style.opacity = '0';
+    });
 
-    const startPosition = new THREE.Vector3(0, 0, 0);
-    const endPosition = cartPosition;
-
-    const duration = 1000;
-    const startTime = Date.now();
-
-    function easeInQuad(t) {
-        return t * t;
-    }
-
-    function animateFrame() {
-        const now = Date.now();
-        const elapsedTime = now - startTime;
-        const progress = Math.min(elapsedTime / duration, 1);
-        const easedProgress = easeInQuad(progress);
-
-        const x = startPosition.x + (endPosition.x - startPosition.x) * easedProgress;
-        const y = startPosition.y + (endPosition.y - startPosition.y) * easedProgress + Math.sin(easedProgress * Math.PI) * 0.5;
-        const z = startPosition.z + (endPosition.z - startPosition.z) * easedProgress;
-
-        modelCopy.position.set(x, y, z);
-
-        const scale = 1 - easedProgress * 0.9;
-        modelCopy.scale.set(scale, scale, scale);
-
-        if (progress < 1) {
-            requestAnimationFrame(animateFrame);
-        } else {
-            scene.remove(modelCopy);
-        }
-
-        renderer.render(scene, camera);
-    }
-
-    animateFrame();
+    // Удаляем клон после завершения анимации
+    setTimeout(() => {
+        document.body.removeChild(clone);
+    }, 1000);
 }
 
 function updateGallery(galleryImages) {
