@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Применяем эффект fade out и уменьшения фона
     introOverlay.classList.add('fade-out');
     introOverlay.classList.add('shrink-background');
-    introContent.classList.add('fade-out');
+    
 
     // Удаляем оверлей после завершения анимации
     setTimeout(() => {
