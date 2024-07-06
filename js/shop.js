@@ -204,44 +204,47 @@ function animateAddToCart() {
 
     const modelContainer = document.getElementById('book-3d-model');
     const cartIcon = document.querySelector('.cart-container');
+    const activeProduct = document.querySelector('.product-item.active');
     
-    if (!modelContainer || !cartIcon) {
-        console.error('Required elements not found:', { modelContainer, cartIcon });
+    if (!modelContainer || !cartIcon || !activeProduct) {
+        console.error('Required elements not found');
         return;
     }
 
+    const productImage = activeProduct.querySelector('img').src;
     const rect = modelContainer.getBoundingClientRect();
     const cartRect = cartIcon.getBoundingClientRect();
 
     console.log('Rectangles:', { modelRect: rect, cartRect });
 
-    // Создаем копию контейнера модели
-    const clone = modelContainer.cloneNode(true);
-    clone.style.position = 'fixed';
-    clone.style.left = `${rect.left}px`;
-    clone.style.top = `${rect.top}px`;
-    clone.style.width = `${rect.width}px`;
-    clone.style.height = `${rect.height}px`;
-    clone.style.transition = 'all 1s ease-in-out';
-    clone.style.zIndex = '9999';
-    clone.style.pointerEvents = 'none'; // Чтобы клон не мешал взаимодействию с страницей
-    document.body.appendChild(clone);
+    // Создаем элемент изображения для анимации
+    const animatedImage = document.createElement('img');
+    animatedImage.src = productImage;
+    animatedImage.style.position = 'fixed';
+    animatedImage.style.left = `${rect.left}px`;
+    animatedImage.style.top = `${rect.top}px`;
+    animatedImage.style.width = `${rect.width}px`;
+    animatedImage.style.height = `${rect.height}px`;
+    animatedImage.style.transition = 'all 1s ease-in-out';
+    animatedImage.style.zIndex = '9999';
+    animatedImage.style.pointerEvents = 'none';
+    document.body.appendChild(animatedImage);
 
-    console.log('Clone created and appended to body');
+    console.log('Animated image created and appended to body');
 
     // Запускаем анимацию в следующем кадре
     requestAnimationFrame(() => {
-        clone.style.transform = 'scale(0.1)';
-        clone.style.left = `${cartRect.right - 20}px`;
-        clone.style.top = `${cartRect.bottom - 20}px`;
-        clone.style.opacity = '0';
+        animatedImage.style.transform = 'scale(0.1)';
+        animatedImage.style.left = `${cartRect.right - 20}px`;
+        animatedImage.style.top = `${cartRect.bottom - 20}px`;
+        animatedImage.style.opacity = '0';
         console.log('Animation started');
     });
 
-    // Удаляем клон после завершения анимации
+    // Удаляем анимированное изображение после завершения анимации
     setTimeout(() => {
-        document.body.removeChild(clone);
-        console.log('Clone removed');
+        document.body.removeChild(animatedImage);
+        console.log('Animated image removed');
     }, 1000);
 }
 
