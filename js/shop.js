@@ -50,7 +50,7 @@ function loadModel(modelUrl) {
         
         const box = new THREE.Box3().setFromObject(currentModel);
         const height = box.max.y - box.min.y;
-        const scale = 6.5 / height;
+        const scale = 6 / height;
         currentModel.scale.set(scale, scale, scale);
         
         scene.add(currentModel);
