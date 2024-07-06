@@ -47,7 +47,7 @@ function loadModel(modelUrl) {
         // Масштабируем модель до высоты 200px
         const box = new THREE.Box3().setFromObject(currentModel);
         const height = box.max.y - box.min.y;
-        const scale = 150 / height;
+        const scale = 10 / height;
         currentModel.scale.set(scale, scale, scale);
         
         scene.add(currentModel);
