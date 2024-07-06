@@ -13,32 +13,6 @@ const closeButton = document.getElementsByClassName('close')[0];
 renderer.setSize(260, 260);
 document.getElementById('book-3d-model').appendChild(renderer.domElement);
 
-
-document.addEventListener('DOMContentLoaded', () => {
-    const introOverlay = document.querySelector('.intro-overlay');
-    const introContent = document.querySelector('.intro-content');
-    const introButton = document.querySelector('.intro-button');
-
-    // Показываем контент с эффектом fade in
-    setTimeout(() => {
-        introContent.style.opacity = '1';
-    }, 500);
-
-    introButton.addEventListener('click', () => {
-    // Применяем эффект fade out и уменьшения фона
-    introOverlay.classList.add('fade-out');
-    introOverlay.classList.add('shrink-background');
-    
-
-    // Удаляем оверлей после завершения анимации
-    setTimeout(() => {
-        introOverlay.remove();
-    }, 2000); // Увеличиваем время до 2000 мс (2 секунды)
-    });
-
-});
-
-
 // Загрузка 3D модели
 const loader = new GLTFLoader();
 let currentModel;
@@ -101,6 +75,17 @@ const productListWrapper = document.querySelector('.product-list-wrapper');
 const leftArrow = document.querySelector('.slider-arrow.left');
 const rightArrow = document.querySelector('.slider-arrow.right');
 
+// Функция для синхронизации корзины
+function syncCart() {
+    const storedCart = JSON.parse(localStorage.getItem('cart')) || [];
+    const storedProducts = JSON.parse(localStorage.getItem('products')) || {};
+    
+    cart = storedCart.filter(itemId => storedProducts[itemId]);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    return { cart, products: storedProducts };
+}
+
 // Загрузка данных о товарах из JSON файла
 fetch('/products.json')
     .then(response => {
@@ -111,11 +96,16 @@ fetch('/products.json')
     })
     .then(data => {
         products = data;
+        localStorage.setItem('products', JSON.stringify(products));
         initializeProducts();
+        const { cart: syncedCart } = syncCart();
+        cart = syncedCart;
+        updateCart();
     })
     .catch(error => {
         console.error('Error loading products:', error);
-        // Здесь можно добавить код для отображения ошибки пользователю
+        const mainContent = document.querySelector('.main-content');
+        mainContent.innerHTML = '<p>Error loading products. Please try refreshing the page.</p>';
     });
 
 function initializeProducts() {
@@ -359,6 +349,9 @@ function updateCart() {
             removeButton.style.display = cart.includes(productId) ? 'block' : 'none';
         }
     });
+
+    // Сохранение обновленной корзины в localStorage
+    localStorage.setItem('cart', JSON.stringify(Array.from(new Set(cart))));
 }
 
 // Обработчик для кнопки "Empty cart"
@@ -371,18 +364,16 @@ if (emptyCartButton) {
     });
 }
 
-// Инициализация корзины
-updateCart();
-
 // Обработчик для кнопки оформления заказа
 const checkoutButton = document.querySelector('.checkout-button');
 if (checkoutButton) {
     checkoutButton.addEventListener('click', () => {
-        // Sохранение данных корзины в localStorage
-        localStorage.setItem('cart', JSON.stringify(cart));
+        // Сохранение данных корзины в localStorage
+        const cartToSave = Array.from(new Set(cart));
+        localStorage.setItem('cart', JSON.stringify(cartToSave));
         localStorage.setItem('products', JSON.stringify(products));
         
-        console.log('Saving cart to localStorage:', cart);
+        console.log('Saving cart to localStorage:', cartToSave);
         console.log('Saving products to localStorage:', products);
         
         // Переход на страницу оформления заказа
@@ -392,3 +383,10 @@ if (checkoutButton) {
 
 // Запуск анимации
 animate();
+
+// Синхронизация корзины при загрузке страницы
+document.addEventListener('DOMContentLoaded', () => {
+    const { cart: syncedCart } = syncCart();
+    cart = syncedCart;
+    updateCart();
+});
