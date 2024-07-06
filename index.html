@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KA.RHAT - Secret Cow Level</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
     <style>
         body, html {
             margin: 0;
@@ -19,10 +20,11 @@
         .container {
             text-align: center;
         }
-        img {
+        #lottie-container {
             width: 40vw;
-            max-width: 100%;
-            height: auto;
+            height: 40vw;
+            max-width: 400px;
+            max-height: 400px;
         }
         h1 {
             margin-top: 20px;
@@ -47,9 +49,20 @@
 </head>
 <body>
     <div class="container">
-        <img src="/api/placeholder/400/320" alt="Secret Cow Level">
+        <div id="lottie-container"></div>
         <h1>Congratulations! You found secret cow level!</h1>
         <a href="/shop" class="button">Proceed to campfire</a>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            lottie.loadAnimation({
+                container: document.getElementById('lottie-container'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: 'https://raw.githubusercontent.com/MilordTD/milordtd.github.io/01b0179c38cc5dfe419a0f2579fbc0cca7994d73/images/cow.lottie'
+            });
+        });
+    </script>
 </body>
 </html>
