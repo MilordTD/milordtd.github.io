@@ -6,10 +6,10 @@ const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
 const renderer = new THREE.WebGLRenderer({ 
     alpha: true,
-    antialias: true  // Включаем антиалиасинг
+    antialias: true
 });
-renderer.setClearColor(0x000000, 0); // Полностью прозрачный фон
-renderer.setPixelRatio(window.devicePixelRatio); // Устанавливаем pixel ratio для лучшего качества на дисплеях с высоким DPI
+renderer.setClearColor(0x000000, 0);
+renderer.setPixelRatio(window.devicePixelRatio);
 const productGallery = document.querySelector('.product-gallery');
 const modal = document.getElementById('imageModal');
 const modalImg = document.getElementById('modalImage');
@@ -48,7 +48,6 @@ function loadModel(modelUrl) {
     loader.load(modelUrl, (gltf) => {
         currentModel = gltf.scene;
         
-        // Масштабируем модель до высоты 6px
         const box = new THREE.Box3().setFromObject(currentModel);
         const height = box.max.y - box.min.y;
         const scale = 6 / height;
@@ -56,7 +55,6 @@ function loadModel(modelUrl) {
         
         scene.add(currentModel);
         
-        // Настройка камеры и освещения
         camera.position.z = 5;
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         scene.add(ambientLight);
@@ -87,19 +85,27 @@ fetch('/products.json')
         return response.json();
     })
     .then(data => {
+        console.log('Loaded products data:', data);
         products = data;
         initializeProducts();
     })
     .catch(error => {
         console.error('Error loading products:', error);
-        // Здесь можно добавить код для отображения ошибки пользователю
     });
 
 function initializeProducts() {
-    // Создание элементов товаров
+    console.log('Initializing products with data:', products);
+    
+    if (!products || Object.keys(products).length === 0) {
+        console.error('No product data available');
+        return;
+    }
+
     productListWrapper.innerHTML = '';
 
     for (const [id, product] of Object.entries(products)) {
+        console.log(`Creating product item for ${id}:`, product);
+        
         const productItem = document.createElement('div');
         productItem.className = 'product-item';
         productItem.dataset.productId = id;
@@ -126,7 +132,6 @@ function initializeProducts() {
         productListWrapper.appendChild(productItem);
     }
 
-    // Обновление обработчиков событий для продуктов
     document.querySelectorAll('.product-item').forEach(item => {
         item.addEventListener('click', function() {
             const productId = this.dataset.productId;
@@ -134,16 +139,17 @@ function initializeProducts() {
         });
     });
 
-    // Инициализация первого товара
     const firstProductId = Object.keys(products)[0];
-    updateProductInfo(firstProductId);
+    if (firstProductId) {
+        updateProductInfo(firstProductId);
+    } else {
+        console.error('No products found to initialize');
+    }
 
-    // Обновление слайдера и фильтров
     initializeSlider();
     updateCategoryFilter();
 }
 
-// Обновление информации о продукте
 function updateProductInfo(productId) {
     const product = products[productId];
     document.getElementById('product-name').textContent = product.name;
@@ -153,11 +159,10 @@ function updateProductInfo(productId) {
     document.getElementById('product-debuffs').innerHTML = product.debuffs;
     loadModel(product.modelUrl);
 
-    // Обновление галереи
     if (product.gallery && Array.isArray(product.gallery)) {
         updateGallery(product.gallery);
     } else {
-        productGallery.innerHTML = ''; // Очистка галереи, если изображений нет
+        productGallery.innerHTML = '';
     }
 
     document.querySelectorAll('.product-item').forEach(item => {
@@ -176,6 +181,7 @@ function updateProductInfo(productId) {
             cart.push(productId);
             updateCart();
             removeFromCartButton.style.display = 'block';
+            animateAddToCart();
         };
         removeFromCartButton.onclick = (event) => {
             event.stopPropagation();
@@ -190,6 +196,56 @@ function updateProductInfo(productId) {
     }
 
     removeFromCartButton.style.display = cart.includes(productId) ? 'block' : 'none';
+}
+
+function animateAddToCart() {
+    if (!currentModel) return;
+
+    const modelCopy = currentModel.clone();
+    scene.add(modelCopy);
+
+    const cartRect = document.querySelector('.cart-container').getBoundingClientRect();
+    const cartPosition = new THREE.Vector3(
+        (cartRect.right / window.innerWidth) * 2 - 1,
+        -(cartRect.bottom / window.innerHeight) * 2 + 1,
+        0
+    );
+
+    const startPosition = new THREE.Vector3(0, 0, 0);
+    const endPosition = cartPosition;
+
+    const duration = 1000;
+    const startTime = Date.now();
+
+    function easeInQuad(t) {
+        return t * t;
+    }
+
+    function animateFrame() {
+        const now = Date.now();
+        const elapsedTime = now - startTime;
+        const progress = Math.min(elapsedTime / duration, 1);
+        const easedProgress = easeInQuad(progress);
+
+        const x = startPosition.x + (endPosition.x - startPosition.x) * easedProgress;
+        const y = startPosition.y + (endPosition.y - startPosition.y) * easedProgress + Math.sin(easedProgress * Math.PI) * 0.5;
+        const z = startPosition.z + (endPosition.z - startPosition.z) * easedProgress;
+
+        modelCopy.position.set(x, y, z);
+
+        const scale = 1 - easedProgress * 0.9;
+        modelCopy.scale.set(scale, scale, scale);
+
+        if (progress < 1) {
+            requestAnimationFrame(animateFrame);
+        } else {
+            scene.remove(modelCopy);
+        }
+
+        renderer.render(scene, camera);
+    }
+
+    animateFrame();
 }
 
 function updateGallery(galleryImages) {
@@ -335,6 +391,68 @@ function updateCart() {
         }
     });
 }
+//Анимируем добавление 3d модели в корзину
+function animateAddToCart() {
+    if (!currentModel) return;
+
+    // Создаем копию текущей модели
+    const modelCopy = currentModel.clone();
+    scene.add(modelCopy);
+
+    // Получаем позицию корзины
+    const cartRect = document.querySelector('.cart-container').getBoundingClientRect();
+    const cartPosition = new THREE.Vector3(
+        (cartRect.right / window.innerWidth) * 2 - 1,
+        -(cartRect.bottom / window.innerHeight) * 2 + 1,
+        0
+    );
+
+    // Начальная и конечная позиции для анимации
+    const startPosition = new THREE.Vector3(0, 0, 0);
+    const endPosition = cartPosition;
+
+    // Параметры анимации
+    const duration = 1000; // миллисекунды
+    const startTime = Date.now();
+
+    function animateFrame() {
+        const now = Date.now();
+        const progress = Math.min((now - startTime) / duration, 1);
+
+        // Вычисляем текущую позицию по дуге
+        const x = startPosition.x + (endPosition.x - startPosition.x) * progress;
+        const y = startPosition.y + (endPosition.y - startPosition.y) * progress + Math.sin(progress * Math.PI) * 0.5;
+        const z = startPosition.z + (endPosition.z - startPosition.z) * progress;
+
+        modelCopy.position.set(x, y, z);
+
+        // Уменьшаем размер модели
+        const scale = 1 - progress * 0.9;
+        modelCopy.scale.set(scale, scale, scale);
+
+        if (progress < 1) {
+            requestAnimationFrame(animateFrame);
+        } else {
+            scene.remove(modelCopy);
+        }
+
+        renderer.render(scene, camera);
+    }
+
+    animateFrame();
+}
+
+// Обновляем обработчик кнопки "Add to Cart"
+document.querySelector('.add-to-cart').addEventListener('click', () => {
+    // Существующая логика добавления в корзину
+    cart.push(productId);
+    updateCart();
+    removeFromCartButton.style.display = 'block';
+
+    // Запускаем анимацию
+    animateAddToCart();
+});
+
 
 // Обработчик для кнопки "Empty cart"
 const emptyCartButton = document.querySelector('.empty-cart-button');
