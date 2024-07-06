@@ -10,7 +10,7 @@ const productGallery = document.querySelector('.product-gallery');
 const modal = document.getElementById('imageModal');
 const modalImg = document.getElementById('modalImage');
 const closeButton = document.getElementsByClassName('close')[0];
-renderer.setSize(200, 200);
+renderer.setSize(260, 260);
 document.getElementById('book-3d-model').appendChild(renderer.domElement);
 
 // Загрузка 3D модели
