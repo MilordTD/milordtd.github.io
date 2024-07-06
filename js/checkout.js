@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Retrieving cart from localStorage:', localStorage.getItem('cart'));
+    console.log('Retrieving products from localStorage:', localStorage.getItem('products'));
+    
     const cartItems = document.getElementById('cart-items');
     const cartTotal = document.getElementById('cart-total');
     const offlineOptions = document.getElementById('offline-options');
@@ -9,8 +12,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
     const products = JSON.parse(localStorage.getItem('products')) || {};
 
-    console.log('Initial Cart:', cart);
-    console.log('Products:', products);
+    console.log('Parsed cart:', cart);
+    console.log('Parsed products:', products);
 
     // Отображение товаров в корзине
     function displayCartItems() {

@@ -378,9 +378,12 @@ updateCart();
 const checkoutButton = document.querySelector('.checkout-button');
 if (checkoutButton) {
     checkoutButton.addEventListener('click', () => {
-        // Сохранение данных корзины в localStorage
+        // Sохранение данных корзины в localStorage
         localStorage.setItem('cart', JSON.stringify(cart));
         localStorage.setItem('products', JSON.stringify(products));
+        
+        console.log('Saving cart to localStorage:', cart);
+        console.log('Saving products to localStorage:', products);
         
         // Переход на страницу оформления заказа
         window.location.href = '/checkout.html';
