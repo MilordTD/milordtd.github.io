@@ -1,5 +1,5 @@
-import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js';
-import { GLTFLoader } from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/jsm/loaders/GLTFLoader.js';
+import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.module.js';
+import { GLTFLoader } from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/examples/jsm/loaders/GLTFLoader.js';
 
 // Инициализация 3D сцены
 const scene = new THREE.Scene();
