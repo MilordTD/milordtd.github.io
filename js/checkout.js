@@ -80,19 +80,21 @@ stripeCheckoutBtn.addEventListener('click', async function(e) {
         address: formData.get('address')
     };
 
+    const shippingMethod = document.querySelector('input[name="shipping"]:checked').value;
+
     try {
-    console.log('Sending request to create-checkout-session...');
-    const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
-        method: 'POST',
-        mode: 'cors', // Добавьте эту строку
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            cart: cart,
-            customerData: customerData
-        }),
-    });
+        console.log('Sending request to create-checkout-session...');
+        const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                cart: cart,
+                customerData: customerData,
+                shippingMethod: shippingMethod
+            }),
+        });
 
         console.log('Response status:', response.status);
         console.log('Response headers:', Object.fromEntries(response.headers.entries()));
@@ -112,9 +114,9 @@ stripeCheckoutBtn.addEventListener('click', async function(e) {
             throw new Error("No checkout URL in the response");
         }
     } catch (error) {
-    console.error('Error:', error);
-    alert(`An error occurred: ${error.message}. Please try again later.`);
-}
+        console.error('Error:', error);
+        alert(`An error occurred: ${error.message}. Please try again later.`);
+    }
 });
 
     // Initialize page
