@@ -69,53 +69,57 @@ document.addEventListener('DOMContentLoaded', function() {
     const stripe = Stripe('pk_test_51Pa3ibRscs7gmx3WK8tvLJAXQ2ugBOGM7KMEUyyNgLoQqYeLNxB2qo06ueA8kjWGd1qokCJNcSHgnKWe9JtF4V2M00SbWEiUby'); // Replace with your actual publishable key
 
     // Handle Stripe checkout
-    stripeCheckoutBtn.addEventListener('click', async function(e) {
-        e.preventDefault();
+stripeCheckoutBtn.addEventListener('click', async function(e) {
+    e.preventDefault();
 
-        const formData = new FormData(checkoutForm);
-        const customerData = {
-            email: formData.get('email'),
-            name: formData.get('name'),
-            phone: formData.get('phone'),
-            address: formData.get('address')
-        };
+    const formData = new FormData(checkoutForm);
+    const customerData = {
+        email: formData.get('email'),
+        name: formData.get('name'),
+        phone: formData.get('phone'),
+        address: formData.get('address')
+    };
 
-        try {
-            const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    cart: cart,
-                    customerData: customerData
-                }),
-            });
+    try {
+        const response = await fetch('/.netlify/functions/create-checkout-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                cart: cart,
+                customerData: customerData
+            }),
+        });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const contentType = response.headers.get("content-type");
-            if (!contentType || !contentType.includes("application/json")) {
-                throw new TypeError("Oops, we haven't got JSON!");
-            }
-
-            const session = await response.json();
-
-            const result = await stripe.redirectToCheckout({
-                sessionId: session.id,
-            });
-
-            if (result.error) {
-                console.error(result.error.message);
-                alert('An error occurred during checkout. Please try again.');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred. Please try again later.');
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
         }
-    });
+
+        const contentType = response.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+            throw new TypeError("Oops, we haven't got JSON!");
+        }
+
+        const session = await response.json();
+
+        if (!session.id) {
+            throw new Error("Invalid session data received");
+        }
+
+        const result = await stripe.redirectToCheckout({
+            sessionId: session.id,
+        });
+
+        if (result.error) {
+            throw new Error(result.error.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert(`An error occurred: ${error.message}. Please try again later.`);
+    }
+});
 
     // Initialize page
     loadCartData();
