@@ -82,7 +82,7 @@ stripeCheckoutBtn.addEventListener('click', async function(e) {
 
     try {
         console.log('Sending request to create-checkout-session...');
-        const response = await fetch('/.netlify/functions/create-checkout-session', {
+        const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -94,22 +94,21 @@ stripeCheckoutBtn.addEventListener('click', async function(e) {
         });
 
         console.log('Response status:', response.status);
-        console.log('Response headers:', response.headers);
+        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
 
-        if (response.redirected) {
-            window.location.href = response.url;
-        } else if (!response.ok) {
+        if (!response.ok) {
             const errorText = await response.text();
             console.error('Error response:', errorText);
             throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+        }
+
+        const data = await response.json();
+        console.log('Response data:', data);
+        
+        if (data.url) {
+            window.location.href = data.url;
         } else {
-            const contentType = response.headers.get("content-type");
-            if (!contentType || !contentType.includes("application/json")) {
-                throw new TypeError("Unexpected response format");
-            }
-            const data = await response.json();
-            console.error('Unexpected response:', data);
-            throw new Error("Unexpected response from server");
+            throw new Error("No checkout URL in the response");
         }
     } catch (error) {
         console.error('Error:', error);
