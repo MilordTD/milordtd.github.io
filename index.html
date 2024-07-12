@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KA.RHAT - Secret Cow Level</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: 'Roboto', Arial, sans-serif;
+            background-color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        #lottie-container {
+            width: 40vw;
+            height: 40vw;
+            max-width: 400px;
+            max-height: 400px;
+        }
+        h1 {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+        .button {
+            display: inline-block;
+            background-color: rgba(155, 183, 100, 1);
+            color: white;
+            border: 2px solid rgba(155, 183, 100, 1);
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: box-shadow 0.3s ease;
+        }
+        .button:hover {
+            box-shadow: inset 0 0 0 2px white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="lottie-container"></div>
+        <h1>Congratulations! You found secret cow level!</h1>
+        <a href="/shop" class="button">Proceed to campfire</a>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/images/cow.json')
+                .then(response => response.json())
+                .then(animationData => {
+                    lottie.loadAnimation({
+                        container: document.getElementById('lottie-container'),
+                        renderer: 'svg',
+                        loop: true,
+                        autoplay: true,
+                        animationData: animationData
+                    });
+                })
+                .catch(error => console.error('Error loading the Lottie animation:', error));
+        });
+    </script>
+</body>
+</html>

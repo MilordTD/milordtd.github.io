@@ -10,8 +10,34 @@ const productGallery = document.querySelector('.product-gallery');
 const modal = document.getElementById('imageModal');
 const modalImg = document.getElementById('modalImage');
 const closeButton = document.getElementsByClassName('close')[0];
-renderer.setSize(200, 200);
+renderer.setSize(260, 260);
 document.getElementById('book-3d-model').appendChild(renderer.domElement);
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const introOverlay = document.querySelector('.intro-overlay');
+    const introContent = document.querySelector('.intro-content');
+    const introButton = document.querySelector('.intro-button');
+
+    // Показываем контент с эффектом fade in
+    setTimeout(() => {
+        introContent.style.opacity = '1';
+    }, 500);
+
+    introButton.addEventListener('click', () => {
+    // Применяем эффект fade out и уменьшения фона
+    introOverlay.classList.add('fade-out');
+    introOverlay.classList.add('shrink-background');
+    
+
+    // Удаляем оверлей после завершения анимации
+    setTimeout(() => {
+        introOverlay.remove();
+    }, 2000); // Увеличиваем время до 2000 мс (2 секунды)
+    });
+
+});
+
 
 // Загрузка 3D модели
 const loader = new GLTFLoader();
@@ -28,8 +54,8 @@ function onDocumentMouseMove(event) {
 function animate() {
     requestAnimationFrame(animate);
     if (currentModel) {
-        currentModel.rotation.y = mouseX * 0.1;
-        currentModel.rotation.x = mouseY * 0.1;
+        currentModel.rotation.y = mouseX * 0.01;
+        currentModel.rotation.x = mouseY * 0.01;
     }
     renderer.render(scene, camera);
 }
@@ -47,16 +73,17 @@ function loadModel(modelUrl) {
         // Масштабируем модель до высоты 200px
         const box = new THREE.Box3().setFromObject(currentModel);
         const height = box.max.y - box.min.y;
-        const scale = 6 / height;
+        const scale = 7 / height;
         currentModel.scale.set(scale, scale, scale);
         
         scene.add(currentModel);
         
         // Настройка камеры и освещения
         camera.position.z = 5;
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        camera.position.y = 0.5;
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
         scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.2);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
         directionalLight.position.set(5, 5, 5);
         scene.add(directionalLight);
     }, undefined, (error) => {
@@ -191,12 +218,14 @@ function updateProductInfo(productId) {
 function updateGallery(galleryImages) {
     productGallery.innerHTML = '';
     galleryImages.forEach((imgSrc, index) => {
-        const img = document.createElement('img');
-        img.src = imgSrc;
-        img.alt = `Product image ${index + 1}`;
-        img.classList.add('gallery-item');
-        img.addEventListener('click', () => openModal(imgSrc));
-        productGallery.appendChild(img);
+        if (index < 4) { // Limit to 4 images
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.alt = `Product image ${index + 1}`;
+            img.classList.add('gallery-item');
+            img.addEventListener('click', () => openModal(imgSrc));
+            productGallery.appendChild(img);
+        }
     });
 }
 
@@ -349,8 +378,12 @@ updateCart();
 const checkoutButton = document.querySelector('.checkout-button');
 if (checkoutButton) {
     checkoutButton.addEventListener('click', () => {
-        alert('Переход к оформлению заказа');
-        // Здесь можно добавить логику перехода на страницу оформления заказа
+        // Сохранение данных корзины в localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem('products', JSON.stringify(products));
+        
+        // Переход на страницу оформления заказа
+        window.location.href = '/checkout.html';
     });
 }
 

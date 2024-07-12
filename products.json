@@ -101,16 +101,50 @@
       "/images/pin_photo_4.png"
     ]
   },
-  "toteBag2": {
-    "name": "Alchemist's Carrier",
-    "ingredients": "Dragon-hide fabric<br>Phoenix feather stitching<br>Unicorn hair handle",
-    "characteristics": "Size: 14\" x 15\"<br>Material: Magical creature byproducts<br>Potion-proof lining",
-    "buffs": "Preservation Charm: Keeps potions fresh and prevents breakage",
-    "debuffs": "Aromatic Residue: Faint potion smell lingers on items stored inside",
+  "dagger": {
+    "name": "Shadowstrike Dagger",
+    "ingredients": "Obsidian blade<br>Nightshade-infused hilt<br>Shadow essence coating",
+    "characteristics": "Length: 25mm<br>Wide: 10mm<br>Fastening: Safety pin back",
+    "buffs": "Silent Strike: Grants a +2 bonus to stealth checks when equipped",
+    "debuffs": "Shadow Whisper: 10% chance of hearing eerie whispers when in dark areas",
     "modelUrl": "/models/scene.gltf",
-    "category": "bag",
-    "inStock": 7,
-    "price": 34.99,
+    "category": "pin",
+    "inStock": 8,
+    "price": 39.99,
+    "gallery": [
+      "/images/pin_photo_1.png",
+      "/images/pin_photo_2.png",
+      "/images/pin_photo_3.png",
+      "/images/pin_photo_4.png"
+    ]
+  },
+  "sword": {
+    "name": "Stormbreaker Sword",
+    "ingredients": "Thunderbolt-forged steel<br>Storm giant's tear gem<br>Lightning-imbued runes",
+    "characteristics": "Length: 40mm<br>Wide: 15mm<br>Fastening: Double pin back",
+    "buffs": "Thunder Charge: Once per day, call down a bolt of lightning for dramatic effect",
+    "debuffs": "Static Buildup: Hair stands on end for 1 hour after using Thunder Charge",
+    "modelUrl": "/models/scene.gltf",
+    "category": "pin",
+    "inStock": 6,
+    "price": 54.99,
+    "gallery": [
+      "/images/pin_photo_1.png",
+      "/images/pin_photo_2.png",
+      "/images/pin_photo_3.png",
+      "/images/pin_photo_4.png"
+    ]
+  },
+  "guitar": {
+    "name": "Bardic Inspiration Guitar",
+    "ingredients": "Elvish heartwood<br>Siren hair strings<br>Pixie dust frets",
+    "characteristics": "Length: 35mm<br>Wide: 20mm<br>Fastening: Magnetic clasp",
+    "buffs": "Melodic Motivation: +1 to all ally skill checks when you play a tune",
+    "debuffs": "Earworm Effect: 25% chance listeners can't get your last song out of their head for a day",
+    "modelUrl": "/models/scene.gltf",
+    "category": "pin",
+    "inStock": 4,
+    "price": 44.99,
     "gallery": [
       "/images/pin_photo_1.png",
       "/images/pin_photo_2.png",
