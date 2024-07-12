@@ -3,50 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KA.RHAT - Checkout</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/shop.css">
-    <link rel="stylesheet" href="/css/checkout.css">
+    <title>Checkout - KA.RHAT</title>
+    <link rel="stylesheet" href="checkout.css">
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
     <div class="container">
         <header class="header">
             <div class="logo">KA.RHAT</div>
         </header>
+
         <main class="checkout-content">
             <div class="checkout-columns">
-                <div class="summary-order">
+                <section class="summary-order">
                     <h2>Summary Order</h2>
-                    <p>Check your item and select your shipping for better experience order item.</p>
-                    <div id="cart-items">
-                        <!-- Cart items will be dynamically added here -->
-                    </div>
+                    <p>Check your items and select your shipping for a better order experience.</p>
+                    <div id="cart-items"></div>
+
                     <div class="shipping-method">
                         <h3>Available Shipping Method</h3>
                         <div class="shipping-options">
                             <label>
-                             <input type="radio" name="shipping" value="pickup" checked>
+                                <input type="radio" name="shipping" value="pickup" checked>
                                 <span class="shipping-logo">🏠</span>
                                 <div class="shipping-details">
                                     <span class="shipping-name">Pick up from cafe</span>
-                                     <span class="shipping-price">Free</span>
+                                    <span class="shipping-price">Free</span>
                                 </div>
                             </label>
                             <button id="show-map" class="show-map-btn">Show cafe location</button>
                             <label>
-                            <input type="radio" name="shipping" value="local">
-                            <span class="shipping-logo">🚚</span>
-                            <div class="shipping-details">
-                             <span class="shipping-name">Local Delivery</span>
-                            <span class="shipping-price">€5.00</span>
-                            </div>
+                                <input type="radio" name="shipping" value="local">
+                                <span class="shipping-logo">🚚</span>
+                                <div class="shipping-details">
+                                    <span class="shipping-name">Local Delivery</span>
+                                    <span class="shipping-price">€5.00</span>
+                                </div>
                             </label>
                         </div>
                     </div>
-                </div>
-                <div class="payment-details">
+                </section>
+
+                <section class="payment-details">
                     <h2>Payment Details</h2>
-                    <p>Complete your purchase item by providing your payment details order.</p>
+                    <p>Complete your purchase by providing your payment details.</p>
                     <form id="checkout-form">
                         <div class="form-group">
                             <label for="email">Email Address</label>
@@ -60,7 +60,7 @@
                             <label for="phone">Phone</label>
                             <input type="tel" id="phone" name="phone" required>
                         </div>
-                        <div class="form-group" id="address-group" style="display: none;">
+                        <div id="address-group" class="form-group" style="display: none;">
                             <label for="address">Address</label>
                             <textarea id="address" name="address"></textarea>
                         </div>
@@ -78,18 +78,20 @@
                                 <span id="total-cost">€0.00</span>
                             </div>
                         </div>
-                        <button type="submit" class="pay-button">Pay</button>
+                        <button type="button" id="stripe-checkout-btn" class="pay-button">Proceed to Payment</button>
                     </form>
-                </div>
+                </section>
             </div>
         </main>
     </div>
-    <script src="/js/checkout.js"></script>
+
     <div id="map-modal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <iframe id="google-map" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <iframe id="google-map" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
     </div>
-</div>
+
+    <script src="checkout.js"></script>
 </body>
 </html>
