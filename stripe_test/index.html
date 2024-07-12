@@ -12,7 +12,7 @@
         var stripe = Stripe('pk_test_51Pa3ibRscs7gmx3WK8tvLJAXQ2ugBOGM7KMEUyyNgLoQqYeLNxB2qo06ueA8kjWGd1qokCJNcSHgnKWe9JtF4V2M00SbWEiUby');
 
         document.getElementById('checkout-button').addEventListener('click', function () {
-            fetch('/.netlify/functions/create-checkout-session', {
+            fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
                 method: 'POST',
             })
             .then(function (response) {
