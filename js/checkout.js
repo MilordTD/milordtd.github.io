@@ -81,7 +81,8 @@ stripeCheckoutBtn.addEventListener('click', async function(e) {
     };
 
     try {
-        const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
+        console.log('Sending request to create-checkout-session...');
+        const response = await fetch('/.netlify/functions/create-checkout-session', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -92,28 +93,23 @@ stripeCheckoutBtn.addEventListener('click', async function(e) {
             }),
         });
 
-        if (!response.ok) {
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
+
+        if (response.redirected) {
+            window.location.href = response.url;
+        } else if (!response.ok) {
             const errorText = await response.text();
+            console.error('Error response:', errorText);
             throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-        }
-
-        const contentType = response.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-            throw new TypeError("Oops, we haven't got JSON!");
-        }
-
-        const session = await response.json();
-
-        if (!session.id) {
-            throw new Error("Invalid session data received");
-        }
-
-        const result = await stripe.redirectToCheckout({
-            sessionId: session.id,
-        });
-
-        if (result.error) {
-            throw new Error(result.error.message);
+        } else {
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                throw new TypeError("Unexpected response format");
+            }
+            const data = await response.json();
+            console.error('Unexpected response:', data);
+            throw new Error("Unexpected response from server");
         }
     } catch (error) {
         console.error('Error:', error);
