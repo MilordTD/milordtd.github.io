@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         try {
-            const response = await fetch('/.netlify/functions/create-checkout-session', {
+            const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -92,6 +92,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 }),
             });
 
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                throw new TypeError("Oops, we haven't got JSON!");
+            }
+
             const session = await response.json();
 
             const result = await stripe.redirectToCheckout({
@@ -100,9 +109,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (result.error) {
                 console.error(result.error.message);
+                alert('An error occurred during checkout. Please try again.');
             }
         } catch (error) {
             console.error('Error:', error);
+            alert('An error occurred. Please try again later.');
         }
     });
 
