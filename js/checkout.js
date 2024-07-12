@@ -81,7 +81,7 @@ stripeCheckoutBtn.addEventListener('click', async function(e) {
     };
 
     try {
-        const response = await fetch('/.netlify/functions/create-checkout-session', {
+        const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
