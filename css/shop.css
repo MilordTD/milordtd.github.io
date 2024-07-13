@@ -16,7 +16,6 @@ body, html {
 }
 
 .header, .artifact-collection {
-    position: fixed;
     z-index: 10000; /* Чтобы элементы были поверх intro-overlay */
 }
 
