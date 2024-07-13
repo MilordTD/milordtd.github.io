@@ -18,8 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const introOverlay = document.querySelector('.intro-overlay');
     const introContent = document.querySelector('.intro-content');
     const introButton = document.querySelector('.intro-button');
-    const productDetail = document.querySelector('.product-detail');
-    const productListContainer = document.querySelector('.product-list-container');
 
     // Показываем контент с эффектом fade in
     setTimeout(() => {
@@ -33,8 +31,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Через 500 мс убираем оверлей и показываем основной контент
         setTimeout(() => {
             introOverlay.style.display = 'none';
-            productDetail.classList.add('fade-in');
-            productListContainer.classList.add('fade-in');
+            document.querySelector('.product-detail').style.opacity = '1';
+            document.querySelector('.product-list-container').style.opacity = '1';
         }, 500);
     });
 });
