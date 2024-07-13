@@ -18,25 +18,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const introOverlay = document.querySelector('.intro-overlay');
     const introContent = document.querySelector('.intro-content');
     const introButton = document.querySelector('.intro-button');
+    const productDetail = document.querySelector('.product-detail');
+    const productListContainer = document.querySelector('.product-list-container');
 
-    // Show content with fade in effect
+    // Показываем контент с эффектом fade in
     setTimeout(() => {
         introContent.style.opacity = '1';
     }, 500);
 
     introButton.addEventListener('click', () => {
-        // Apply the shrink effect
-        introOverlay.classList.add('shrink-background');
+        // Скрываем кнопку
+        introButton.classList.add('fade-out');
         
-        // After the shrink effect, fade out
+        // Через 500 мс убираем оверлей и показываем основной контент
         setTimeout(() => {
-            introOverlay.classList.add('fade-out');
-        }, 2000); // Wait for 2 seconds before fading out
-
-        // Remove the overlay after the animations
-        setTimeout(() => {
-            introOverlay.remove();
-        }, 4000); // Total time: 2s for shrink + 2s for fade out
+            introOverlay.style.display = 'none';
+            productDetail.classList.add('fade-in');
+            productListContainer.classList.add('fade-in');
+        }, 500);
     });
 });
 

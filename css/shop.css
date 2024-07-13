@@ -15,22 +15,6 @@ body, html {
     background-position: center;
 }
 
-.intro-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('/images/background.png');
-    background-size: cover;
-    background-position: center;
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 2s ease-in-out, background-size 2s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-
 .header {
     display: flex;
     justify-content: left;
@@ -47,6 +31,12 @@ body, html {
     margin-left: 40px;
 }
 
+.artifact-collection {
+    position: absolute;
+    top: 50px;
+    right: 40px;
+}
+
 .menu-icon {
     font-size: 40px;
     color: white;
@@ -55,10 +45,19 @@ body, html {
     right: 40px;
 }
 
-.artifact-collection {
-    position: absolute;
-    top: 50px;
-    right: 40px;
+.intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/background.png');
+    background-size: cover;
+    background-position: center;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .intro-content {
@@ -69,10 +68,6 @@ body, html {
     text-align: center;
     opacity: 0;
     transition: opacity 1s ease-in-out;
-}
-
-.shrink-background {
-    background-size: 100% 100% !important;
 }
 
 .intro-text {
@@ -89,16 +84,25 @@ body, html {
     font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
-    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    transition: opacity 0.5s ease-in-out;
 }
 
 .intro-button:hover {
     box-shadow: inset 0 0 0 2px white;
 }
 
+
 .fade-out {
     opacity: 0 !important;
-    transition: opacity 2s ease-in-out;
+}
+
+.fade-in {
+    opacity: 1 !important;
+}
+
+.product-detail, .product-list-container {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
 }
 
 .main-content {
