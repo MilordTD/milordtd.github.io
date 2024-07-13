@@ -13,7 +13,6 @@ const closeButton = document.getElementsByClassName('close')[0];
 renderer.setSize(260, 260);
 document.getElementById('book-3d-model').appendChild(renderer.domElement);
 
-
 document.addEventListener('DOMContentLoaded', () => {
     const introOverlay = document.querySelector('.intro-overlay');
     const introContent = document.querySelector('.intro-content');
@@ -41,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
 // Загрузка 3D модели
 const loader = new GLTFLoader();
 let currentModel;
@@ -66,8 +64,9 @@ function animate() {
 document.addEventListener('mousemove', onDocumentMouseMove, false);
 
 function loadModel(modelUrl) {
-    if (currentModel) {
-        scene.remove(currentModel);
+    // Удаляем все существующие объекты со сцены
+    while(scene.children.length > 0){ 
+        scene.remove(scene.children[0]); 
     }
 
     loader.load(modelUrl, (gltf) => {
@@ -142,13 +141,7 @@ function initializeProducts() {
             productItem.appendChild(soldOutOverlay);
         }
 
-        const removeButton = document.createElement('button');
-        removeButton.className = 'remove-from-cart';
-        removeButton.textContent = '❌';
-        removeButton.style.display = 'none';
-
         productItem.appendChild(img);
-        productItem.appendChild(removeButton);
         productListWrapper.appendChild(productItem);
     }
 
@@ -193,7 +186,6 @@ function updateProductInfo(productId) {
     activeItem.classList.add('active');
 
     const addToCartButton = document.querySelector('.add-to-cart');
-    const removeFromCartButton = activeItem.querySelector('.remove-from-cart');
 
     if (product.inStock > 0) {
         addToCartButton.textContent = 'ADD TO CART';
@@ -201,21 +193,12 @@ function updateProductInfo(productId) {
         addToCartButton.onclick = () => {
             cart.push(productId);
             updateCart();
-            removeFromCartButton.style.display = 'block';
-        };
-        removeFromCartButton.onclick = (event) => {
-            event.stopPropagation();
-            cart = cart.filter(id => id !== productId);
-            updateCart();
-            removeFromCartButton.style.display = 'none';
+            animateAddToCart();
         };
     } else {
         addToCartButton.textContent = 'SOLD OUT';
         addToCartButton.disabled = true;
-        removeFromCartButton.style.display = 'none';
     }
-
-    removeFromCartButton.style.display = cart.includes(productId) ? 'block' : 'none';
 }
 
 function updateGallery(galleryImages) {
@@ -353,15 +336,6 @@ function updateCart() {
         cartContainer.classList.remove('active');
         productListContainer.classList.remove('with-cart');
     }
-
-    // Обновляем видимость кнопок удаления из корзины
-    document.querySelectorAll('.product-item').forEach(item => {
-        const productId = item.dataset.productId;
-        const removeButton = item.querySelector('.remove-from-cart');
-        if (removeButton) {
-            removeButton.style.display = cart.includes(productId) ? 'block' : 'none';
-        }
-    });
 }
 
 // Обработчик для кнопки "Empty cart"
@@ -390,5 +364,77 @@ if (checkoutButton) {
     });
 }
 
-// Запуск анимации
-animate();
+function animateAddToCart() {
+    console.log('animateAddToCart function called');
+
+    const modelContainer = document.getElementById('book-3d-model');
+    const cartIcon = document.querySelector('.cart-container');
+    const activeProduct = document.querySelector('.product-item.active');
+    
+    if (!modelContainer || !cartIcon || !activeProduct) {
+        console.error('Required elements not found');
+        return;
+    }
+
+    const productImage = activeProduct.querySelector('img').src;
+    const startRect = modelContainer.getBoundingClientRect();
+    const endRect = cartIcon.getBoundingClientRect();
+
+    console.log('Rectangles:', { startRect, endRect });
+
+    // Создаем элемент изображения для анимации
+    const animatedImage = document.createElement('img');
+    animatedImage.src = productImage;
+    animatedImage.style.position = 'fixed';
+    animatedImage.style.left = `${startRect.left}px`;
+    animatedImage.style.top = `${startRect.top}px`;
+    animatedImage.style.width = `${startRect.width}px`;
+    animatedImage.style.height = `${startRect.height}px`;
+    animatedImage.style.zIndex = '9999';
+    animatedImage.style.pointerEvents = 'none';
+    document.body.appendChild(animatedImage);
+
+console.log('Animated image created and appended to body');
+
+// Функция для расчета положения на дуге
+function calculatePosition(progress) {
+    const startX = startRect.left;
+    const startY = startRect.top;
+    const endX = endRect.right - 20;
+    const endY = endRect.bottom - 20;
+
+    // Контрольная точка для кривой Безье (вершина дуги)
+    const controlX = (startX + endX) / 2;
+    const controlY = startY - 100; // Регулируйте это значение для изменения высоты дуги
+
+    const x = Math.pow(1 - progress, 2) * startX + 
+              2 * (1 - progress) * progress * controlX + 
+              Math.pow(progress, 2) * endX;
+    const y = Math.pow(1 - progress, 2) * startY + 
+              2 * (1 - progress) * progress * controlY + 
+              Math.pow(progress, 2) * endY;
+
+    return { x, y };
+}
+
+// Функция анимации
+function animate(currentTime) {
+    const duration = 1000; // Продолжительность анимации в мс
+    const progress = Math.min((currentTime - startTime) / duration, 1);
+    const { x, y } = calculatePosition(progress);
+
+    animatedImage.style.left = `${x}px`;
+    animatedImage.style.top = `${y}px`;
+    animatedImage.style.transform = `scale(${1 - progress * 0.9})`;
+    animatedImage.style.opacity = 1 - progress;
+
+    if (progress < 1) {
+        requestAnimationFrame(animate);
+    } else {
+        document.body.removeChild(animatedImage);
+        console.log('Animated image removed');
+    }
+}
+
+const startTime = performance.now();
+requestAnimationFrame(animate);
