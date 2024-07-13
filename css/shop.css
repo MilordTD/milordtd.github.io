@@ -15,14 +15,20 @@ body, html {
     background-position: center;
 }
 
+.header, .artifact-collection {
+    position: fixed;
+    z-index: 10000; /* Чтобы элементы были поверх intro-overlay */
+}
+
 .header {
-    display: flex;
-    justify-content: left;
-    align-items: left;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.artifact-collection {
+    top: 50px;
+    right: 40px;
 }
 
 .logo {
@@ -39,11 +45,6 @@ body, html {
     right: 40px;
 }
 
-.artifact-collection {
-    position: absolute;
-    top: 50px;
-    right: 40px;
-}
 
 .intro-overlay {
     position: fixed;
@@ -62,13 +63,12 @@ body, html {
 }
 
 .intro-content {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    border-radius: 10px;
-    width: 200px;
-    text-align: center;
+    transition: opacity 0.5s ease-out;
+}
+
+.product-detail, .product-list-container {
     opacity: 0;
-    transition: opacity 1s ease-in-out;
+    transition: opacity 0.5s ease-in;
 }
 
 .shrink-background {

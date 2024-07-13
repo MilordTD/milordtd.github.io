@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const introOverlay = document.querySelector('.intro-overlay');
     const introContent = document.querySelector('.intro-content');
     const introButton = document.querySelector('.intro-button');
+    const productDetail = document.querySelector('.product-detail');
+    const productListContainer = document.querySelector('.product-list-container');
 
     // Показываем контент с эффектом fade in
     setTimeout(() => {
@@ -25,15 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 500);
 
     introButton.addEventListener('click', () => {
-        // Скрываем кнопку
-        introButton.classList.add('fade-out');
+        // Скрываем intro-content
+        introContent.style.opacity = '0';
         
-        // Через 500 мс убираем оверлей и показываем основной контент
+        // Ждем завершения анимации скрытия intro-content
         setTimeout(() => {
             introOverlay.style.display = 'none';
-            document.querySelector('.product-detail').style.opacity = '1';
-            document.querySelector('.product-list-container').style.opacity = '1';
-        }, 500);
+            
+            // Показываем product-detail и product-list-container
+            productDetail.style.opacity = '1';
+            productListContainer.style.opacity = '1';
+        }, 500); // Время должно совпадать с длительностью перехода в CSS
     });
 });
 
