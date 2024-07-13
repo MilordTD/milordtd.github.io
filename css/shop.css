@@ -31,17 +31,17 @@ body, html {
     margin-left: 40px;
 }
 
-.artifact-collection {
-    position: absolute;
-    top: 50px;
-    right: 40px;
-}
-
 .menu-icon {
     font-size: 40px;
     color: white;
     cursor: pointer;
     position: absolute;
+    right: 40px;
+}
+
+.artifact-collection {
+    position: absolute;
+    top: 50px;
     right: 40px;
 }
 
@@ -58,6 +58,7 @@ body, html {
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: opacity 2s ease-in-out, background-size 2s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
 .intro-content {
@@ -68,6 +69,10 @@ body, html {
     text-align: center;
     opacity: 0;
     transition: opacity 1s ease-in-out;
+}
+
+.shrink-background {
+    background-size: 100% 100% !important;
 }
 
 .intro-text {
@@ -84,25 +89,16 @@ body, html {
     font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
-    transition: opacity 0.5s ease-in-out;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
 }
 
 .intro-button:hover {
     box-shadow: inset 0 0 0 2px white;
 }
 
-
 .fade-out {
     opacity: 0 !important;
-}
-
-.fade-in {
-    opacity: 1 !important;
-}
-
-.product-detail, .product-list-container {
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
+    transition: opacity 2s ease-in-out;
 }
 
 .main-content {

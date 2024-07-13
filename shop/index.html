@@ -1,52 +1,36 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KA.RHAT - Магазин</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/shop.css">
-    <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.159.0/build/three.module.js",
-        "three/addons/loaders/GLTFLoader.js": "https://unpkg.com/three@0.159.0/examples/jsm/loaders/GLTFLoader.js"
-      }
-    }
-    </script>
+    <title>KA.RHAT Shop</title>
+    <link rel="stylesheet" href="shop.css">
 </head>
 <body>
-    <div class="intro-overlay">
-  <div class="intro-content">
-    <p class="intro-text">Hello! I'm Erin - an artist, tattoo master, and adventurer. I also love pins. Here's my first pin collection "Artifact". You can buy pins separately or together. It's best to store them on a tote bag where you can arrange them right in the "inventory".</p>
-    <button class="intro-button">Explore loot</button>
-  </div>
-</div>
-<div class="container">
-    <div class="header">
-        <div class="logo">KA.RHAT</div>
-    </div>
-    
-    <div class="artifact-collection">
-        <img src="/images/artifact-collection-icon.png" width="100" alt="Artifact collection">
-    </div>
-
-    <div class="intro-overlay">
-        <div class="intro-content">
-            <p class="intro-text">Hello! I'm Erin - an artist, tattoo master, and adventurer. I also love pins. Here's my first pin collection "Artifact". You can buy pins separately or together. It's best to store them on a tote bag where you can arrange them right in the "inventory".</p>
-            <button class="intro-button">Explore loot</button>
+    <div class="container">
+        <div class="header">
+            <div class="logo">KA.RHAT</div>
+            <div class="menu-icon">☰</div>
         </div>
-    </div>
+        
+        <div class="artifact-collection">
+            <img src="/images/artifact-collection-icon.png" width="100" alt="Artifact collection">
+        </div>
 
-    <div class="main-content">
-        <div class="product-detail">
+        <div class="intro-overlay">
+            <div class="intro-content">
+                <p class="intro-text">Hello! I'm Erin - an artist, tattoo master, and adventurer. I also love pins. Here's my first pin collection "Artifact". You can buy pins separately or together. It's best to store them on a tote bag where you can arrange them right in the "inventory".</p>
+                <button class="intro-button">Explore loot</button>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="product-detail">
                 <h2 id="product-name"></h2>
                 <div class="product-image">
                     <div id="book-3d-model"></div>
-                    <div class="product-gallery">
-                        <!-- Gallery items will be added dynamically -->
-                    </div>
-                </div>  
+                    <div class="product-gallery"></div>
+                </div>
                 <div class="product-info">
                     <div class="info-block">
                         <h3>Ingredients</h3>
@@ -65,37 +49,37 @@
                 </div>
             </div>
         </div>
+
         <div class="product-list-container">
-            <div class="slider-arrow left">&#9664;</div>
-            <div class="slider-arrow right">&#9654;</div>
+            <div class="slider-arrow left">◀</div>
+            <div class="slider-arrow right">▶</div>
             <div class="category-filter-wrapper">
                 <div class="category-filter">
-                    <div class="category-filter-container">
-                        <!-- Category buttons will be dynamically added here -->
-                    </div>
+                    <div class="category-filter-container"></div>
                 </div>
                 <div class="category-filter-line"></div>
             </div>
             <div class="product-list">
-                <div class="product-list-wrapper">
-                    <!-- Product items will be dynamically added here -->
-                </div>
+                <div class="product-list-wrapper"></div>
             </div>
         </div>
+
         <div class="cart-container">
             <div class="cart-header">
                 <h3>Cart</h3>
                 <button class="empty-cart-button">Empty cart</button>
             </div>
             <div class="cart-items"></div>
-            <div class="cart-total">Total: $<span class="total-amount">0</span></div>
+            <div class="cart-total">Total: €<span class="total-amount">0</span></div>
             <button class="checkout-button">TO CHECKOUT</button>
         </div>
     </div>
-    <div class="modal" id="imageModal">
+
+    <div id="imageModal" class="modal">
         <span class="close">&times;</span>
         <img class="modal-content" id="modalImage">
     </div>
-    <script type="module" src="/js/shop.js"></script>
+
+    <script type="module" src="shop.js"></script>
 </body>
 </html>
