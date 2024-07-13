@@ -19,23 +19,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const introContent = document.querySelector('.intro-content');
     const introButton = document.querySelector('.intro-button');
 
-    // Показываем контент с эффектом fade in
+    // Show content with fade in effect
     setTimeout(() => {
         introContent.style.opacity = '1';
     }, 500);
 
     introButton.addEventListener('click', () => {
-    // Применяем эффект fade out и уменьшения фона
-    introOverlay.classList.add('fade-out');
-    introOverlay.classList.add('shrink-background');
-    
+        // Apply the shrink effect
+        introOverlay.classList.add('shrink-background');
+        
+        // After the shrink effect, fade out
+        setTimeout(() => {
+            introOverlay.classList.add('fade-out');
+        }, 2000); // Wait for 2 seconds before fading out
 
-    // Удаляем оверлей после завершения анимации
-    setTimeout(() => {
-        introOverlay.remove();
-    }, 2000); // Увеличиваем время до 2000 мс (2 секунды)
+        // Remove the overlay after the animations
+        setTimeout(() => {
+            introOverlay.remove();
+        }, 4000); // Total time: 2s for shrink + 2s for fade out
     });
-
 });
 
 
