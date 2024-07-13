@@ -386,7 +386,7 @@ if (checkoutButton) {
         localStorage.setItem('products', JSON.stringify(products));
         
         // Переход на страницу оформления заказа
-        window.location.href = '/checkout.html';
+        window.location.href = '/checkout/index.html';
     });
 }
 
