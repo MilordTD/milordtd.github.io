@@ -67,6 +67,12 @@ body, html {
 }
 
 .intro-content {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    width: 200px;
+    text-align: center;
+    opacity: 0;
     transition: opacity 0.5s ease-out;
 }
 
