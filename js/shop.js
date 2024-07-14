@@ -260,12 +260,12 @@ function updateCategoryFilter() {
                 }
             });
 
-            currentPosition = 0;
+            currentPosition = 0; // Сбрасываем позицию в начало
             updateSliderPosition();
             
-            setTimeout(updateArrowVisibility, 0);
-        });
-    });
+            requestAnimationFrame(() => {
+                updateArrowVisibility();
+            });
 }
 
 // Реализация горизонтального слайдера
@@ -286,22 +286,21 @@ function updateSliderPosition() {
 }
 
 function updateArrowVisibility() {
-    const productListWidth = productListWrapper.scrollWidth;
+    const visibleItems = Array.from(document.querySelectorAll('.product-item')).filter(item => item.style.display !== 'none');
+    const totalWidth = visibleItems.reduce((sum, item) => sum + item.offsetWidth + 20, 0); // 20px - это отступ между элементами
     const containerWidth = productListContainer.clientWidth;
     
-    if (productListWidth <= containerWidth) {
+    if (totalWidth <= containerWidth) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
     } else {
-        // Проверяем, нужно ли показать левую стрелку
         if (currentPosition < 0) {
             leftArrow.style.display = 'flex';
         } else {
             leftArrow.style.display = 'none';
         }
         
-        // Проверяем, нужно ли показать правую стрелку
-        if (currentPosition > containerWidth - productListWidth) {
+        if (currentPosition > containerWidth - totalWidth - 80) { // 80px - это отступы с обеих сторон
             rightArrow.style.display = 'flex';
         } else {
             rightArrow.style.display = 'none';

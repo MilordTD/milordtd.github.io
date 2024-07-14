@@ -276,24 +276,22 @@ body, html {
 
 .category-filter button.active {
     background: linear-gradient(to bottom, rgba(188, 126, 53, 1), rgba(0, 0, 0, 0.6));
+    box-shadow: inset 0 2px 0 0 white, inset 2px 0 0 0 white, inset -2px 0 0 0 white;
+    margin-bottom: -2px;
     position: relative;
     z-index: 2;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 }
 
 .category-filter button.active::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: -2px;
-    background: linear-gradient(to bottom, rgba(188, 126, 53, 1), rgba(0, 0, 0, 0.6));
-    z-index: -1;
+    content: none; /* Удаляем псевдоэлемент */
 }
 
 .category-filter-line {
-    position: relative;
+       position: relative;
     z-index: 1;
+    margin-top: -2px; /* Компенсируем отступ активной кнопки */
 }
 
 .product-list {
