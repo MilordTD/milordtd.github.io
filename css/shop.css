@@ -318,9 +318,9 @@ body, html {
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     z-index: 1;
-    scrollbar-width: none;
+ /*   scrollbar-width: none;
         flex-grow: 1;
-    overflow: hidden;
+    overflow: hidden; */
 }
 
 .product-list::-webkit-scrollbar {
