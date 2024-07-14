@@ -83,9 +83,9 @@ function loadModel(modelUrl) {
         // Настройка камеры и освещения
         camera.position.z = 5;
         camera.position.y = 0.5;
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
         scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.05);
         directionalLight.position.set(5, 5, 5);
         scene.add(directionalLight);
     }, undefined, (error) => {
@@ -272,6 +272,16 @@ function updateCategoryFilter() {
 let currentPosition = 0;
 
 function updateSliderPosition() {
+    const containerWidth = productListContainer.clientWidth;
+    const wrapperWidth = productListWrapper.scrollWidth;
+    const maxPosition = containerWidth - wrapperWidth - 40; // Учитываем отступы
+
+    if (currentPosition < maxPosition) {
+        currentPosition = maxPosition;
+    } else if (currentPosition > 0) {
+        currentPosition = 0;
+    }
+
     productListWrapper.style.transform = `translateX(${currentPosition}px)`;
 }
 
