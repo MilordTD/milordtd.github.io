@@ -441,4 +441,3 @@ requestAnimationFrame(animate);
 }
 // Запуск анимации
 animate();
-</antArtifact>
