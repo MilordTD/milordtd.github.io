@@ -263,9 +263,11 @@ function updateCategoryFilter() {
             currentPosition = 0; // Сбрасываем позицию в начало
             updateSliderPosition();
             
-            requestAnimationFrame(() => {
+                 requestAnimationFrame(() => {
                 updateArrowVisibility();
             });
+        });
+    });
 }
 
 // Реализация горизонтального слайдера
