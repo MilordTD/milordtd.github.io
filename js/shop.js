@@ -55,7 +55,7 @@ function onDocumentMouseMove(event) {
 function animate() {
     requestAnimationFrame(animate);
     if (currentModel) {
-        currentModel.rotation.y = mouseX * 0.01;
+        currentModel.rotation.y += 0.005;
         currentModel.rotation.x = mouseY * 0.01;
     }
     renderer.render(scene, camera);
@@ -100,8 +100,8 @@ const cartItems = document.querySelector('.cart-items');
 const cartTotal = document.querySelector('.total-amount');
 const productListContainer = document.querySelector('.product-list-container');
 const productListWrapper = document.querySelector('.product-list-wrapper');
-const leftArrow = document.querySelector('.slider-arrow.left');
-const rightArrow = document.querySelector('.slider-arrow.right');
+const leftArrow = document.querySelector('.arrow-container.left');
+const rightArrow = document.querySelector('.arrow-container.right');
 
 // Загрузка данных о товарах из JSON файла
 fetch('/products.json')
@@ -280,21 +280,21 @@ function updateArrowVisibility() {
     const containerWidth = productListContainer.clientWidth - 80; // Subtract width of both arrows
     
     if (productListWidth <= containerWidth) {
-        document.querySelector('.arrow-container.left').style.display = 'none';
-        document.querySelector('.arrow-container.right').style.display = 'none';
+        leftArrow.style.display = 'none';
+        rightArrow.style.display = 'none';
     } else {
-        // Check if we need to show the left arrow
+        // Проверяем, нужно ли показать левую стрелку
         if (currentPosition < 0) {
-            document.querySelector('.arrow-container.left').style.display = 'flex';
+            leftArrow.style.display = 'flex';
         } else {
-            document.querySelector('.arrow-container.left').style.display = 'none';
+            leftArrow.style.display = 'none';
         }
         
-        // Check if we need to show the right arrow
+        // Проверяем, нужно ли показать правую стрелку
         if (currentPosition > containerWidth - productListWidth) {
-            document.querySelector('.arrow-container.right').style.display = 'flex';
+            rightArrow.style.display = 'flex';
         } else {
-            document.querySelector('.arrow-container.right').style.display = 'none';
+            rightArrow.style.display = 'none';
         }
     }
 }
@@ -304,14 +304,14 @@ function initializeSlider() {
     
     window.addEventListener('resize', updateArrowVisibility);
     
-    document.querySelector('.arrow-container.left').addEventListener('click', () => {
+    leftArrow.addEventListener('click', () => {
         currentPosition += 120;
         if (currentPosition > 0) currentPosition = 0;
         updateSliderPosition();
         updateArrowVisibility();
     });
 
-    document.querySelector('.arrow-container.right').addEventListener('click', () => {
+    rightArrow.addEventListener('click', () => {
         const maxPosition = -(productListWrapper.scrollWidth - (productListContainer.clientWidth - 80));
         currentPosition -= 120;
         if (currentPosition < maxPosition) currentPosition = maxPosition;
@@ -365,8 +365,6 @@ if (checkoutButton) {
 }
 
 function animateAddToCart() {
-    console.log('animateAddToCart function called');
-
     const modelContainer = document.getElementById('book-3d-model');
     const cartIcon = document.querySelector('.cart-container');
     const activeProduct = document.querySelector('.product-item.active');
@@ -380,8 +378,6 @@ function animateAddToCart() {
     const startRect = modelContainer.getBoundingClientRect();
     const endRect = cartIcon.getBoundingClientRect();
 
-    console.log('Rectangles:', { startRect, endRect });
-
     // Создаем элемент изображения для анимации
     const animatedImage = document.createElement('img');
     animatedImage.src = productImage;
@@ -394,50 +390,49 @@ function animateAddToCart() {
     animatedImage.style.pointerEvents = 'none';
     document.body.appendChild(animatedImage);
 
-console.log('Animated image created and appended to body');
+    // Функция для расчета положения на дуге
+    function calculatePosition(progress) {
+        const startX = startRect.left;
+        const startY = startRect.top;
+        const endX = endRect.right - 20;
+        const endY = endRect.bottom - 20;
 
-// Функция для расчета положения на дуге
-function calculatePosition(progress) {
-    const startX = startRect.left;
-    const startY = startRect.top;
-    const endX = endRect.right - 20;
-    const endY = endRect.bottom - 20;
+        // Контрольная точка для кривой Безье (вершина дуги)
+        const controlX = (startX + endX) / 2;
+        const controlY = startY - 100; // Регулируйте это значение для изменения высоты дуги
 
-    // Контрольная точка для кривой Безье (вершина дуги)
-    const controlX = (startX + endX) / 2;
-    const controlY = startY - 100; // Регулируйте это значение для изменения высоты дуги
+        const x = Math.pow(1 - progress, 2) * startX + 
+                  2 * (1 - progress) * progress * controlX + 
+                  Math.pow(progress, 2) * endX;
+        const y = Math.pow(1 - progress, 2) * startY + 
+                  2 * (1 - progress) * progress * controlY + 
+                  Math.pow(progress, 2) * endY;
 
-    const x = Math.pow(1 - progress, 2) * startX + 
-              2 * (1 - progress) * progress * controlX + 
-              Math.pow(progress, 2) * endX;
-    const y = Math.pow(1 - progress, 2) * startY + 
-              2 * (1 - progress) * progress * controlY + 
-              Math.pow(progress, 2) * endY;
-
-    return { x, y };
-}
-
-// Функция анимации
-function animate(currentTime) {
-    const duration = 1000; // Продолжительность анимации в мс
-    const progress = Math.min((currentTime - startTime) / duration, 1);
-    const { x, y } = calculatePosition(progress);
-
-    animatedImage.style.left = `${x}px`;
-    animatedImage.style.top = `${y}px`;
-    animatedImage.style.transform = `scale(${1 - progress * 0.9})`;
-    animatedImage.style.opacity = 1 - progress;
-
-    if (progress < 1) {
-        requestAnimationFrame(animate);
-    } else {
-        document.body.removeChild(animatedImage);
-        console.log('Animated image removed');
+        return { x, y };
     }
+
+    // Функция анимации
+    function animate(currentTime) {
+        const duration = 1000; // Продолжительность анимации в мс
+        const progress = Math.min((currentTime - startTime) / duration, 1);
+        const { x, y } = calculatePosition(progress);
+
+        animatedImage.style.left = `${x}px`;
+        animatedImage.style.top = `${y}px`;
+        animatedImage.style.transform = `scale(${1 - progress * 0.9})`;
+        animatedImage.style.opacity = 1 - progress;
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            document.body.removeChild(animatedImage);
+        }
+    }
+
+    const startTime = performance.now();
+    requestAnimationFrame(animate);
 }
 
-const startTime = performance.now();
-requestAnimationFrame(animate);
-}
 // Запуск анимации
 animate();
+        

@@ -3,39 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KA.RHAT Shop</title>
+    <title>Tanya's Art Shop</title>
     <link rel="stylesheet" href="/css/shop.css">
-    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
-
-<script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.152.2/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.152.2/examples/jsm/"
-    }
-  }
-</script>
 </head>
 <body>
     <div class="container">
-        <div class="header">
+        <header class="header">
             <div class="logo">KA.RHAT</div>
             <div class="menu-icon">☰</div>
-        </div>
-        
+        </header>
+
         <div class="artifact-collection">
-            <img src="/images/artifact-collection-icon.png" width="100" alt="Artifact collection">
+            <img src="/images/artifact-collection-icon.png" alt="Artifact collection" width="100">
         </div>
 
         <div class="intro-overlay">
             <div class="intro-content">
-                <p class="intro-text">Hello! I'm Erin - an artist, tattoo master, and adventurer. I also love pins. Here's my first pin collection "Artifact". You can buy pins separately or together. It's best to store them on a tote bag where you can arrange them right in the "inventory".</p>
+                <p>Hello! I'm Erin - an artist, tattoo master, and adventurer. I also love pins. Here's my first pin collection "Artifact". You can buy pins separately or together. It's best to store them on a tote bag where you can arrange them right in the "inventory".</p>
                 <button class="intro-button">Explore loot</button>
             </div>
         </div>
 
-        <div class="main-content">
-            <div class="product-detail">
+        <main class="main-content">
+            <section class="product-detail">
                 <h2 id="product-name"></h2>
                 <div class="product-image">
                     <div id="book-3d-model"></div>
@@ -57,26 +47,31 @@
                     </div>
                     <button class="add-to-cart">ADD TO CART</button>
                 </div>
-            </div>
-        </div>
+            </section>
 
-        <div class="product-list-container">
-            <div class="arrow-container left">
-        <div class="slider-arrow left">◀</div>
-    </div>
-            <div class="category-filter-wrapper">
-                <div class="category-filter">
-                    <div class="category-filter-container"></div>
+            <div class="product-list-container">
+                <div class="arrow-container left">
+                    <div class="slider-arrow left">◀</div>
                 </div>
-                <div class="category-filter-line"></div>
+                
+                <div class="category-filter-wrapper">
+                    <div class="category-filter">
+                        <div class="category-filter-container"></div>
+                    </div>
+                    <div class="category-filter-line"></div>
+                </div>
+                
+                <div class="product-list">
+                    <div class="product-list-wrapper">
+                        <!-- Product items will be dynamically inserted here -->
+                    </div>
+                </div>
+                
+                <div class="arrow-container right">
+                    <div class="slider-arrow right">▶</div>
+                </div>
             </div>
-            <div class="product-list">
-                <div class="product-list-wrapper"></div>
-            </div>
-             <div class="arrow-container right">
-        <div class="slider-arrow right">▶</div>
-    </div>
-        </div>
+        </main>
 
         <div class="cart-container">
             <div class="cart-header">
@@ -84,13 +79,13 @@
                 <button class="empty-cart-button">Empty cart</button>
             </div>
             <div class="cart-items"></div>
-            <div class="cart-total">SUBTOTAL: €<span class="total-amount">0</span></div>
+            <div class="cart-total">Total: €<span class="total-amount">0</span></div>
             <button class="checkout-button">TO CHECKOUT</button>
         </div>
     </div>
 
     <div id="imageModal" class="modal">
-        <span class="close">&times;</span>
+        <span class="close">×</span>
         <img class="modal-content" id="modalImage">
     </div>
 
