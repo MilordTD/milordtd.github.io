@@ -83,10 +83,10 @@ function loadModel(modelUrl) {
         // Настройка камеры и освещения
         camera.position.z = 5;
         camera.position.y = 0.5;
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
         scene.add(ambientLight);
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0.05);
-        directionalLight.position.set(5, 5, 5);
+        directionalLight.position.set(6, 6, 6);
         scene.add(directionalLight);
     }, undefined, (error) => {
         console.error('An error happened', error);
@@ -274,7 +274,7 @@ let currentPosition = 0;
 function updateSliderPosition() {
     const containerWidth = productListContainer.clientWidth;
     const wrapperWidth = productListWrapper.scrollWidth;
-    const maxPosition = containerWidth - wrapperWidth - 40; // Учитываем отступы
+    const maxPosition = containerWidth - wrapperWidth - 80; // Учитываем отступы с обеих сторон
 
     if (currentPosition < maxPosition) {
         currentPosition = maxPosition;
