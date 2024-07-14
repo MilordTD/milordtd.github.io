@@ -227,9 +227,29 @@ body, html {
     left: 40px;
     right: 40px;
     display: flex;
-    flex-direction: column;
+    align-items: flex-end;
     transition: margin-right 0.3s ease;
     overflow: hidden;
+}
+
+.arrow-container {
+    width: 40px;
+    height: 100%;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.arrow-container.left {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+
+.arrow-container.right {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
 }
 
 .category-filter-wrapper {
@@ -298,15 +318,15 @@ body, html {
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     z-index: 1;
+    scrollbar-width: none;
+        flex-grow: 1;
+    overflow: hidden;
 }
 
 .product-list::-webkit-scrollbar {
     display: none;
 }
 
-.product-list {
-    scrollbar-width: none;
-}
 
 .product-list-wrapper {
     display: flex;
@@ -357,16 +377,9 @@ body, html {
 }
 
 .slider-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
     color: white;
     font-size: 24px;
-    padding: 10px;
     cursor: pointer;
-    z-index: 10;
-    display: none;
 }
 
 .slider-arrow.left {

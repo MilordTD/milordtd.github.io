@@ -277,24 +277,24 @@ function updateSliderPosition() {
 
 function updateArrowVisibility() {
     const productListWidth = productListWrapper.scrollWidth;
-    const containerWidth = productListContainer.clientWidth;
+    const containerWidth = productListContainer.clientWidth - 80; // Subtract width of both arrows
     
     if (productListWidth <= containerWidth) {
-        leftArrow.style.display = 'none';
-        rightArrow.style.display = 'none';
+        document.querySelector('.arrow-container.left').style.display = 'none';
+        document.querySelector('.arrow-container.right').style.display = 'none';
     } else {
-        // Проверяем, нужно ли показать левую стрелку
+        // Check if we need to show the left arrow
         if (currentPosition < 0) {
-            leftArrow.style.display = 'flex';
+            document.querySelector('.arrow-container.left').style.display = 'flex';
         } else {
-            leftArrow.style.display = 'none';
+            document.querySelector('.arrow-container.left').style.display = 'none';
         }
         
-        // Проверяем, нужно ли показать правую стрелку
+        // Check if we need to show the right arrow
         if (currentPosition > containerWidth - productListWidth) {
-            rightArrow.style.display = 'flex';
+            document.querySelector('.arrow-container.right').style.display = 'flex';
         } else {
-            rightArrow.style.display = 'none';
+            document.querySelector('.arrow-container.right').style.display = 'none';
         }
     }
 }
@@ -304,15 +304,15 @@ function initializeSlider() {
     
     window.addEventListener('resize', updateArrowVisibility);
     
-    leftArrow.addEventListener('click', () => {
+    document.querySelector('.arrow-container.left').addEventListener('click', () => {
         currentPosition += 120;
         if (currentPosition > 0) currentPosition = 0;
         updateSliderPosition();
         updateArrowVisibility();
     });
 
-    rightArrow.addEventListener('click', () => {
-        const maxPosition = -(productListWrapper.scrollWidth - productListContainer.clientWidth);
+    document.querySelector('.arrow-container.right').addEventListener('click', () => {
+        const maxPosition = -(productListWrapper.scrollWidth - (productListContainer.clientWidth - 80));
         currentPosition -= 120;
         if (currentPosition < maxPosition) currentPosition = maxPosition;
         updateSliderPosition();
