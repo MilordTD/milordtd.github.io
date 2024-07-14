@@ -438,3 +438,6 @@ function animate(currentTime) {
 
 const startTime = performance.now();
 requestAnimationFrame(animate);
+}
+// Запуск анимации
+animate();
