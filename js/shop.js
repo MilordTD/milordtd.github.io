@@ -83,10 +83,10 @@ function loadModel(modelUrl) {
         // Настройка камеры и освещения
         camera.position.z = 5;
         camera.position.y = 0.5;
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
         scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.05);
-        directionalLight.position.set(6, 6, 6);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
+        directionalLight.position.set(5, 5, 5);
         scene.add(directionalLight);
     }, undefined, (error) => {
         console.error('An error happened', error);
@@ -260,12 +260,10 @@ function updateCategoryFilter() {
                 }
             });
 
-            currentPosition = 0; // Сбрасываем позицию в начало
+            currentPosition = 0;
             updateSliderPosition();
             
-                 requestAnimationFrame(() => {
-                updateArrowVisibility();
-            });
+            setTimeout(updateArrowVisibility, 0);
         });
     });
 }
@@ -274,35 +272,26 @@ function updateCategoryFilter() {
 let currentPosition = 0;
 
 function updateSliderPosition() {
-    const containerWidth = productListContainer.clientWidth;
-    const wrapperWidth = productListWrapper.scrollWidth;
-    const maxPosition = containerWidth - wrapperWidth - 80; // Учитываем отступы с обеих сторон
-
-    if (currentPosition < maxPosition) {
-        currentPosition = maxPosition;
-    } else if (currentPosition > 0) {
-        currentPosition = 0;
-    }
-
     productListWrapper.style.transform = `translateX(${currentPosition}px)`;
 }
 
 function updateArrowVisibility() {
-    const visibleItems = Array.from(document.querySelectorAll('.product-item')).filter(item => item.style.display !== 'none');
-    const totalWidth = visibleItems.reduce((sum, item) => sum + item.offsetWidth + 20, 0); // 20px - это отступ между элементами
+    const productListWidth = productListWrapper.scrollWidth;
     const containerWidth = productListContainer.clientWidth;
     
-    if (totalWidth <= containerWidth) {
+    if (productListWidth <= containerWidth) {
         leftArrow.style.display = 'none';
         rightArrow.style.display = 'none';
     } else {
+        // Проверяем, нужно ли показать левую стрелку
         if (currentPosition < 0) {
             leftArrow.style.display = 'flex';
         } else {
             leftArrow.style.display = 'none';
         }
         
-        if (currentPosition > containerWidth - totalWidth - 80) { // 80px - это отступы с обеих сторон
+        // Проверяем, нужно ли показать правую стрелку
+        if (currentPosition > containerWidth - productListWidth) {
             rightArrow.style.display = 'flex';
         } else {
             rightArrow.style.display = 'none';
@@ -452,3 +441,4 @@ requestAnimationFrame(animate);
 }
 // Запуск анимации
 animate();
+</antArtifact>
