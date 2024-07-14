@@ -16,7 +16,7 @@ body, html {
 }
 
 .header, .artifact-collection {
-    z-index: 10000;
+    z-index: 10000; /* Чтобы элементы были поверх intro-overlay */
 }
 
 .header {
@@ -48,6 +48,7 @@ body, html {
     position: absolute;
     right: 40px;
 }
+
 
 .intro-overlay {
     position: fixed;
@@ -197,6 +198,7 @@ body, html {
     font-size: 14px;
     margin-bottom: 5px;
     margin-top: 0px;
+
 }
 
 .info-block p {
@@ -225,40 +227,15 @@ body, html {
     left: 40px;
     right: 40px;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
     transition: margin-right 0.3s ease;
-}
-
-.arrow-container {
-    width: 40px;
-    height: 145px;
-    background-color: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
-}
-
-.arrow-container.left {
-    border-top-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-}
-
-.arrow-container.right {
-    border-top-right-radius: 8px;
-    border-bottom-right-radius: 8px;
-}
-
-.slider-arrow {
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
+    overflow: hidden;
 }
 
 .category-filter-wrapper {
     display: flex;
     align-items: flex-end;
-    flex-grow: 1;
+    width: 100%;
 }
 
 .category-filter-line {
@@ -306,11 +283,10 @@ body, html {
 }
 
 .product-list {
-    flex-grow: 1;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    overflow: hidden;
+    overflow-x: auto;
     padding: 20px;
     position: relative;
     border-radius: 0 0 8px 8px;
@@ -322,6 +298,14 @@ body, html {
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     z-index: 1;
+}
+
+.product-list::-webkit-scrollbar {
+    display: none;
+}
+
+.product-list {
+    scrollbar-width: none;
 }
 
 .product-list-wrapper {
@@ -370,6 +354,27 @@ body, html {
     align-items: center;
     font-weight: bold;
     border-radius: 10px;
+}
+
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    display: none;
+}
+
+.slider-arrow.left {
+    left: 10px;
+}
+
+.slider-arrow.right {
+    right: 10px;
 }
 
 .cart-container {
@@ -499,6 +504,7 @@ body, html {
     text-decoration: none;
     cursor: pointer;
 }
+
 
 @supports not (backdrop-filter: blur(10px)) {
     .product-list-container {
