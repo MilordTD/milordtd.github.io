@@ -23,18 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const paymentStatus = urlParams.get('payment_status');
 
-   // Updated shop.js with payment status modal functionality
-
-document.addEventListener('DOMContentLoaded', () => {
-    const introOverlay = document.querySelector('.intro-overlay');
-    const introContent = document.querySelector('.intro-content');
-    const introButton = document.querySelector('.intro-button');
-    const productDetail = document.querySelector('.product-detail');
-    const productListContainer = document.querySelector('.product-list-container');
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const paymentStatus = urlParams.get('payment_status');
-
     if (paymentStatus) {
         // Если есть статус оплаты, сразу скрываем интро-оверлей
         introOverlay.style.display = 'none';
