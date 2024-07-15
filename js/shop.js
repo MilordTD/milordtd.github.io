@@ -73,41 +73,6 @@ document.querySelectorAll('.gallery-item').forEach(img => {
     });
 });
 
-function closeModal(modalId) {
-    console.log('Closing modal:', modalId);
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.classList.remove('show');
-        document.body.style.overflow = 'auto';
-        console.log('Modal closed successfully:', modalId);
-    } else {
-        console.error('Modal not found for closing:', modalId);
-    }
-}
-
-// Обновленный обработчик для закрытия модальных окон
-document.addEventListener('click', (event) => {
-    if (event.target.classList.contains('modal') && event.target.classList.contains('show')) {
-        closeModal(event.target.id);
-    }
-});
-
-// Добавьте обработчики для кнопок закрытия внутри модальных окон
-document.querySelectorAll('.modal .close').forEach(closeButton => {
-    closeButton.addEventListener('click', () => {
-        const modalId = closeButton.closest('.modal').id;
-        console.log('Close button clicked for modal:', modalId);
-        closeModal(modalId);
-    });
-});
-
-// Добавьте этот код для отладки открытия изображений
-document.querySelectorAll('.gallery-item').forEach(img => {
-    img.addEventListener('click', () => {
-        console.log('Gallery image clicked:', img.src);
-        openModal(img.src);
-    });
-});
 
 function checkPaymentStatus() {
     console.log('checkPaymentStatus function called');
