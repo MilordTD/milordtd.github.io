@@ -475,6 +475,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const productListContainer = document.querySelector('.product-list-container');
     const erinImage = document.querySelector('.erin-image');
 
+     // Показываем контент с эффектом fade in
+    setTimeout(() => {
+        introContent.style.opacity = '1';
+    }, 500);
+
+    introButton.addEventListener('click', () => {
+        console.log('Explore loot button clicked');
+        // Скрываем intro-content
+        introContent.style.opacity = '0';
+        
+        // Перемещаем и увеличиваем изображение Эрин
+        erinImage.classList.add('moved');
+        
+        // Ждем завершения анимации скрытия intro-content
+        setTimeout(() => {
+            console.log('Hiding intro overlay');
+            introOverlay.style.display = 'none';
+            
+            // Показываем product-detail и product-list-container
+            productDetail.style.opacity = '1';
+            productListContainer.style.opacity = '1';
+        }, 500); // Время должно совпадать с длительностью перехода в CSS
+    });
+
     const urlParams = new URLSearchParams(window.location.search);
     const paymentStatus = urlParams.get('payment_status');
     console.log('Payment status:', paymentStatus);
