@@ -219,17 +219,21 @@ document.querySelectorAll('input[name="shipping"]').forEach(input => {
     // Map modal functionality
     const mapModal = document.getElementById('map-modal');
     const showMapBtn = document.getElementById('show-map');
-    const closeBtn = document.getElementsByClassName('close')[0];
+    const closeBtn = document.querySelector('.modal .close');
     const googleMap = document.getElementById('google-map');
 
-    showMapBtn.onclick = function() {
-        mapModal.style.display = 'block';
-        // Replace coordinates with actual cafe location
-        googleMap.src = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12345.67890!2d-8.6108!3d41.1496!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDA4JzU4LjYiTiA4wrAzNic0My4wIlc!5e0!3m2!1sen!2spt!4v1234567890123!5m2!1sen!2spt';
+    if (showMapBtn) {
+        showMapBtn.onclick = function() {
+            mapModal.style.display = 'block';
+            // Replace coordinates with actual cafe location
+            googleMap.src = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12345.67890!2d-8.6108!3d41.1496!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDA4JzU4LjYiTiA4wrAzNic0My4wIlc!5e0!3m2!1sen!2spt!4v1234567890123!5m2!1sen!2spt';
+        }
     }
 
-    closeBtn.onclick = function() {
-        mapModal.style.display = 'none';
+    if (closeBtn) {
+        closeBtn.onclick = function() {
+            mapModal.style.display = 'none';
+        }
     }
 
     window.onclick = function(event) {
