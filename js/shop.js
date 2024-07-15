@@ -34,6 +34,18 @@ function openModal(modalIdOrImgSrc) {
             modalImg.src = modalIdOrImgSrc;
             document.body.style.overflow = 'hidden';
             console.log('Image modal opened successfully:', modalIdOrImgSrc);
+            
+            // Добавим проверку видимости
+            setTimeout(() => {
+                if (window.getComputedStyle(imageModal).visibility === 'visible') {
+                    console.log('Modal is visible');
+                } else {
+                    console.log('Modal is not visible');
+                    console.log('Modal display:', window.getComputedStyle(imageModal).display);
+                    console.log('Modal visibility:', window.getComputedStyle(imageModal).visibility);
+                    console.log('Modal opacity:', window.getComputedStyle(imageModal).opacity);
+                }
+            }, 100);
         } else {
             console.error('Image modal or image element not found');
         }

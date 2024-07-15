@@ -498,8 +498,8 @@ body, html {
 }
 
 .modal.show {
-    visibility: visible;
-    opacity: 1;
+    visibility: visible !important;
+    opacity: 1 !important;
     transition-delay: 0s;
     pointer-events: auto;
 }
@@ -518,6 +518,9 @@ body, html {
 #imageModal .modal-content {
     background-color: transparent;
     padding: 0;
+    max-width: 90%;
+    max-height: 90vh;
+    object-fit: contain;
 }
 
 #imageModal img {
