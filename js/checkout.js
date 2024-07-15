@@ -123,8 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
         stripeCheckoutBtn.disabled = false;
     }
 
-    // Handle Stripe checkout
-        stripeCheckoutBtn.addEventListener('click', async function(e) {
+    stripeCheckoutBtn.addEventListener('click', async function(e) {
         e.preventDefault();
         showLoader();
 
@@ -138,21 +137,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const shippingMethod = document.querySelector('input[name="shipping"]:checked').value;
 
-        // Преобразуем корзину в формат, ожидаемый сервером
-        const cartForStripe = cart.map(item => ({
-            id: item.id,
-            quantity: item.quantity
-        }));
+        console.log('Sending request to create-checkout-session...');
+        console.log('Cart data:', cart);
+        console.log('Customer data:', customerData);
+        console.log('Shipping method:', shippingMethod);
 
         try {
-            console.log('Sending request to create-checkout-session...');
             const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    cart: cartForStripe,
+                    cart: cart,
                     customerData: customerData,
                     shippingMethod: shippingMethod
                 }),
