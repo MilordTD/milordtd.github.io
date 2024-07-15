@@ -487,6 +487,45 @@ body, html {
     object-fit: contain;
 }
 
+.payment-status-modal .modal-content {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  text-align: center;
+  padding: 40px;
+  border-radius: 10px;
+  max-width: 400px;
+}
+
+.modal-icon {
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.modal-icon.success {
+  color: #4CAF50;
+}
+
+.modal-icon.failure {
+  color: #f44336;
+}
+
+.payment-status-modal h2 {
+  margin-bottom: 15px;
+}
+
+.payment-status-modal p {
+  margin-bottom: 0;
+}
+
+.payment-status-modal .close {
+  color: white;
+  opacity: 0.8;
+}
+
+.payment-status-modal .close:hover {
+  opacity: 1;
+}
+
 .close {
     position: absolute;
     top: 15px;

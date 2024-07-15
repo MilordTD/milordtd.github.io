@@ -89,5 +89,22 @@
         <img class="modal-content" id="modalImage">
     </div>
     <script type="module" src="/js/shop.js"></script>
+    <div id="successModal" class="modal payment-status-modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="modal-icon success">&#10004;</div>
+    <h2>Payment Successful!</h2>
+    <p>Thank you for your purchase. Your order has been processed successfully.</p>
+  </div>
+</div>
+
+<div id="failureModal" class="modal payment-status-modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <div class="modal-icon failure">&#10008;</div>
+    <h2>Payment Failed</h2>
+    <p>We're sorry, but there was an error processing your payment. Please try again or contact support.</p>
+  </div>
+</div>
 </body>
 </html>

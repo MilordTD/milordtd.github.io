@@ -436,6 +436,53 @@ function animate(currentTime) {
     }
 }
 
+// Функция для открытия модального окна
+function openModal(modalId) {
+  const modal = document.getElementById(modalId);
+  modal.style.display = 'block';
+}
+
+// Функция для закрытия модального окна
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  modal.style.display = 'none';
+}
+
+// Обработчик закрытия для кнопок закрытия модальных окон
+document.querySelectorAll('.payment-status-modal .close').forEach(closeBtn => {
+  closeBtn.addEventListener('click', () => {
+    closeModal(closeBtn.closest('.modal').id);
+  });
+});
+
+// Закрытие модального окна при клике вне его содержимого
+window.addEventListener('click', (event) => {
+  if (event.target.classList.contains('payment-status-modal')) {
+    closeModal(event.target.id);
+  }
+});
+
+// Функция для проверки статуса платежа при загрузке страницы
+function checkPaymentStatus() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const status = urlParams.get('payment_status');
+
+  if (status === 'success') {
+    openModal('successModal');
+    // Очистка корзины после успешной оплаты
+    cart = [];
+    updateCart();
+  } else if (status === 'failure') {
+    openModal('failureModal');
+  }
+
+  // Удаление параметра статуса из URL
+  window.history.replaceState({}, document.title, window.location.pathname);
+}
+
+// Вызов функции проверки статуса при загрузке страницы
+document.addEventListener('DOMContentLoaded', checkPaymentStatus);
+
 const startTime = performance.now();
 requestAnimationFrame(animate);
 }
