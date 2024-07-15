@@ -65,6 +65,19 @@ body, html {
     transition: opacity 2s ease-in-out, background-size 2s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
+.intro-overlay.active {
+    pointer-events: auto;
+}
+
+.intro-overlay:not(.active) {
+    pointer-events: none;
+}
+
+body.overlay-active .container > *:not(.intro-overlay) {
+    pointer-events: none;
+}
+
+
 .intro-content {
     background-color: rgba(0, 0, 0, 0.7);
     padding: 20px;
@@ -74,8 +87,21 @@ body, html {
     opacity: 0;
     transition: opacity 0.5s ease-out;
     color: white;
-    z-index: 10000;
+    z-index: 2;
     position: relative;
+}
+
+.intro-button {
+    background-color: rgba(155, 183, 100, 1);
+    color: white;
+    border: 2px solid rgba(155, 183, 100, 1);
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    position: relative;
+    z-index: 10001;
 }
 
 .erin-image {
@@ -93,19 +119,6 @@ body, html {
     top: 50px;
     right: 200px;
     width: 400px;
-}
-
-.intro-button {
-    background-color: rgba(155, 183, 100, 1);
-    color: white;
-    border: 2px solid rgba(155, 183, 100, 1);
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: box-shadow 0.3s ease, background-color 0.3s ease;
-    position: relative;
-    z-index: 10001;
 }
 
 .intro-button:hover {

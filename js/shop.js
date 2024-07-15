@@ -514,13 +514,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const productListContainer = document.querySelector('.product-list-container');
     const erinImage = document.querySelector('.erin-image');
 
-      // Показываем контент с эффектом fade in
+    // Добавляем класс active к оверлею и body при загрузке страницы
+    introOverlay.classList.add('active');
+    document.body.classList.add('overlay-active');
+
+    // Показываем контент с эффектом fade in
     setTimeout(() => {
         introContent.style.opacity = '1';
     }, 500);
 
-    introButton.addEventListener('click', () => {
+    introButton.addEventListener('click', (event) => {
         console.log('Explore loot button clicked');
+        event.preventDefault();
+        event.stopPropagation();
+        
         // Скрываем intro-content
         introContent.style.opacity = '0';
         
@@ -529,13 +536,14 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Ждем завершения анимации скрытия intro-content
         setTimeout(() => {
-            console.log('Hiding intro overlay');
+            introOverlay.classList.remove('active');
+            document.body.classList.remove('overlay-active');
             introOverlay.style.display = 'none';
             
             // Показываем product-detail и product-list-container
             productDetail.style.opacity = '1';
             productListContainer.style.opacity = '1';
-        }, 1000); // Время должно совпадать с длительностью перехода в CSS
+        }, 500);
     });
 
     const urlParams = new URLSearchParams(window.location.search);
