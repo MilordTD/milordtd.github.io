@@ -70,10 +70,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function showLoader() {
         stripeCheckoutBtn.classList.add('loading');
+        stripeCheckoutBtn.disabled = true;
     }
 
     function hideLoader() {
         stripeCheckoutBtn.classList.remove('loading');
+        stripeCheckoutBtn.disabled = false;
     }
 
     // Handle Stripe checkout

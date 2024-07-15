@@ -216,7 +216,6 @@ input, textarea {
 }
 
 .loader {
-    display: none;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -227,6 +226,9 @@ input, textarea {
     border-radius: 50%;
     border-top: 2px solid transparent;
     animation: spin 1s linear infinite;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
 }
 
 @keyframes spin {
@@ -234,12 +236,18 @@ input, textarea {
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
+.pay-button .button-text {
+    transition: opacity 0.3s, visibility 0.3s;
+}
+
 .pay-button.loading .button-text {
+    opacity: 0;
     visibility: hidden;
 }
 
 .pay-button.loading .loader {
-    display: block;
+    opacity: 1;
+    visibility: visible;
 }
 
 @media (max-width: 768px) {
