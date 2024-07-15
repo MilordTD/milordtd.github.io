@@ -20,8 +20,7 @@ function openModal(modalIdOrImgSrc) {
         // Это ID модального окна
         const modal = document.getElementById(modalIdOrImgSrc.slice(1));
         if (modal) {
-            modal.style.display = 'block';
-            modal.style.zIndex = '10001';
+            modal.style.display = 'flex'; // Изменено с 'block' на 'flex'
             document.body.style.overflow = 'hidden';
             console.log('Modal opened successfully');
         } else {
@@ -29,8 +28,11 @@ function openModal(modalIdOrImgSrc) {
         }
     } else {
         // Это URL изображения
-        modal.style.display = 'block';
+        const imageModal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        imageModal.style.display = 'flex'; // Изменено с 'block' на 'flex'
         modalImg.src = modalIdOrImgSrc;
+        document.body.style.overflow = 'hidden';
     }
 }
 

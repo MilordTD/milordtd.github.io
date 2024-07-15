@@ -483,30 +483,47 @@ body, html {
 .modal {
     display: none;
     position: fixed;
-    z-index: 10005;
+    z-index: 10001;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.9);
+    /* Добавляем flexbox для центрирования */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
-    margin: auto;
-    display: block;
-    width: 80%;
-    max-width: 700px;
-    max-height: 80%;
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 40px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%; /* Для лучшей отзывчивости на мобильных устройствах */
+    /* Убираем margin, так как теперь используем flexbox для центрирования */
+    position: relative; /* Для позиционирования кнопки закрытия */
+}
+
+#imageModal .modal-content {
+    background-color: transparent;
+    padding: 0;
+}
+
+#imageModal img {
+    max-width: 90%;
+    max-height: 90vh;
     object-fit: contain;
 }
 
 .close {
     position: absolute;
-    top: 15px;
-    right: 35px;
+    top: 10px;
+    right: 20px;
     color: #f1f1f1;
-    font-size: 40px;
+    font-size: 30px;
     font-weight: bold;
     transition: 0.3s;
     cursor: pointer;
