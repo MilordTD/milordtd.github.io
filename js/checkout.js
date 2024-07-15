@@ -68,56 +68,66 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize Stripe
     const stripe = Stripe('pk_test_51Pa3ibRscs7gmx3WK8tvLJAXQ2ugBOGM7KMEUyyNgLoQqYeLNxB2qo06ueA8kjWGd1qokCJNcSHgnKWe9JtF4V2M00SbWEiUby'); // Replace with your actual publishable key
 
-    // Handle Stripe checkout
-stripeCheckoutBtn.addEventListener('click', async function(e) {
-    e.preventDefault();
-
-    const formData = new FormData(checkoutForm);
-    const customerData = {
-        email: formData.get('email'),
-        name: formData.get('name'),
-        phone: formData.get('phone'),
-        address: formData.get('address')
-    };
-
-    const shippingMethod = document.querySelector('input[name="shipping"]:checked').value;
-
-    try {
-        console.log('Sending request to create-checkout-session...');
-        const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                cart: cart,
-                customerData: customerData,
-                shippingMethod: shippingMethod
-            }),
-        });
-
-        console.log('Response status:', response.status);
-        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Error response:', errorText);
-            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-        }
-
-        const data = await response.json();
-        console.log('Response data:', data);
-        
-        if (data.url) {
-            window.location.href = data.url;
-        } else {
-            throw new Error("No checkout URL in the response");
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert(`An error occurred: ${error.message}. Please try again later.`);
+    function showLoader() {
+        stripeCheckoutBtn.classList.add('loading');
     }
-});
+
+    function hideLoader() {
+        stripeCheckoutBtn.classList.remove('loading');
+    }
+
+    // Handle Stripe checkout
+    stripeCheckoutBtn.addEventListener('click', async function(e) {
+        e.preventDefault();
+        showLoader();
+
+        const formData = new FormData(checkoutForm);
+        const customerData = {
+            email: formData.get('email'),
+            name: formData.get('name'),
+            phone: formData.get('phone'),
+            address: formData.get('address')
+        };
+
+        const shippingMethod = document.querySelector('input[name="shipping"]:checked').value;
+
+        try {
+            console.log('Sending request to create-checkout-session...');
+            const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    cart: cart,
+                    customerData: customerData,
+                    shippingMethod: shippingMethod
+                }),
+            });
+
+            console.log('Response status:', response.status);
+            console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Error response:', errorText);
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            }
+
+            const data = await response.json();
+            console.log('Response data:', data);
+            
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                throw new Error("No checkout URL in the response");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert(`An error occurred: ${error.message}. Please try again later.`);
+            hideLoader();
+        }
+    });
 
     // Initialize page
     loadCartData();
