@@ -41,6 +41,16 @@ body, html {
     margin-left: 40px;
 }
 
+.logo-link {
+    color: white;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.logo-link:hover {
+    opacity: 0.8;
+}
+
 .menu-icon {
     font-size: 40px;
     color: white;
