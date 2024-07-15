@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout - KA.RHAT Shop</title>
     <link rel="stylesheet" href="/css/checkout.css">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
 </head>
 <body>
     <div class="container">
@@ -38,7 +41,6 @@
                                     <span class="shipping-price">Free</span>
                                 </div>
                             </label>
-                            <button id="show-map" class="show-map-btn">Show cafe location</button>
                             <label>
                                 <input type="radio" name="shipping" value="local">
                                 <span class="shipping-logo">🚚</span>
@@ -59,7 +61,7 @@
                     </div>
                 </div>
 
-                <div class="section payment-details">
+                <div id="payment-details" class="section payment-details">
                     <h2>Payment Details</h2>
                     <p>Complete your purchase by providing your payment details.</p>
                     <form id="checkout-form">
@@ -68,14 +70,18 @@
                             <input type="email" id="email" name="email" required>
                         </div>
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
                             <label for="phone">Phone</label>
                             <input type="tel" id="phone" name="phone" required>
                         </div>
-                        <div id="address-group" class="form-group" style="display: none;">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div id="pickup-address" style="display: none;">
+                            <p>Pickup address: [Insert cafe address here]</p>
+                            <div id="map-container"></div>
+                        </div>
+                        <div id="local-delivery-address" style="display: none;">
                             <div class="form-row">
                                 <div class="form-column">
                                     <label for="country">Country</label>
@@ -86,10 +92,11 @@
                                     <input type="text" id="city" name="city" value="Porto" disabled>
                                 </div>
                             </div>
-                            <label for="address">Address</label>
-                            <textarea id="address" name="address" rows="3" required></textarea>
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <textarea id="address" name="address" rows="3" required></textarea>
+                            </div>
                         </div>
-
                         <div class="order-summary">
                             <div class="summary-row">
                                 <span>Subtotal</span>
@@ -104,21 +111,37 @@
                                 <span id="total-cost">€0.00</span>
                             </div>
                         </div>
-
                         <button id="stripe-checkout-btn" class="pay-button">
                             <span class="button-text">Proceed to Payment</span>
                             <div class="loader"></div>
                         </button>
                     </form>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <div id="map-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <iframe id="google-map" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <div id="other-delivery" class="section other-delivery" style="display: none;">
+                    <h2>International Delivery</h2>
+                    <p class="disclaimer">Delivery is not currently available, but I want to understand if it's needed. If you live outside of Porto, please leave your location and email. When delivery to your region becomes available, I'll email you.</p>
+                    <form id="waiting-list-form">
+                        <div class="form-group">
+                            <label for="waiting-email">Email Address</label>
+                            <input type="email" id="waiting-email" name="waiting-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="waiting-country">Country</label>
+                            <select id="waiting-country" name="waiting-country" required>
+                                <!-- Список стран будет добавлен с помощью JavaScript -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="waiting-city">City</label>
+                            <select id="waiting-city" name="waiting-city" required>
+                                <!-- Список городов будет добавлен с помощью JavaScript -->
+                            </select>
+                        </div>
+                        <button type="submit" class="waiting-list-btn">Join the Waiting List</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 
