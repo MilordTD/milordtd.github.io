@@ -60,10 +60,12 @@ document.querySelectorAll('.modal .close').forEach(closeButton => {
 });
 
 // Закрытие модального окна при клике вне его содержимого
-window.addEventListener('click', (event) => {
-    if (event.target.classList.contains('modal')) {
-        closeModal(event.target.id);
-    }
+document.querySelectorAll('.modal').forEach(modal => {
+    modal.addEventListener('click', (event) => {
+        if (event.target === modal || event.target.classList.contains('modal-content')) {
+            closeModal(modal.id);
+        }
+    });
 });
 
 // Обработчики для открытия модальных окон с изображениями
@@ -71,6 +73,11 @@ document.querySelectorAll('.gallery-item').forEach(img => {
     img.addEventListener('click', () => {
         openModal(img.src);
     });
+});
+
+// Предотвращение закрытия при клике на само изображение
+document.getElementById('modalImage').addEventListener('click', (event) => {
+    event.stopPropagation();
 });
 
 

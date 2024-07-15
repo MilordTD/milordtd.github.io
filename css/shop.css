@@ -490,6 +490,8 @@ body, html {
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.9);
+    cursor: pointer;  /* Добавляем курсор-указатель для всего модального окна */
+
 }
 
 .modal-content {
@@ -528,12 +530,14 @@ body, html {
     justify-content: center;
     align-items: center;
     height: 100%;
+    cursor: default;  /* Изменяем курсор на default для modal-content */
 }
 
 #imageModal img {
     max-width: 100%;
     max-height: 90vh;
     object-fit: contain;
+    cursor: default;  /* Изменяем курсор на default для изображения */
 }
 
 .close {
