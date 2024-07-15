@@ -239,7 +239,7 @@ function updateGallery(galleryImages) {
             img.src = imgSrc;
             img.alt = `Product image ${index + 1}`;
             img.classList.add('gallery-item');
-            img.addEventListener('click', () => openModal(imgSrc)); // Обратите внимание, что здесь мы передаем imgSrc напрямую
+            img.addEventListener('click', () => openModal(imgSrc));
             productGallery.appendChild(img);
         }
     });
@@ -465,9 +465,6 @@ function animateAddToCart() {
     requestAnimationFrame(animate);
 }
 
-// Запуск анимации
-animate();
-
 // Основной код, выполняющийся после загрузки DOM
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM fully loaded');
@@ -476,6 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const introButton = document.querySelector('.intro-button');
     const productDetail = document.querySelector('.product-detail');
     const productListContainer = document.querySelector('.product-list-container');
+    const erinImage = document.querySelector('.erin-image');
 
     const urlParams = new URLSearchParams(window.location.search);
     const paymentStatus = urlParams.get('payment_status');
@@ -496,12 +494,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 500);
 
         introButton.addEventListener('click', () => {
+            // Скрываем intro-content
             introContent.style.opacity = '0';
+            
+            // Перемещаем и увеличиваем изображение Эрин
+            erinImage.classList.add('moved');
+            
+            // Ждем завершения анимации скрытия intro-content
             setTimeout(() => {
-                introOverlay.style.display = 'none';
+                introOverlay.style.backgroundColor = 'transparent';
+                introOverlay.style.pointerEvents = 'none';
+                
+                // Показываем product-detail и product-list-container
                 productDetail.style.opacity = '1';
                 productListContainer.style.opacity = '1';
-            }, 500);
+            }, 500); // Время должно совпадать с длительностью перехода в CSS
         });
     }
 
@@ -517,4 +524,7 @@ document.addEventListener('DOMContentLoaded', () => {
             closeModal(event.target.id);
         }
     });
+
+    // Запускаем анимацию
+    animate();
 });
