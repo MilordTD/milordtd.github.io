@@ -19,9 +19,9 @@ function openModal(modalIdOrImgSrc) {
         // Это ID модального окна
         const modal = document.getElementById(modalIdOrImgSrc.slice(1));
         if (modal) {
-            modal.classList.add('show');
+            modal.style.display = 'block';
             document.body.style.overflow = 'hidden';
-            console.log('Modal opened successfully:', modalIdOrImgSrc);
+            console.log('Modal opened successfully');
         } else {
             console.error('Modal not found:', modalIdOrImgSrc);
         }
@@ -30,27 +30,48 @@ function openModal(modalIdOrImgSrc) {
         const imageModal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
         if (imageModal && modalImg) {
-            imageModal.classList.add('show');
             modalImg.src = modalIdOrImgSrc;
+            imageModal.style.display = 'block';
             document.body.style.overflow = 'hidden';
-            console.log('Image modal opened successfully:', modalIdOrImgSrc);
-            
-            // Добавим проверку видимости
-            setTimeout(() => {
-                if (window.getComputedStyle(imageModal).visibility === 'visible') {
-                    console.log('Modal is visible');
-                } else {
-                    console.log('Modal is not visible');
-                    console.log('Modal display:', window.getComputedStyle(imageModal).display);
-                    console.log('Modal visibility:', window.getComputedStyle(imageModal).visibility);
-                    console.log('Modal opacity:', window.getComputedStyle(imageModal).opacity);
-                }
-            }, 100);
+            console.log('Image modal opened successfully');
         } else {
             console.error('Image modal or image element not found');
         }
     }
 }
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        console.log('Modal closed successfully:', modalId);
+    } else {
+        console.error('Modal not found for closing:', modalId);
+    }
+}
+
+// Обработчики для закрытия модальных окон
+document.querySelectorAll('.modal .close').forEach(closeButton => {
+    closeButton.addEventListener('click', () => {
+        const modalId = closeButton.closest('.modal').id;
+        closeModal(modalId);
+    });
+});
+
+// Закрытие модального окна при клике вне его содержимого
+window.addEventListener('click', (event) => {
+    if (event.target.classList.contains('modal')) {
+        closeModal(event.target.id);
+    }
+});
+
+// Обработчики для открытия модальных окон с изображениями
+document.querySelectorAll('.gallery-item').forEach(img => {
+    img.addEventListener('click', () => {
+        openModal(img.src);
+    });
+});
 
 function closeModal(modalId) {
     console.log('Closing modal:', modalId);
