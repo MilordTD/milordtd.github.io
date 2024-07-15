@@ -496,7 +496,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Показываем product-detail и product-list-container
             productDetail.style.opacity = '1';
             productListContainer.style.opacity = '1';
-        }, 500); // Время должно совпадать с длительностью перехода в CSS
+        }, 1000); // Время должно совпадать с длительностью перехода в CSS
     });
 
     const urlParams = new URLSearchParams(window.location.search);
