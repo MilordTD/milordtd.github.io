@@ -77,8 +77,8 @@
                             <label for="name">Name</label>
                             <input type="text" id="name" name="name" required>
                         </div>
-                        <div id="pickup-address" style="display: none;">
-                            <p>Pickup address: [Varenka] Rua do Almada 448, 4050-034 Porto</p>
+                        <div id="pickup-address">
+                            <p>Pickup address: [Insert cafe address here]</p>
                             <div id="map-container"></div>
                         </div>
                         <div id="local-delivery-address" style="display: none;">
@@ -146,7 +146,7 @@
     </div>
 
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4JymRfTQM1RglXSpsnrgwwVcl6uaOMvE"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4JymRfTQM1RglXSpsnrgwwVcl6uaOMvE&callback=initMap"></script>
     <script src="/js/checkout.js"></script>
 </body>
 </html>

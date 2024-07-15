@@ -80,11 +80,19 @@ body, html {
 
 .checkout-columns {
     display: flex;
+    justify-content: space-between;
     gap: 30px;
 }
 
-.summary-order, .payment-details {
+.section.summary-order {
     flex: 1;
+    max-width: calc(100% - 520px);
+}
+
+.section.payment-details,
+.section.other-delivery {
+    flex: 1;
+    max-width: 500px;
 }
 
 h2 {
@@ -201,7 +209,7 @@ label {
     color: #ffffff;
 }
 
-input, textarea {
+input, textarea, select {
     width: 100%;
     padding: 10px;
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -211,7 +219,7 @@ input, textarea {
     color: #ffffff;
 }
 
-input:focus, textarea:focus {
+input:focus, textarea:focus, select:focus {
     outline: none;
     border-color: #4CAF50;
 }
@@ -240,7 +248,7 @@ input:focus, textarea:focus {
     color: #4CAF50;
 }
 
-.pay-button {
+.pay-button, .waiting-list-btn {
     display: block;
     width: 100%;
     padding: 15px;
@@ -254,59 +262,7 @@ input:focus, textarea:focus {
     position: relative;
 }
 
-.pay-button:hover {
-    background-color: #45a049;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.8);
-}
-
-.modal-content {
-    background-color: rgba(0, 0, 0, 0.9);
-    margin: 15% auto;
-    padding: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    width: 80%;
-    max-width: 600px;
-    color: #ffffff;
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-    color: #ffffff;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.show-map-btn {
-    display: block;
-    margin-top: 10px;
-    padding: 5px 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.show-map-btn:hover {
+.pay-button:hover, .waiting-list-btn:hover {
     background-color: #45a049;
 }
 
@@ -345,15 +301,48 @@ input:focus, textarea:focus {
     visibility: visible;
 }
 
-@media (max-width: 768px) {
-    .checkout-columns {
-        flex-direction: column;
-    }
+#pickup-address {
+    margin-top: 20px;
 }
 
-/* Стили для полей страны и города */
+#map-container {
+    height: 300px;
+    margin-top: 10px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-column {
+    flex: 1;
+}
+
 input[disabled] {
     background-color: rgba(255, 255, 255, 0.05);
     color: #aaaaaa;
     cursor: not-allowed;
+}
+
+.disclaimer {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .checkout-columns {
+        flex-direction: column;
+    }
+
+    .section.summary-order,
+    .section.payment-details,
+    .section.other-delivery {
+        max-width: 100%;
+    }
 }
