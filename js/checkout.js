@@ -98,29 +98,39 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Initialize shipping method display
+    function initializeShippingMethod() {
+        const shippingMethod = document.querySelector('input[name="shipping"]:checked').value;
+        updateShippingDisplay(shippingMethod);
+    }
+
+    // Update shipping display based on selected method
+    function updateShippingDisplay(shippingMethod) {
+        if (shippingMethod === 'pickup') {
+            shippingCostElement.textContent = '€0.00';
+            paymentDetails.style.display = 'block';
+            otherDelivery.style.display = 'none';
+            document.getElementById('pickup-address').style.display = 'block';
+            document.getElementById('local-delivery-address').style.display = 'none';
+            loadMap();
+        } else if (shippingMethod === 'local') {
+            shippingCostElement.textContent = '€5.00';
+            paymentDetails.style.display = 'block';
+            otherDelivery.style.display = 'none';
+            document.getElementById('pickup-address').style.display = 'none';
+            document.getElementById('local-delivery-address').style.display = 'block';
+        } else if (shippingMethod === 'other') {
+            shippingCostElement.textContent = '€10.00';
+            paymentDetails.style.display = 'none';
+            otherDelivery.style.display = 'block';
+        }
+        updateTotalCost();
+    }
+
     // Handle shipping method change
     document.querySelectorAll('input[name="shipping"]').forEach(input => {
         input.addEventListener('change', function() {
-            const shippingMethod = this.value;
-            if (shippingMethod === 'pickup') {
-                shippingCostElement.textContent = '€0.00';
-                paymentDetails.style.display = 'block';
-                otherDelivery.style.display = 'none';
-                document.getElementById('pickup-address').style.display = 'block';
-                document.getElementById('local-delivery-address').style.display = 'none';
-                loadMap();
-            } else if (shippingMethod === 'local') {
-                shippingCostElement.textContent = '€5.00';
-                paymentDetails.style.display = 'block';
-                otherDelivery.style.display = 'none';
-                document.getElementById('pickup-address').style.display = 'none';
-                document.getElementById('local-delivery-address').style.display = 'block';
-            } else if (shippingMethod === 'other') {
-                shippingCostElement.textContent = '€10.00';
-                paymentDetails.style.display = 'none';
-                otherDelivery.style.display = 'block';
-            }
-            updateTotalCost();
+            updateShippingDisplay(this.value);
         });
     });
 
@@ -156,7 +166,17 @@ document.addEventListener('DOMContentLoaded', function() {
     stripeCheckoutBtn.addEventListener('click', function(e) {
         e.preventDefault();
         
-        const requiredFields = checkoutForm.querySelectorAll('[required]');
+        const shippingMethod = document.querySelector('input[name="shipping"]:checked').value;
+        let requiredFields;
+
+        if (shippingMethod === 'pickup') {
+            requiredFields = checkoutForm.querySelectorAll('#email, #phone, #name');
+        } else if (shippingMethod === 'local') {
+            requiredFields = checkoutForm.querySelectorAll('#email, #phone, #name, #address');
+        } else {
+            return; // Для третьего варианта не выполняем Stripe checkout
+        }
+
         let isValid = true;
 
         requiredFields.forEach(field => {
@@ -252,9 +272,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize page
     loadCartData();
     displayCartItems();
+    initializeShippingMethod();
 
     // Load countries and cities for the waiting list form
-    // This is a simplified example. In a real application, you would load this data from a server or use a comprehensive list
     const countries = ['USA', 'Canada', 'UK', 'Germany', 'France', 'Spain', 'Italy'];
     const cities = {
         'USA': ['New York', 'Los Angeles', 'Chicago'],
@@ -289,3 +309,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Trigger change event to populate cities for the first country
     countrySelect.dispatchEvent(new Event('change'));
 });
+
+// Callback function for Google Maps API
+function initMap() {
+    // This function will be called when the Google Maps API is loaded
+    console.log('Google Maps API loaded');
+    // You can initialize the map here if needed, or leave it empty if you're initializing the map elsewhere
+}
