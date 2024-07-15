@@ -14,6 +14,7 @@ renderer.setSize(260, 260);
 document.getElementById('book-3d-model').appendChild(renderer.domElement);
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM fully loaded');
     const introOverlay = document.querySelector('.intro-overlay');
     const introContent = document.querySelector('.intro-content');
     const introButton = document.querySelector('.intro-button');
@@ -22,16 +23,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const urlParams = new URLSearchParams(window.location.search);
     const paymentStatus = urlParams.get('payment_status');
+    console.log('Payment status:', paymentStatus);
 
     if (paymentStatus) {
-        // Если есть статус оплаты, сразу скрываем интро-оверлей
+        console.log('Payment status detected, hiding intro overlay');
         introOverlay.style.display = 'none';
         productDetail.style.opacity = '1';
         productListContainer.style.opacity = '1';
         
-        // Вызываем функцию проверки статуса оплаты
+        console.log('Calling checkPaymentStatus()');
         checkPaymentStatus();
     } else {
+        console.log('No payment status, showing intro overlay');
         // Показываем контент с эффектом fade in
         setTimeout(() => {
             introContent.style.opacity = '1';
@@ -471,8 +474,13 @@ function animate(currentTime) {
 
 // Функция для открытия модального окна
 function openModal(modalId) {
-  const modal = document.getElementById(modalId);
-  modal.style.display = 'block';
+    console.log('Opening modal:', modalId);
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'block';
+    } else {
+        console.error('Modal not found:', modalId);
+    }
 }
 
 // Функция для закрытия модального окна
@@ -497,20 +505,25 @@ window.addEventListener('click', (event) => {
 
 // Функция для проверки статуса платежа при загрузке страницы
 function checkPaymentStatus() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const status = urlParams.get('payment_status');
+    console.log('checkPaymentStatus function called');
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('payment_status');
+    console.log('Status from URL:', status);
 
-  if (status === 'success') {
-    openModal('successModal');
-    // Очистка корзины после успешной оплаты
-    cart = [];
-    updateCart();
-  } else if (status === 'failure') {
-    openModal('failureModal');
-  }
+    if (status === 'success') {
+        console.log('Opening success modal');
+        openModal('successModal');
+        // Очистка корзины после успешной оплаты
+        cart = [];
+        updateCart();
+    } else if (status === 'failure') {
+        console.log('Opening failure modal');
+        openModal('failureModal');
+    }
 
-  // Удаление параметра статуса из URL
-  window.history.replaceState({}, document.title, window.location.pathname);
+    // Удаление параметра статуса из URL
+    console.log('Removing payment_status from URL');
+    window.history.replaceState({}, document.title, window.location.pathname);
 }
 
 // Вызов функции проверки статуса при загрузке страницы
