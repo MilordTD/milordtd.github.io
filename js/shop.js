@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const paymentStatus = urlParams.get('payment_status');
 
-    Updated shop.js with payment status modal functionality
+   // Updated shop.js with payment status modal functionality
 
 document.addEventListener('DOMContentLoaded', () => {
     const introOverlay = document.querySelector('.intro-overlay');
