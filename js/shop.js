@@ -43,12 +43,18 @@ function closeModal(modalId) {
     }
 }
 
-// Добавьте этот код для закрытия модальных окон при клике вне их содержимого
+// Обновленный обработчик для закрытия модальных окон
 document.addEventListener('click', (event) => {
-    if (event.target.classList.contains('modal')) {
-        event.target.classList.remove('show');
-        document.body.style.overflow = 'auto';
+    if (event.target.classList.contains('modal') && event.target.classList.contains('show')) {
+        closeModal(event.target.id);
     }
+});
+
+// Добавьте обработчики для кнопок закрытия внутри модальных окон
+document.querySelectorAll('.modal .close').forEach(closeButton => {
+    closeButton.addEventListener('click', () => {
+        closeModal(closeButton.closest('.modal').id);
+    });
 });
 
 function checkPaymentStatus() {
