@@ -60,12 +60,10 @@ document.querySelectorAll('.modal .close').forEach(closeButton => {
 });
 
 // Закрытие модального окна при клике вне его содержимого
-document.querySelectorAll('.modal').forEach(modal => {
-    modal.addEventListener('click', (event) => {
-        if (event.target === modal || event.target.classList.contains('modal-content')) {
-            closeModal(modal.id);
-        }
-    });
+window.addEventListener('click', (event) => {
+    if (event.target.classList.contains('modal')) {
+        closeModal(event.target.id);
+    }
 });
 
 // Обработчики для открытия модальных окон с изображениями
@@ -73,11 +71,6 @@ document.querySelectorAll('.gallery-item').forEach(img => {
     img.addEventListener('click', () => {
         openModal(img.src);
     });
-});
-
-// Предотвращение закрытия при клике на само изображение
-document.getElementById('modalImage').addEventListener('click', (event) => {
-    event.stopPropagation();
 });
 
 
@@ -514,16 +507,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const productListContainer = document.querySelector('.product-list-container');
     const erinImage = document.querySelector('.erin-image');
 
-    // Показываем контент с эффектом fade in
+      // Показываем контент с эффектом fade in
     setTimeout(() => {
         introContent.style.opacity = '1';
     }, 500);
 
-    introButton.addEventListener('click', (event) => {
+    introButton.addEventListener('click', () => {
         console.log('Explore loot button clicked');
-        event.preventDefault(); // Предотвращаем стандартное действие кнопки
-        event.stopPropagation(); // Останавливаем всплытие события
-        
         // Скрываем intro-content
         introContent.style.opacity = '0';
         
@@ -532,12 +522,13 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // Ждем завершения анимации скрытия intro-content
         setTimeout(() => {
+            console.log('Hiding intro overlay');
             introOverlay.style.display = 'none';
             
             // Показываем product-detail и product-list-container
             productDetail.style.opacity = '1';
             productListContainer.style.opacity = '1';
-        }, 500); // Время должно совпадать с длительностью перехода в CSS
+        }, 1000); // Время должно совпадать с длительностью перехода в CSS
     });
 
     const urlParams = new URLSearchParams(window.location.search);
