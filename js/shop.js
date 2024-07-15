@@ -239,15 +239,10 @@ function updateGallery(galleryImages) {
             img.src = imgSrc;
             img.alt = `Product image ${index + 1}`;
             img.classList.add('gallery-item');
-            img.addEventListener('click', () => openModal(imgSrc));
+            img.addEventListener('click', () => openModal(imgSrc)); // Обратите внимание, что здесь мы передаем imgSrc напрямую
             productGallery.appendChild(img);
         }
     });
-}
-
-function openModal(imgSrc) {
-    modal.style.display = 'block';
-    modalImg.src = imgSrc;
 }
 
 closeButton.onclick = function() {
