@@ -419,8 +419,18 @@ updateCart();
 const checkoutButton = document.querySelector('.checkout-button');
 if (checkoutButton) {
     checkoutButton.addEventListener('click', () => {
+        // Преобразуем корзину в формат с количеством
+        const cartWithQuantity = cart.reduce((acc, productId) => {
+            if (acc[productId]) {
+                acc[productId].quantity += 1;
+            } else {
+                acc[productId] = { id: productId, quantity: 1 };
+            }
+            return acc;
+        }, {});
+
         // Сохранение данных корзины в localStorage
-        localStorage.setItem('cart', JSON.stringify(cart));
+        localStorage.setItem('cart', JSON.stringify(Object.values(cartWithQuantity)));
         localStorage.setItem('products', JSON.stringify(products));
         
         // Переход на страницу оформления заказа
