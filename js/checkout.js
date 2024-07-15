@@ -98,11 +98,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Initialize shipping method display
-    function initializeShippingMethod() {
-        const shippingMethod = document.querySelector('input[name="shipping"]:checked').value;
-        updateShippingDisplay(shippingMethod);
-    }
+    // Handle shipping method selection
+    const shippingOptions = document.querySelectorAll('.shipping-option');
+    shippingOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            shippingOptions.forEach(opt => opt.classList.remove('selected'));
+            this.classList.add('selected');
+            updateShippingDisplay(this.dataset.value);
+        });
+    });
 
     // Update shipping display based on selected method
     function updateShippingDisplay(shippingMethod) {
@@ -127,12 +131,12 @@ document.addEventListener('DOMContentLoaded', function() {
         updateTotalCost();
     }
 
-    // Handle shipping method change
-    document.querySelectorAll('input[name="shipping"]').forEach(input => {
-        input.addEventListener('change', function() {
-            updateShippingDisplay(this.value);
-        });
-    });
+    // Initialize shipping method display
+    function initializeShippingMethod() {
+        const defaultShippingOption = document.querySelector('.shipping-option');
+        defaultShippingOption.classList.add('selected');
+        updateShippingDisplay(defaultShippingOption.dataset.value);
+    }
 
     // Load Google Map
     function loadMap() {
@@ -166,7 +170,7 @@ document.addEventListener('DOMContentLoaded', function() {
     stripeCheckoutBtn.addEventListener('click', function(e) {
         e.preventDefault();
         
-        const shippingMethod = document.querySelector('input[name="shipping"]:checked').value;
+        const shippingMethod = document.querySelector('.shipping-option.selected').dataset.value;
         let requiredFields;
 
         if (shippingMethod === 'pickup') {
@@ -189,11 +193,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if (isValid) {
-            handleStripeCheckout();
+            handleStripeCheckout(shippingMethod);
         }
     });
 
-    async function handleStripeCheckout() {
+    async function handleStripeCheckout(shippingMethod) {
         showLoader();
 
         const formData = new FormData(checkoutForm);
@@ -204,13 +208,9 @@ document.addEventListener('DOMContentLoaded', function() {
             address: formData.get('address')
         };
 
-        const shippingMethod = document.querySelector('input[name="shipping"]:checked').value;
         let shippingCost = 0;
-
         if (shippingMethod === 'local') {
             shippingCost = 5;
-        } else if (shippingMethod === 'other') {
-            shippingCost = 10;
         }
 
         console.log('Sending request to create-checkout-session...');
@@ -261,18 +261,14 @@ document.addEventListener('DOMContentLoaded', function() {
     waitingListForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const email = document.getElementById('waiting-email').value;
+        const phone = document.getElementById('waiting-phone').value;
         const country = document.getElementById('waiting-country').value;
         const city = document.getElementById('waiting-city').value;
         
         // Here you would typically send this data to your server
-        console.log('Waiting list submission:', { email, country, city });
+        console.log('Waiting list submission:', { email, phone, country, city });
         alert('Thank you for joining the waiting list! We\'ll notify you when delivery becomes available in your area.');
     });
-
-    // Initialize page
-    loadCartData();
-    displayCartItems();
-    initializeShippingMethod();
 
     // Load countries and cities for the waiting list form
     const countries = ['USA', 'Canada', 'UK', 'Germany', 'France', 'Spain', 'Italy'];
@@ -305,6 +301,11 @@ document.addEventListener('DOMContentLoaded', function() {
             citySelect.appendChild(option);
         });
     });
+
+    // Initialize page
+    loadCartData();
+    displayCartItems();
+    initializeShippingMethod();
 
     // Trigger change event to populate cities for the first country
     countrySelect.dispatchEvent(new Event('change'));
