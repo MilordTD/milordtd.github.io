@@ -13,6 +13,9 @@
             <div class="logo">
                 <a href="https://ka.rhat.world/shop/" class="logo-link">KA.RHAT</a>
             </div>
+            <div class="menu-icon">
+                ☰
+            </div>
         </div>
 
         <div class="checkout-content" role="main">
@@ -66,8 +69,18 @@
                             <input type="tel" id="phone" name="phone" required>
                         </div>
                         <div id="address-group" class="form-group" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-column">
+                                    <label for="country">Country</label>
+                                    <input type="text" id="country" name="country" value="Portugal" disabled>
+                                </div>
+                            <div class="form-column">
+                                <label for="city">City</label>
+                                <input type="text" id="city" name="city" value="Porto" disabled>
+                            </div>
+                            </div>
                             <label for="address">Address</label>
-                            <textarea id="address" name="address" rows="3"></textarea>
+                                <textarea id="address" name="address" rows="3" required></textarea>
                         </div>
 
                         <div class="order-summary">

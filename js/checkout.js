@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Initialize Stripe
-    const stripe = Stripe('pk_test_51Pa3ibRscs7gmx3WK8tvLJAXQ2ugBOGM7KMEUyyNgLoQqYeLNxB2qo06ueA8kjWGd1qokCJNcSHgnKWe9JtF4V2M00SbWEiUby'); // Replace with your actual publishable key
+    const stripe = Stripe('pk_test_51Pa3ibRscs7gmx3WK8tvLJAXQ2ugBOGM7KMEUyyNgLoQqYeLNxB2qo06ueA8kjWGd1qokCJNcSHgnKWe9JtF4V2M00SbWEiUby');
 
     function showLoader() {
         stripeCheckoutBtn.classList.add('loading');
@@ -123,8 +123,28 @@ document.addEventListener('DOMContentLoaded', function() {
         stripeCheckoutBtn.disabled = false;
     }
 
-    stripeCheckoutBtn.addEventListener('click', async function(e) {
+    // Handle form submission and Stripe checkout
+    stripeCheckoutBtn.addEventListener('click', function(e) {
         e.preventDefault();
+        
+        const requiredFields = checkoutForm.querySelectorAll('[required]');
+        let isValid = true;
+
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.style.border = '2px solid red';
+                isValid = false;
+            } else {
+                field.style.border = '';
+            }
+        });
+
+        if (isValid) {
+            handleStripeCheckout();
+        }
+    });
+
+    async function handleStripeCheckout() {
         showLoader();
 
         const formData = new FormData(checkoutForm);
@@ -177,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert(`An error occurred: ${error.message}. Please try again later.`);
             hideLoader();
         }
-    });
+    }
 
     // Initialize page
     loadCartData();
