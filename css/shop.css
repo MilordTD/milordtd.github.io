@@ -80,7 +80,7 @@ body, html {
 .erin-image {
     position: fixed;
     top: 250px;
-    right: 200px;
+    right: 300px;
     width: 200px;
     height: auto;
     z-index: 10001; /* Чуть ниже, чем у intro-overlay */
@@ -89,8 +89,8 @@ body, html {
 
 
 .erin-image.moved {
-    top: 150px;
-    right: 150px;
+    top: 50px;
+    right: 200px;
     width: 400px;
 }
 
