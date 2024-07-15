@@ -72,7 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
             productListContainer.style.opacity = '1';
         }, 500); // Время должно совпадать с длительностью перехода в CSS
     });
-});
 
 // Загрузка 3D модели
 const loader = new GLTFLoader();
