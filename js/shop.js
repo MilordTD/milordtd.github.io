@@ -13,17 +13,24 @@ const closeButton = document.getElementsByClassName('close')[0];
 renderer.setSize(260, 260);
 document.getElementById('book-3d-model').appendChild(renderer.domElement);
 
-// Новые функции для обработки модальных окон статуса оплаты
-function openModal(modalId) {
-    console.log('Opening modal:', modalId);
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = 'block';
-        modal.style.zIndex = '10001';
-        document.body.style.overflow = 'hidden';
-        console.log('Modal opened successfully');
+// Объединенная функция openModal
+function openModal(modalIdOrImgSrc) {
+    console.log('Opening modal:', modalIdOrImgSrc);
+    if (modalIdOrImgSrc.startsWith('#')) {
+        // Это ID модального окна
+        const modal = document.getElementById(modalIdOrImgSrc.slice(1));
+        if (modal) {
+            modal.style.display = 'block';
+            modal.style.zIndex = '10001';
+            document.body.style.overflow = 'hidden';
+            console.log('Modal opened successfully');
+        } else {
+            console.error('Modal not found:', modalIdOrImgSrc);
+        }
     } else {
-        console.error('Modal not found:', modalId);
+        // Это URL изображения
+        modal.style.display = 'block';
+        modalImg.src = modalIdOrImgSrc;
     }
 }
 
@@ -49,13 +56,13 @@ function checkPaymentStatus() {
 
     if (status === 'success') {
         console.log('Opening success modal');
-        setTimeout(() => openModal('successModal'), 500);
+        setTimeout(() => openModal('#successModal'), 500);
         // Очистка корзины после успешной оплаты
         cart = [];
         updateCart();
     } else if (status === 'failure') {
         console.log('Opening failure modal');
-        setTimeout(() => openModal('failureModal'), 500);
+        setTimeout(() => openModal('#failureModal'), 500);
     }
 
     // Удаление параметра статуса из URL
