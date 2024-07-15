@@ -21,21 +21,27 @@ document.addEventListener('DOMContentLoaded', function() {
         cartItems.innerHTML = '';
         let subtotal = 0;
 
-        cart.forEach(productId => {
-            if (products[productId]) {
-                const product = products[productId];
+        cart.forEach((item, index) => {
+            if (products[item.id]) {
+                const product = products[item.id];
                 const itemElement = document.createElement('div');
                 itemElement.className = 'cart-item';
                 itemElement.innerHTML = `
-                    <img src="/images/pin_${productId}.svg" alt="${product.name}">
+                    <img src="/images/pin_${item.id}.svg" alt="${product.name}">
                     <div class="item-details">
                         <span class="item-name">${product.name}</span>
                         <span class="item-type">${product.category}</span>
                         <span class="item-price">€${product.price.toFixed(2)}</span>
                     </div>
+                    <div class="item-quantity">
+                        <button class="quantity-btn minus" data-index="${index}">-</button>
+                        <input type="number" class="quantity-input" value="${item.quantity}" min="1" data-index="${index}">
+                        <button class="quantity-btn plus" data-index="${index}">+</button>
+                    </div>
+                    <button class="remove-item" data-index="${index}">Remove</button>
                 `;
                 cartItems.appendChild(itemElement);
-                subtotal += product.price;
+                subtotal += product.price * item.quantity;
             }
         });
 
@@ -50,6 +56,45 @@ document.addEventListener('DOMContentLoaded', function() {
         const total = subtotal + shippingCost;
         totalCostElement.textContent = `€${total.toFixed(2)}`;
     }
+
+    // Handle quantity change
+    function handleQuantityChange(index, change) {
+        cart[index].quantity += change;
+        if (cart[index].quantity < 1) cart[index].quantity = 1;
+        localStorage.setItem('cart', JSON.stringify(cart));
+        displayCartItems();
+    }
+
+    // Remove item from cart
+    function removeItem(index) {
+        cart.splice(index, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        displayCartItems();
+    }
+
+    // Event listeners for quantity buttons and remove button
+    cartItems.addEventListener('click', function(e) {
+        if (e.target.classList.contains('quantity-btn')) {
+            const index = parseInt(e.target.dataset.index);
+            const change = e.target.classList.contains('plus') ? 1 : -1;
+            handleQuantityChange(index, change);
+        } else if (e.target.classList.contains('remove-item')) {
+            const index = parseInt(e.target.dataset.index);
+            removeItem(index);
+        }
+    });
+
+    cartItems.addEventListener('change', function(e) {
+        if (e.target.classList.contains('quantity-input')) {
+            const index = parseInt(e.target.dataset.index);
+            const newQuantity = parseInt(e.target.value);
+            if (newQuantity >= 1) {
+                cart[index].quantity = newQuantity;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                displayCartItems();
+            }
+        }
+    });
 
     // Handle shipping method change
     document.querySelectorAll('input[name="shipping"]').forEach(input => {

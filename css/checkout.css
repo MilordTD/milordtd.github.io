@@ -85,6 +85,37 @@ p {
     color: #666;
 }
 
+.item-quantity {
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+}
+
+.quantity-btn {
+    background-color: #f0f0f0;
+    border: none;
+    width: 25px;
+    height: 25px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.quantity-input {
+    width: 40px;
+    text-align: center;
+    margin: 0 5px;
+}
+
+.remove-item {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
 .shipping-method {
     margin-top: 30px;
 }
