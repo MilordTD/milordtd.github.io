@@ -3,26 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout - KA.RHAT</title>
+    <title>Checkout - KA.RHAT Shop</title>
     <link rel="stylesheet" href="/css/checkout.css">
-    <script src="https://js.stripe.com/v3/"></script>
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
     <div class="container">
-        <header class="header">
-            <div class="logo">KA.RHAT</div>
-        </header>
+        <div class="header">
+            <div class="logo">
+                <a href="https://ka.rhat.world/shop/" class="logo-link">KA.RHAT</a>
+            </div>
+        </div>
 
-        <main class="checkout-content">
+        <div class="checkout-content" role="main">
             <div class="checkout-columns">
                 <div class="section summary-order">
                     <h2>Summary Order</h2>
-                        <p>Check your items and select your shipping for a better order experience.</p>
-                        <div id="cart-items">
+                    <p>Check your items and select your shipping for a better order experience.</p>
+                    <div id="cart-items">
+                        <!-- Товары будут добавляться здесь динамически -->
+                    </div>
+
                     <div class="shipping-method">
                         <h3>Available Shipping Method</h3>
                         <div class="shipping-options">
@@ -35,6 +36,7 @@
                                 </div>
                             </label>
                             <button id="show-map" class="show-map-btn">Show cafe location</button>
+
                             <label>
                                 <input type="radio" name="shipping" value="local">
                                 <span class="shipping-logo">🚚</span>
@@ -45,9 +47,9 @@
                             </label>
                         </div>
                     </div>
-                </section>
+                </div>
 
-                <section class="payment-details">
+                <div class="section payment-details">
                     <h2>Payment Details</h2>
                     <p>Complete your purchase by providing your payment details.</p>
                     <form id="checkout-form">
@@ -65,8 +67,9 @@
                         </div>
                         <div id="address-group" class="form-group" style="display: none;">
                             <label for="address">Address</label>
-                            <textarea id="address" name="address"></textarea>
+                            <textarea id="address" name="address" rows="3"></textarea>
                         </div>
+
                         <div class="order-summary">
                             <div class="summary-row">
                                 <span>Subtotal</span>
@@ -81,14 +84,15 @@
                                 <span id="total-cost">€0.00</span>
                             </div>
                         </div>
+
                         <button id="stripe-checkout-btn" class="pay-button">
                             <span class="button-text">Proceed to Payment</span>
                             <div class="loader"></div>
                         </button>
                     </form>
-                </section>
+                </div>
             </div>
-        </main>
+        </div>
     </div>
 
     <div id="map-modal" class="modal">
@@ -98,6 +102,7 @@
         </div>
     </div>
 
+    <script src="https://js.stripe.com/v3/"></script>
     <script src="/js/checkout.js"></script>
 </body>
 </html>
