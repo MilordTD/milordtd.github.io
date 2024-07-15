@@ -21,7 +21,7 @@ function openModal(modalIdOrImgSrc) {
         if (modal) {
             modal.classList.add('show');
             document.body.style.overflow = 'hidden';
-            console.log('Modal opened successfully');
+            console.log('Modal opened successfully:', modalIdOrImgSrc);
         } else {
             console.error('Modal not found:', modalIdOrImgSrc);
         }
@@ -29,17 +29,26 @@ function openModal(modalIdOrImgSrc) {
         // Это URL изображения
         const imageModal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
-        imageModal.classList.add('show');
-        modalImg.src = modalIdOrImgSrc;
-        document.body.style.overflow = 'hidden';
+        if (imageModal && modalImg) {
+            imageModal.classList.add('show');
+            modalImg.src = modalIdOrImgSrc;
+            document.body.style.overflow = 'hidden';
+            console.log('Image modal opened successfully:', modalIdOrImgSrc);
+        } else {
+            console.error('Image modal or image element not found');
+        }
     }
 }
 
 function closeModal(modalId) {
+    console.log('Closing modal:', modalId);
     const modal = document.getElementById(modalId);
     if (modal) {
         modal.classList.remove('show');
         document.body.style.overflow = 'auto';
+        console.log('Modal closed successfully:', modalId);
+    } else {
+        console.error('Modal not found for closing:', modalId);
     }
 }
 
@@ -53,7 +62,17 @@ document.addEventListener('click', (event) => {
 // Добавьте обработчики для кнопок закрытия внутри модальных окон
 document.querySelectorAll('.modal .close').forEach(closeButton => {
     closeButton.addEventListener('click', () => {
-        closeModal(closeButton.closest('.modal').id);
+        const modalId = closeButton.closest('.modal').id;
+        console.log('Close button clicked for modal:', modalId);
+        closeModal(modalId);
+    });
+});
+
+// Добавьте этот код для отладки открытия изображений
+document.querySelectorAll('.gallery-item').forEach(img => {
+    img.addEventListener('click', () => {
+        console.log('Gallery image clicked:', img.src);
+        openModal(img.src);
     });
 });
 

@@ -509,9 +509,10 @@ body, html {
     color: white;
     padding: 40px;
     border-radius: 10px;
-    max-width: 400px;
-    width: 90%;
+    max-width: 90%;
+    max-height: 90%;
     position: relative;
+    overflow: auto;
 }
 
 #imageModal .modal-content {
@@ -520,8 +521,8 @@ body, html {
 }
 
 #imageModal img {
-    max-width: 90%;
-    max-height: 90vh;
+    max-width: 100%;
+    max-height: 100%;
     object-fit: contain;
 }
 
@@ -532,7 +533,6 @@ body, html {
     color: #f1f1f1;
     font-size: 30px;
     font-weight: bold;
-    transition: 0.3s;
     cursor: pointer;
 }
 
