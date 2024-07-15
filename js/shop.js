@@ -13,68 +13,55 @@ const closeButton = document.getElementsByClassName('close')[0];
 renderer.setSize(260, 260);
 document.getElementById('book-3d-model').appendChild(renderer.domElement);
 
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM fully loaded');
-    const introOverlay = document.querySelector('.intro-overlay');
-    const introContent = document.querySelector('.intro-content');
-    const introButton = document.querySelector('.intro-button');
-    const productDetail = document.querySelector('.product-detail');
-    const productListContainer = document.querySelector('.product-list-container');
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const paymentStatus = urlParams.get('payment_status');
-    console.log('Payment status:', paymentStatus);
-
-    if (paymentStatus) {
-        console.log('Payment status detected, hiding intro overlay');
-        introOverlay.style.display = 'none';
-        productDetail.style.opacity = '1';
-        productListContainer.style.opacity = '1';
-        
-        console.log('Calling checkPaymentStatus()');
-        checkPaymentStatus();
+// Новые функции для обработки модальных окон статуса оплаты
+function openModal(modalId) {
+    console.log('Opening modal:', modalId);
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'block';
+        modal.style.zIndex = '10001';
+        document.body.style.overflow = 'hidden';
+        console.log('Modal opened successfully');
     } else {
-        console.log('No payment status, showing intro overlay');
-        // Показываем контент с эффектом fade in
-        setTimeout(() => {
-            introContent.style.opacity = '1';
-        }, 500);
+        console.error('Modal not found:', modalId);
+    }
+}
 
-        introButton.addEventListener('click', () => {
-            // Скрываем intro-content
-            introContent.style.opacity = '0';
-            
-            // Ждем завершения анимации скрытия intro-content
-            setTimeout(() => {
-                introOverlay.style.display = 'none';
-                
-                // Показываем product-detail и product-list-container
-                productDetail.style.opacity = '1';
-                productListContainer.style.opacity = '1';
-            }, 500); // Время должно совпадать с длительностью перехода в CSS
-        });
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+}
+
+function checkPaymentStatus() {
+    console.log('checkPaymentStatus function called');
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('payment_status');
+    console.log('Status from URL:', status);
+
+    // Проверка существования модальных окон
+    const successModal = document.getElementById('successModal');
+    const failureModal = document.getElementById('failureModal');
+    console.log('Success modal exists:', !!successModal);
+    console.log('Failure modal exists:', !!failureModal);
+
+    if (status === 'success') {
+        console.log('Opening success modal');
+        setTimeout(() => openModal('successModal'), 500);
+        // Очистка корзины после успешной оплаты
+        cart = [];
+        updateCart();
+    } else if (status === 'failure') {
+        console.log('Opening failure modal');
+        setTimeout(() => openModal('failureModal'), 500);
     }
 
-
-    // Показываем контент с эффектом fade in
-    setTimeout(() => {
-        introContent.style.opacity = '1';
-    }, 500);
-
-    introButton.addEventListener('click', () => {
-        // Скрываем intro-content
-        introContent.style.opacity = '0';
-        
-        // Ждем завершения анимации скрытия intro-content
-        setTimeout(() => {
-            introOverlay.style.display = 'none';
-            
-            // Показываем product-detail и product-list-container
-            productDetail.style.opacity = '1';
-            productListContainer.style.opacity = '1';
-        }, 500); // Время должно совпадать с длительностью перехода в CSS
-    });
-});
+    // Удаление параметра статуса из URL
+    console.log('Removing payment_status from URL');
+    window.history.replaceState({}, document.title, window.location.pathname);
+}
 
 // Загрузка 3D модели
 const loader = new GLTFLoader();
@@ -430,107 +417,102 @@ function animateAddToCart() {
     animatedImage.style.pointerEvents = 'none';
     document.body.appendChild(animatedImage);
 
-console.log('Animated image created and appended to body');
+    console.log('Animated image created and appended to body');
 
-// Функция для расчета положения на дуге
-function calculatePosition(progress) {
-    const startX = startRect.left;
-    const startY = startRect.top;
-    const endX = endRect.right - 20;
-    const endY = endRect.bottom - 20;
+    // Функция для расчета положения на дуге
+    function calculatePosition(progress) {
+        const startX = startRect.left;
+        const startY = startRect.top;
+        const endX = endRect.right - 20;
+        const endY = endRect.bottom - 20;
 
-    // Контрольная точка для кривой Безье (вершина дуги)
-    const controlX = (startX + endX) / 2;
-    const controlY = startY - 100; // Регулируйте это значение для изменения высоты дуги
+        // Контрольная точка для кривой Безье (вершина дуги)
+        const controlX = (startX + endX) / 2;
+        const controlY = startY - 100; // Регулируйте это значение для изменения высоты дуги
 
-    const x = Math.pow(1 - progress, 2) * startX + 
-              2 * (1 - progress) * progress * controlX + 
-              Math.pow(progress, 2) * endX;
-    const y = Math.pow(1 - progress, 2) * startY + 
-              2 * (1 - progress) * progress * controlY + 
-              Math.pow(progress, 2) * endY;
+        const x = Math.pow(1 - progress, 2) * startX + 
+                  2 * (1 - progress) * progress * controlX + 
+                  Math.pow(progress, 2) * endX;
+        const y = Math.pow(1 - progress, 2) * startY + 
+                  2 * (1 - progress) * progress * controlY + 
+                  Math.pow(progress, 2) * endY;
 
-    return { x, y };
-}
-
-// Функция анимации
-function animate(currentTime) {
-    const duration = 1000; // Продолжительность анимации в мс
-    const progress = Math.min((currentTime - startTime) / duration, 1);
-    const { x, y } = calculatePosition(progress);
-
-    animatedImage.style.left = `${x}px`;
-    animatedImage.style.top = `${y}px`;
-    animatedImage.style.transform = `scale(${1 - progress * 0.9})`;
-    animatedImage.style.opacity = 1 - progress;
-
-    if (progress < 1) {
-        requestAnimationFrame(animate);
-    } else {
-        document.body.removeChild(animatedImage);
-        console.log('Animated image removed');
-    }
-}
-
-// Функция для открытия модального окна
-function openModal(modalId) {
-    console.log('Opening modal:', modalId);
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = 'block';
-    } else {
-        console.error('Modal not found:', modalId);
-    }
-}
-
-// Функция для закрытия модального окна
-function closeModal(modalId) {
-  const modal = document.getElementById(modalId);
-  modal.style.display = 'none';
-}
-
-// Обработчик закрытия для кнопок закрытия модальных окон
-document.querySelectorAll('.payment-status-modal .close').forEach(closeBtn => {
-  closeBtn.addEventListener('click', () => {
-    closeModal(closeBtn.closest('.modal').id);
-  });
-});
-
-// Закрытие модального окна при клике вне его содержимого
-window.addEventListener('click', (event) => {
-  if (event.target.classList.contains('payment-status-modal')) {
-    closeModal(event.target.id);
-  }
-});
-
-// Функция для проверки статуса платежа при загрузке страницы
-function checkPaymentStatus() {
-    console.log('checkPaymentStatus function called');
-    const urlParams = new URLSearchParams(window.location.search);
-    const status = urlParams.get('payment_status');
-    console.log('Status from URL:', status);
-
-    if (status === 'success') {
-        console.log('Opening success modal');
-        openModal('successModal');
-        // Очистка корзины после успешной оплаты
-        cart = [];
-        updateCart();
-    } else if (status === 'failure') {
-        console.log('Opening failure modal');
-        openModal('failureModal');
+        return { x, y };
     }
 
-    // Удаление параметра статуса из URL
-    console.log('Removing payment_status from URL');
-    window.history.replaceState({}, document.title, window.location.pathname);
+    // Функция анимации
+    function animate(currentTime) {
+        const duration = 1000; // Продолжительность анимации в мс
+        const progress = Math.min((currentTime - startTime) / duration, 1);
+        const { x, y } = calculatePosition(progress);
+
+        animatedImage.style.left = `${x}px`;
+        animatedImage.style.top = `${y}px`;
+        animatedImage.style.transform = `scale(${1 - progress * 0.9})`;
+        animatedImage.style.opacity = 1 - progress;
+
+        if (progress < 1) {
+            requestAnimationFrame(animate);
+        } else {
+            document.body.removeChild(animatedImage);
+            console.log('Animated image removed');
+        }
+    }
+
+    const startTime = performance.now();
+    requestAnimationFrame(animate);
 }
 
-// Вызов функции проверки статуса при загрузке страницы
-document.addEventListener('DOMContentLoaded', checkPaymentStatus);
-
-const startTime = performance.now();
-requestAnimationFrame(animate);
-}
 // Запуск анимации
 animate();
+
+// Основной код, выполняющийся после загрузки DOM
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM fully loaded');
+    const introOverlay = document.querySelector('.intro-overlay');
+    const introContent = document.querySelector('.intro-content');
+    const introButton = document.querySelector('.intro-button');
+    const productDetail = document.querySelector('.product-detail');
+    const productListContainer = document.querySelector('.product-list-container');
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const paymentStatus = urlParams.get('payment_status');
+    console.log('Payment status:', paymentStatus);
+
+    if (paymentStatus) {
+        console.log('Payment status detected, hiding intro overlay');
+        introOverlay.style.display = 'none';
+        productDetail.style.opacity = '1';
+        productListContainer.style.opacity = '1';
+        
+        console.log('Calling checkPaymentStatus()');
+        checkPaymentStatus();
+    } else {
+        console.log('No payment status, showing intro overlay');
+        setTimeout(() => {
+            introContent.style.opacity = '1';
+        }, 500);
+
+        introButton.addEventListener('click', () => {
+            introContent.style.opacity = '0';
+            setTimeout(() => {
+                introOverlay.style.display = 'none';
+                productDetail.style.opacity = '1';
+                productListContainer.style.opacity = '1';
+            }, 500);
+        });
+    }
+
+    // Обработчики для закрытия модальных окон
+    document.querySelectorAll('.payment-status-modal .close').forEach(closeBtn => {
+        closeBtn.addEventListener('click', () => {
+            closeModal(closeBtn.closest('.modal').id);
+        });
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target.classList.contains('payment-status-modal')) {
+            closeModal(event.target.id);
+        }
+    });
+});
