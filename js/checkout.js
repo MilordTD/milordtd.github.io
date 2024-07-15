@@ -96,19 +96,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Handle shipping method change
-    document.querySelectorAll('input[name="shipping"]').forEach(input => {
-        input.addEventListener('change', function() {
-            if (this.value === 'local') {
-                shippingCostElement.textContent = '€5.00';
-                addressGroup.style.display = 'block';
-            } else {
-                shippingCostElement.textContent = '€0.00';
-                addressGroup.style.display = 'none';
-            }
-            updateTotalCost();
-        });
+// Handle shipping method change
+document.querySelectorAll('input[name="shipping"]').forEach(input => {
+    input.addEventListener('change', function() {
+        if (this.value === 'pickup') {
+            shippingCostElement.textContent = '€0.00';
+            addressGroup.style.display = 'none';
+        } else if (this.value === 'local') {
+            shippingCostElement.textContent = '€5.00';
+            addressGroup.style.display = 'block';
+        } else if (this.value === 'other') {
+            shippingCostElement.textContent = '€10.00';
+            addressGroup.style.display = 'block';
+        }
+        updateTotalCost();
     });
+});
+
 
     // Initialize Stripe
     const stripe = Stripe('pk_test_51Pa3ibRscs7gmx3WK8tvLJAXQ2ugBOGM7KMEUyyNgLoQqYeLNxB2qo06ueA8kjWGd1qokCJNcSHgnKWe9JtF4V2M00SbWEiUby');
@@ -145,59 +149,68 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     async function handleStripeCheckout() {
-        showLoader();
+    showLoader();
 
-        const formData = new FormData(checkoutForm);
-        const customerData = {
-            email: formData.get('email'),
-            name: formData.get('name'),
-            phone: formData.get('phone'),
-            address: formData.get('address')
-        };
+    const formData = new FormData(checkoutForm);
+    const customerData = {
+        email: formData.get('email'),
+        name: formData.get('name'),
+        phone: formData.get('phone'),
+        address: formData.get('address')
+    };
 
-        const shippingMethod = document.querySelector('input[name="shipping"]:checked').value;
+    const shippingMethod = document.querySelector('input[name="shipping"]:checked').value;
+    let shippingCost = 0;
 
-        console.log('Sending request to create-checkout-session...');
-        console.log('Cart data:', cart);
-        console.log('Customer data:', customerData);
-        console.log('Shipping method:', shippingMethod);
-
-        try {
-            const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    cart: cart,
-                    customerData: customerData,
-                    shippingMethod: shippingMethod
-                }),
-            });
-
-            console.log('Response status:', response.status);
-            console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Error response:', errorText);
-                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-            }
-
-            const data = await response.json();
-            console.log('Response data:', data);
-            
-            if (data.url) {
-                window.location.href = data.url;
-            } else {
-                throw new Error("No checkout URL in the response");
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert(`An error occurred: ${error.message}. Please try again later.`);
-            hideLoader();
-        }
+    if (shippingMethod === 'local') {
+        shippingCost = 5;
+    } else if (shippingMethod === 'other') {
+        shippingCost = 10;
     }
+
+    console.log('Sending request to create-checkout-session...');
+    console.log('Cart data:', cart);
+    console.log('Customer data:', customerData);
+    console.log('Shipping method:', shippingMethod);
+    console.log('Shipping cost:', shippingCost);
+
+    try {
+        const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                cart: cart,
+                customerData: customerData,
+                shippingMethod: shippingMethod,
+                shippingCost: shippingCost
+            }),
+        });
+
+        console.log('Response status:', response.status);
+        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error response:', errorText);
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+        }
+
+        const data = await response.json();
+        console.log('Response data:', data);
+        
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            throw new Error("No checkout URL in the response");
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert(`An error occurred: ${error.message}. Please try again later.`);
+        hideLoader();
+    }
+}
 
     // Initialize page
     loadCartData();
