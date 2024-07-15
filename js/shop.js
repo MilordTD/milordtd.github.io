@@ -13,14 +13,13 @@ const closeButton = document.getElementsByClassName('close')[0];
 renderer.setSize(260, 260);
 document.getElementById('book-3d-model').appendChild(renderer.domElement);
 
-// Объединенная функция openModal
 function openModal(modalIdOrImgSrc) {
     console.log('Opening modal:', modalIdOrImgSrc);
     if (modalIdOrImgSrc.startsWith('#')) {
         // Это ID модального окна
         const modal = document.getElementById(modalIdOrImgSrc.slice(1));
         if (modal) {
-            modal.style.display = 'flex'; // Изменено с 'block' на 'flex'
+            modal.classList.add('show');
             document.body.style.overflow = 'hidden';
             console.log('Modal opened successfully');
         } else {
@@ -30,7 +29,7 @@ function openModal(modalIdOrImgSrc) {
         // Это URL изображения
         const imageModal = document.getElementById('imageModal');
         const modalImg = document.getElementById('modalImage');
-        imageModal.style.display = 'flex'; // Изменено с 'block' на 'flex'
+        imageModal.classList.add('show');
         modalImg.src = modalIdOrImgSrc;
         document.body.style.overflow = 'hidden';
     }
@@ -39,10 +38,18 @@ function openModal(modalIdOrImgSrc) {
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     if (modal) {
-        modal.style.display = 'none';
+        modal.classList.remove('show');
         document.body.style.overflow = 'auto';
     }
 }
+
+// Добавьте этот код для закрытия модальных окон при клике вне их содержимого
+document.addEventListener('click', (event) => {
+    if (event.target.classList.contains('modal')) {
+        event.target.classList.remove('show');
+        document.body.style.overflow = 'auto';
+    }
+});
 
 function checkPaymentStatus() {
     console.log('checkPaymentStatus function called');

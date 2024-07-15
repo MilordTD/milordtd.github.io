@@ -481,7 +481,6 @@ body, html {
 }
 
 .modal {
-    display: none;
     position: fixed;
     z-index: 10001;
     left: 0;
@@ -490,10 +489,17 @@ body, html {
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.9);
-    /* Добавляем flexbox для центрирования */
     display: flex;
     justify-content: center;
     align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.3s linear;
+}
+
+.modal.show {
+    visibility: visible;
+    opacity: 1;
 }
 
 .modal-content {
@@ -502,9 +508,8 @@ body, html {
     padding: 40px;
     border-radius: 10px;
     max-width: 400px;
-    width: 90%; /* Для лучшей отзывчивости на мобильных устройствах */
-    /* Убираем margin, так как теперь используем flexbox для центрирования */
-    position: relative; /* Для позиционирования кнопки закрытия */
+    width: 90%;
+    position: relative;
 }
 
 #imageModal .modal-content {
