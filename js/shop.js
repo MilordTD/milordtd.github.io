@@ -475,7 +475,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const productListContainer = document.querySelector('.product-list-container');
     const erinImage = document.querySelector('.erin-image');
 
-     // Показываем контент с эффектом fade in
+      // Показываем контент с эффектом fade in
     setTimeout(() => {
         introContent.style.opacity = '1';
     }, 500);

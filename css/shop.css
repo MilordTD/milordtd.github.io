@@ -78,14 +78,15 @@ body, html {
 }
 
 .erin-image {
-    position: absolute;
+    position: fixed;
     top: 100px;
     right: 100px;
     width: 200px;
     height: auto;
-    z-index: 1;
+    z-index: 9998; /* Чуть ниже, чем у intro-overlay */
     transition: all 0.5s ease;
 }
+
 
 .erin-image.moved {
     top: 150px;
@@ -141,6 +142,8 @@ body, html {
     box-sizing: border-box;
     position: relative;
     height: 460px;
+    z-index: 10000; 
+
 }
 
 #product-name {
@@ -240,6 +243,7 @@ body, html {
     flex-direction: column;
     transition: margin-right 0.3s ease;
     overflow: hidden;
+    z-index: 10000;
 }
 
 .category-filter-wrapper {
@@ -398,7 +402,7 @@ body, html {
     color: white;
     padding: 20px;
     border-radius: 8px;
-    z-index: 1000;
+    z-index: 10000;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
