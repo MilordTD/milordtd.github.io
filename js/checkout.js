@@ -4,10 +4,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const shippingCostElement = document.getElementById('shipping-cost');
     const totalCostElement = document.getElementById('total-cost');
     const checkoutForm = document.getElementById('checkout-form');
-    const paymentDetails = document.getElementById('payment-details');
-    const otherDelivery = document.getElementById('other-delivery');
+    const addressGroup = document.getElementById('address-group');
     const stripeCheckoutBtn = document.getElementById('stripe-checkout-btn');
     const waitingListForm = document.getElementById('waiting-list-form');
+    const countrySelect = document.getElementById('waiting-country');
+    const cityInput = document.getElementById('waiting-city');
 
     let cart = [];
     let products = {};
@@ -98,60 +99,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Handle shipping method selection
-    const shippingOptions = document.querySelectorAll('.shipping-option');
-    shippingOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            shippingOptions.forEach(opt => opt.classList.remove('selected'));
-            this.classList.add('selected');
-            updateShippingDisplay(this.dataset.value);
+    // Handle shipping method change
+    document.querySelectorAll('input[name="shipping"]').forEach(input => {
+        input.addEventListener('change', function() {
+            if (this.value === 'pickup') {
+                shippingCostElement.textContent = '€0.00';
+                addressGroup.style.display = 'none';
+            } else if (this.value === 'local') {
+                shippingCostElement.textContent = '€5.00';
+                addressGroup.style.display = 'block';
+            } else if (this.value === 'other') {
+                shippingCostElement.textContent = '€10.00';
+                addressGroup.style.display = 'block';
+            }
+            updateTotalCost();
         });
     });
-
-    // Update shipping display based on selected method
-    function updateShippingDisplay(shippingMethod) {
-        if (shippingMethod === 'pickup') {
-            shippingCostElement.textContent = '€0.00';
-            paymentDetails.style.display = 'block';
-            otherDelivery.style.display = 'none';
-            document.getElementById('pickup-address').style.display = 'block';
-            document.getElementById('local-delivery-address').style.display = 'none';
-            loadMap();
-        } else if (shippingMethod === 'local') {
-            shippingCostElement.textContent = '€5.00';
-            paymentDetails.style.display = 'block';
-            otherDelivery.style.display = 'none';
-            document.getElementById('pickup-address').style.display = 'none';
-            document.getElementById('local-delivery-address').style.display = 'block';
-        } else if (shippingMethod === 'other') {
-            shippingCostElement.textContent = '€10.00';
-            paymentDetails.style.display = 'none';
-            otherDelivery.style.display = 'block';
-        }
-        updateTotalCost();
-    }
-
-    // Initialize shipping method display
-    function initializeShippingMethod() {
-        const defaultShippingOption = document.querySelector('.shipping-option');
-        defaultShippingOption.classList.add('selected');
-        updateShippingDisplay(defaultShippingOption.dataset.value);
-    }
-
-    // Load Google Map
-    function loadMap() {
-        const mapContainer = document.getElementById('map-container');
-        const mapOptions = {
-            center: { lat: 41.1496, lng: -8.6108 }, // Coordinates for Porto
-            zoom: 15
-        };
-        const map = new google.maps.Map(mapContainer, mapOptions);
-        const marker = new google.maps.Marker({
-            position: mapOptions.center,
-            map: map,
-            title: 'Pickup Location'
-        });
-    }
 
     // Initialize Stripe
     const stripe = Stripe('pk_test_51Pa3ibRscs7gmx3WK8tvLJAXQ2ugBOGM7KMEUyyNgLoQqYeLNxB2qo06ueA8kjWGd1qokCJNcSHgnKWe9JtF4V2M00SbWEiUby');
@@ -170,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
     stripeCheckoutBtn.addEventListener('click', function(e) {
         e.preventDefault();
         
-        const shippingMethod = document.querySelector('.shipping-option.selected').dataset.value;
+        const shippingMethod = document.querySelector('input[name="shipping"]:checked').value;
         let requiredFields;
 
         if (shippingMethod === 'pickup') {
@@ -211,6 +174,8 @@ document.addEventListener('DOMContentLoaded', function() {
         let shippingCost = 0;
         if (shippingMethod === 'local') {
             shippingCost = 5;
+        } else if (shippingMethod === 'other') {
+            shippingCost = 10;
         }
 
         console.log('Sending request to create-checkout-session...');
@@ -257,87 +222,73 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-// Handle waiting list form submission
-waitingListForm.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const email = document.getElementById('waiting-email').value;
-    const phone = document.getElementById('waiting-phone').value;
-    const country = document.getElementById('waiting-country').value;
-    const city = document.getElementById('waiting-city').value;
-    
-    console.log('Sending waitlist submission...');
-    
-    try {
-        const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                isWaitlist: true,
-                customerData: { email, phone, country, city }
-            }),
-        });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+    // Загрузка списка стран
+    async function loadCountries() {
+        try {
+            const response = await fetch('https://restcountries.com/v3.1/all?fields=name,cca2');
+            const countries = await response.json();
+            
+            countrySelect.innerHTML = '<option value="">Select Country</option>';
+            countries.sort((a, b) => a.name.common.localeCompare(b.name.common)).forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.cca2;
+                option.textContent = country.name.common;
+                countrySelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error loading countries:', error);
+            countrySelect.innerHTML = '<option value="">Error loading countries. Please try again later.</option>';
         }
-
-        const result = await response.json();
-        console.log('Waitlist submission result:', result);
-        
-        // Redirect to shop page with waitlist success parameter
-        window.location.href = '/shop?waitlist_status=success';
-    } catch (error) {
-        console.error('Error submitting waitlist:', error);
-        alert('An error occurred while submitting your information. Please try again later.');
     }
-});
 
-    // Load countries and cities for the waiting list form
-    const countries = ['USA', 'Canada', 'UK', 'Germany', 'France', 'Spain', 'Italy'];
-    const cities = {
-        'USA': ['New York', 'Los Angeles', 'Chicago'],
-        'Canada': ['Toronto', 'Vancouver', 'Montreal'],
-        'UK': ['London', 'Manchester', 'Birmingham'],
-        'Germany': ['Berlin', 'Munich', 'Hamburg'],
-        'France': ['Paris', 'Marseille', 'Lyon'],
-        'Spain': ['Madrid', 'Barcelona', 'Valencia'],
-        'Italy': ['Rome', 'Milan', 'Naples']
-    };
-
-    const countrySelect = document.getElementById('waiting-country');
-    const citySelect = document.getElementById('waiting-city');
-
-    countries.forEach(country => {
-        const option = document.createElement('option');
-        option.value = country;
-        option.textContent = country;
-        countrySelect.appendChild(option);
+    // Обработчик изменения выбранной страны
+    countrySelect.addEventListener('change', function() {
+        const selectedCountry = this.value;
+        if (selectedCountry) {
+            cityInput.disabled = false;
+        } else {
+            cityInput.value = '';
+            cityInput.disabled = true;
+        }
     });
 
-    countrySelect.addEventListener('change', function() {
-        citySelect.innerHTML = '';
-        cities[this.value].forEach(city => {
-            const option = document.createElement('option');
-            option.value = city;
-            option.textContent = city;
-            citySelect.appendChild(option);
-        });
+    // Handle waiting list form submission
+    waitingListForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const email = document.getElementById('waiting-email').value;
+        const phone = document.getElementById('waiting-phone').value;
+        const country = countrySelect.options[countrySelect.selectedIndex].text;
+        const city = cityInput.value;
+        
+        console.log('Sending waitlist submission...');
+        
+        try {
+            const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    isWaitlist: true,
+                    customerData: { email, phone, country, city }
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log('Waitlist submission result:', result);
+            window.location.href = '/shop?waitlist_status=success';
+        } catch (error) {
+            console.error('Error submitting waitlist:', error);
+            alert('An error occurred while submitting your information. Please try again later.');
+        }
     });
 
     // Initialize page
     loadCartData();
     displayCartItems();
-    initializeShippingMethod();
-
-    // Trigger change event to populate cities for the first country
-    countrySelect.dispatchEvent(new Event('change'));
+    loadCountries();
 });
-
-// Callback function for Google Maps API
-function initMap() {
-    // This function will be called when the Google Maps API is loaded
-    console.log('Google Maps API loaded');
-    // You can initialize the map here if needed, or leave it empty if you're initializing the map elsewhere
-}

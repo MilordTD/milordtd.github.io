@@ -121,30 +121,28 @@
                     <h2>International Delivery</h2>
                     <p class="disclaimer">Delivery is not currently available, but I want to understand if it's needed. If you live outside of Porto, please leave your location and email. When delivery to your region becomes available, I'll email you.</p>
                     <form id="waiting-list-form">
-                        <div class="form-row">
-                            <div class="form-column">
-                                <label for="waiting-email">Email Address</label>
-                                <input type="email" id="waiting-email" name="waiting-email" required>
-                            </div>
-                            <div class="form-column">
-                                <label for="waiting-phone">Phone</label>
-                                <input type="tel" id="waiting-phone" name="waiting-phone" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="waiting-country">Country</label>
-                            <select id="waiting-country" name="waiting-country" required>
-                                <!-- Список стран будет добавлен с помощью JavaScript -->
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="waiting-city">City</label>
-                            <select id="waiting-city" name="waiting-city" required>
-                                <!-- Список городов будет добавлен с помощью JavaScript -->
-                            </select>
-                        </div>
-                        <button type="submit" class="waiting-list-btn">Join the Waiting List</button>
-                    </form>
+    <div class="form-row">
+        <div class="form-column">
+            <label for="waiting-email">Email Address</label>
+            <input type="email" id="waiting-email" name="waiting-email" required>
+        </div>
+        <div class="form-column">
+            <label for="waiting-phone">Phone</label>
+            <input type="tel" id="waiting-phone" name="waiting-phone" required>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="waiting-country">Country</label>
+        <select id="waiting-country" name="waiting-country" required>
+            <option value="">Select Country</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="waiting-city">City</label>
+        <input type="text" id="waiting-city" name="waiting-city" required disabled>
+    </div>
+    <button type="submit" class="waiting-list-btn">Join the Waiting List</button>
+</form>
                 </div>
             </div>
         </div>
