@@ -291,8 +291,9 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
     outline: none;
     border-color: #4CAF50;
-    background-color: black; /* Изменение цвета фона для select при фокусе */
+    background-color: rgba(0, 0, 0, 0.8); /* Изменение цвета фона для select при фокусе */
     color: white;
+    backdrop-filter: blur(10px);
 }
 
 /* Установить ширину полей формы на 100% */
