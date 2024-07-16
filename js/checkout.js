@@ -139,24 +139,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Update shipping cost and form visibility
             const shippingMethod = this.dataset.value;
+            const pickupForm = document.getElementById('pickup-form');
+            const localDeliveryForm = document.getElementById('local-delivery-form');
+            const otherDelivery = document.getElementById('other-delivery');
+
             if (shippingMethod === 'pickup') {
                 shippingCostElement.textContent = '€0.00';
                 paymentDetails.style.display = 'block';
                 otherDelivery.style.display = 'none';
-                pickupForm.style.display = 'block';
-                localDeliveryForm.style.display = 'none';
+                if (pickupForm) pickupForm.style.display = 'block';
+                if (localDeliveryForm) localDeliveryForm.style.display = 'none';
             } else if (shippingMethod === 'local') {
                 shippingCostElement.textContent = '€5.00';
                 paymentDetails.style.display = 'block';
                 otherDelivery.style.display = 'none';
-                pickupForm.style.display = 'none';
-                localDeliveryForm.style.display = 'block';
+                if (pickupForm) pickupForm.style.display = 'none';
+                if (localDeliveryForm) localDeliveryForm.style.display = 'block';
             } else if (shippingMethod === 'other') {
                 shippingCostElement.textContent = '€10.00';
                 paymentDetails.style.display = 'none';
                 otherDelivery.style.display = 'block';
-                pickupForm.style.display = 'none';
-                localDeliveryForm.style.display = 'none';
+                if (pickupForm) pickupForm.style.display = 'none';
+                if (localDeliveryForm) localDeliveryForm.style.display = 'none';
             }
             updateTotalCost();
         });
