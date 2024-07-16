@@ -387,7 +387,7 @@ window.initMap = function() {
 
     const mapOptions = {
         center: varenkoLocation,
-        zoom: 17
+        zoom: 15
     };
 
     const map = new google.maps.Map(mapContainer, mapOptions);
