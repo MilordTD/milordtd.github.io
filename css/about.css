@@ -41,8 +41,6 @@ body, html {
     right: 40px;
 }
 
-
-
 .popup-menu {
     display: none;
     position: fixed;
@@ -77,13 +75,24 @@ body, html {
 .vertical-sections {
     display: flex;
     height: 100vh;
-    /* Убран верхний паддинг */
 }
 
 .section {
-    /* ... существующие стили ... */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #9bb865;
+    transition: background-image 0.3s ease;
     position: relative;
     overflow: hidden;
+}
+
+.divider {
+    width: 2px;
+    background-color: white;
 }
 
 .section h2, .section p {
@@ -110,16 +119,16 @@ body, html {
     left: 50%;
     transform: translate(-50%, calc(-50% + var(--y-offset) + 4rem + 20px));
     color: black;
-    width: 80%; /* Чтобы текст не выходил за пределы секции */
+    width: 80%;
+}
+
+.section:hover {
+    background-size: cover;
+    background-position: center;
 }
 
 .section:hover h2, .section:hover p {
     color: white;
-}
-
-.divider {
-    width: 2px;
-    background-color: white;
 }
 
 #K h2 { --y-offset: -20px; }
@@ -129,7 +138,6 @@ body, html {
 #A2 h2 { --y-offset: -25px; }
 #T h2 { --y-offset: 5px; }
 
-/* Стили для частиц */
 .particle {
     position: absolute;
     background-color: white;
@@ -138,7 +146,6 @@ body, html {
     opacity: 0;
 }
 
-/* Анимация для частиц */
 @keyframes particleAnimation {
     0% {
         transform: translateY(0);
