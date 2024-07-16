@@ -258,16 +258,38 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Handle waiting list form submission
-    waitingListForm.addEventListener('submit', function(e) {
+    waitingListForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         const email = document.getElementById('waiting-email').value;
         const phone = document.getElementById('waiting-phone').value;
         const country = document.getElementById('waiting-country').value;
         const city = document.getElementById('waiting-city').value;
         
-        // Here you would typically send this data to your server
-        console.log('Waiting list submission:', { email, phone, country, city });
-        alert('Thank you for joining the waiting list! We\'ll notify you when delivery becomes available in your area.');
+        console.log('Sending waitlist submission...');
+        
+        try {
+            const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    isWaitlist: true,
+                    customerData: { email, phone, country, city }
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log('Waitlist submission result:', result);
+            alert('Thank you for joining the waiting list! We\'ll notify you when delivery becomes available in your area.');
+        } catch (error) {
+            console.error('Error submitting waitlist:', error);
+            alert('An error occurred while submitting your information. Please try again later.');
+        }
     });
 
     // Load countries and cities for the waiting list form
