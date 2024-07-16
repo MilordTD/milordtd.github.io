@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const stripeCheckoutBtn = document.getElementById('stripe-checkout-btn');
     const waitingListForm = document.getElementById('waiting-list-form');
     const countrySelect = document.getElementById('waiting-country');
-    const citySelect = document.getElementById('waiting-city');
+    const cityInput = document.getElementById('waiting-city');
     const shippingOptions = document.querySelectorAll('.shipping-option');
     const paymentDetails = document.getElementById('payment-details');
     const otherDelivery = document.getElementById('other-delivery');
@@ -139,9 +139,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Update shipping cost and form visibility
             const shippingMethod = this.dataset.value;
-            const pickupForm = document.getElementById('pickup-form');
-            const localDeliveryForm = document.getElementById('local-delivery-form');
-            const otherDelivery = document.getElementById('other-delivery');
 
             if (shippingMethod === 'pickup') {
                 shippingCostElement.textContent = '€0.00';
@@ -324,13 +321,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedCountry = this.value;
         console.log('Selected country:', selectedCountry);
         if (selectedCountry) {
-            citySelect.disabled = false;
-            // Here you would typically load cities for the selected country
-            // For simplicity, we'll just enable the city input
-            citySelect.innerHTML = '<option value="">Select City</option>';
+            cityInput.disabled = false;
+            // Для упрощения, просто включаем поле input для ввода города
+            cityInput.placeholder = 'Enter your city';
         } else {
-            citySelect.innerHTML = '<option value="">Select City</option>';
-            citySelect.disabled = true;
+            cityInput.value = '';
+            cityInput.disabled = true;
         }
     });
 
@@ -340,11 +336,11 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Waitlist form submitted');
         const email = document.getElementById('waiting-email').value;
         const country = countrySelect.options[countrySelect.selectedIndex].text;
-        const city = citySelect.value;
-        
+        const city = cityInput.value;
+
         console.log('Sending waitlist submission...');
         console.log('Waitlist data:', { email, country, city });
-        
+
         try {
             const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
                 method: 'POST',
@@ -370,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Initialize page
+    // Инициализация страницы
     loadCartData();
     displayCartItems();
     loadCountries();
