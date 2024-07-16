@@ -204,24 +204,22 @@ p {
     margin-top: 30px;
 }
 
-.shipping-options {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.shipping-option {
+    cursor: pointer;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    transition: all 0.3s ease;
 }
 
-.shipping-option {
-    display: flex;
-    align-items: flex-start;
-    padding: 15px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: border-color 0.3s ease;
+.shipping-option:hover {
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .shipping-option.selected {
     border-color: #4CAF50;
+    background-color: rgba(76, 175, 80, 0.1);
 }
 
 .shipping-logo {

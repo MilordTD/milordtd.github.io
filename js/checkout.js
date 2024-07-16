@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded');
+    
     const cartItems = document.getElementById('cart-items');
     const subtotalElement = document.getElementById('subtotal');
     const shippingCostElement = document.getElementById('shipping-cost');
@@ -12,11 +13,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const waitingListForm = document.getElementById('waiting-list-form');
     const countrySelect = document.getElementById('waiting-country');
     const cityInput = document.getElementById('waiting-city');
+    const shippingOptions = document.querySelectorAll('.shipping-option');
 
-    console.log('Elements found:', { cartItems, subtotalElement, shippingCostElement, totalCostElement, checkoutForm, addressGroup, stripeCheckoutBtn, waitingListForm, countrySelect, cityInput });
+    console.log('Elements found:', { cartItems, subtotalElement, shippingCostElement, totalCostElement, checkoutForm, addressGroup, stripeCheckoutBtn, waitingListForm, countrySelect, cityInput, shippingOptions });
 
     let cart = [];
     let products = {};
+
+    // Load cart data and products from localStorage
+    function loadCartData() {
+        cart = JSON.parse(localStorage.getItem('cart')) || [];
+        products = JSON.parse(localStorage.getItem('products')) || {};
+        console.log('Loaded cart:', cart);
+        console.log('Loaded products:', products);
+    }
 
 
     // Toggle popup menu
@@ -30,15 +40,6 @@ document.addEventListener('DOMContentLoaded', function() {
             popupMenu.style.display = 'none';
         }
     });
-
-
-    // Load cart data and products from localStorage
-    function loadCartData() {
-        cart = JSON.parse(localStorage.getItem('cart')) || [];
-        products = JSON.parse(localStorage.getItem('products')) || {};
-        console.log('Loaded cart:', cart);
-        console.log('Loaded products:', products);
-    }
 
     // Display cart items
     function displayCartItems() {
@@ -125,20 +126,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Handle shipping method change
-    const shippingMethods = document.querySelectorAll('input[name="shipping"]');
-    console.log('Shipping methods:', shippingMethods);
+    // Handle shipping method selection
+    shippingOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            console.log('Shipping option clicked:', this.dataset.value);
+            
+            // Remove 'selected' class from all options
+            shippingOptions.forEach(opt => opt.classList.remove('selected'));
+            
+            // Add 'selected' class to clicked option
+            this.classList.add('selected');
 
-    shippingMethods.forEach(input => {
-        input.addEventListener('change', function() {
-            console.log('Shipping method changed:', this.value);
-            if (this.value === 'pickup') {
+            // Update shipping cost and address visibility
+            const shippingMethod = this.dataset.value;
+            if (shippingMethod === 'pickup') {
                 shippingCostElement.textContent = '€0.00';
                 addressGroup.style.display = 'none';
-            } else if (this.value === 'local') {
+            } else if (shippingMethod === 'local') {
                 shippingCostElement.textContent = '€5.00';
                 addressGroup.style.display = 'block';
-            } else if (this.value === 'other') {
+            } else if (shippingMethod === 'other') {
                 shippingCostElement.textContent = '€10.00';
                 addressGroup.style.display = 'block';
             }
@@ -166,23 +173,25 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         console.log('Stripe checkout button clicked');
         
-        const shippingMethod = document.querySelector('input[name="shipping"]:checked');
-        console.log('Selected shipping method:', shippingMethod ? shippingMethod.value : 'None selected');
-        
-        if (!shippingMethod) {
+        const selectedShippingOption = document.querySelector('.shipping-option.selected');
+        if (!selectedShippingOption) {
+            console.log('No shipping method selected');
             alert('Please select a shipping method');
             return;
         }
 
+        const shippingMethod = selectedShippingOption.dataset.value;
+        console.log('Selected shipping method:', shippingMethod);
+
         let requiredFields;
 
-        if (shippingMethod.value === 'pickup') {
+        if (shippingMethod === 'pickup') {
             requiredFields = checkoutForm.querySelectorAll('#email, #phone, #name');
-        } else if (shippingMethod.value === 'local') {
+        } else if (shippingMethod === 'local') {
             requiredFields = checkoutForm.querySelectorAll('#email, #phone, #name, #address');
         } else {
             console.log('Invalid shipping method');
-            return; // Для третьего варианта не выполняем Stripe checkout
+            return;
         }
 
         let isValid = true;
@@ -198,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if (isValid) {
-            handleStripeCheckout(shippingMethod.value);
+            handleStripeCheckout(shippingMethod);
         } else {
             console.log('Form validation failed');
         }
