@@ -77,11 +77,6 @@ body, html {
     height: 100vh;
 }
 
-.divider {
-    width: 2px;
-    background-color: white;
-}
-
 .section {
     flex: 1;
     display: flex;
@@ -89,11 +84,20 @@ body, html {
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-color: #9bb865;
+    background-color: #4682B4; /* Изменено на голубой цвет (Steel Blue) */
     transition: background-image 0.3s ease;
     position: relative;
     overflow: hidden;
     padding: 20px;
+}
+
+.divider {
+    width: 2px;
+    background-color: white;
+}
+
+.section h2, .section p {
+    transition: color 0.3s ease;
 }
 
 .section h2 {
@@ -123,7 +127,15 @@ body, html {
     box-sizing: border-box;
 }
 
-/* Индивидуальные смещения для букв */
+.section:hover {
+    background-size: cover;
+    background-position: center;
+}
+
+.section:hover h2, .section:hover p {
+    color: white;
+}
+
 #K h2 { --y-offset: -40px; }
 #A h2 { --y-offset: -20px; }
 #R h2 { --y-offset: -30px; }
