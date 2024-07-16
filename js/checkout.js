@@ -59,10 +59,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="item-price">€${product.price.toFixed(2)}</span>
                     </div>
                     <div class="item-quantity">
-                        ${item.quantity > 1 ? `<button class="quantity-btn minus" data-index="${index}">-</button>` : ''}
+                        ${item.quantity > 1 ? `<button class="quantity-btn minus" data-index="${index}">-</button>` : '<button class="quantity-btn remove-item" data-index="${index}"><i class="fas fa-trash"></i></button>'}
                         <input type="number" class="quantity-input" value="${item.quantity}" min="1" data-index="${index}" readonly>
                         <button class="quantity-btn plus" data-index="${index}">+</button>
-                        ${item.quantity === 1 ? `<button class="remove-item" data-index="${index}"><i class="fas fa-trash"></i></button>` : ''}
                     </div>
                 `;
                 cartItems.appendChild(itemElement);
