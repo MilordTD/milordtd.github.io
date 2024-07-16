@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function() {
     renderer.setClearColor(0x000000, 0); // Полностью прозрачный фон
     const productGallery = document.querySelector('.product-gallery');
     const modal = document.getElementById('imageModal');
+    const menuIcon = document.querySelector('.menu-icon');
+    const popupMenu = document.querySelector('.popup-menu');
     const modalImg = document.getElementById('modalImage');
     const closeButton = document.getElementsByClassName('close')[0];
     renderer.setSize(260, 260);
