@@ -484,7 +484,6 @@ animatedImage.style.top = `${startRect.top}px`;
     const introContent = document.querySelector('.intro-content');
     const introButton = document.querySelector('.intro-button');
     const productDetail = document.querySelector('.product-detail');
-    const productListContainer = document.querySelector('.product-list-container');
     const erinImage = document.querySelector('.erin-image');
 
     // Добавляем класс active к оверлею и body при загрузке страницы
