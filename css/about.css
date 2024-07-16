@@ -77,8 +77,9 @@ body, html {
 .vertical-sections {
     display: flex;
     height: 100vh;
-    padding-top: 50px;  /* Add space for the header */
+    /* Убран верхний паддинг */
 }
+
 
 .section {
     flex: 1;
@@ -91,11 +92,6 @@ body, html {
     transition: background-image 0.3s ease;
     position: relative;
     overflow: hidden;
-}
-
-.divider {
-    width: 2px;
-    background-color: white;
 }
 
 .section h2 {
@@ -111,8 +107,16 @@ body, html {
     padding: 1rem;
     z-index: 2;
     position: relative;
-    background-color: rgba(255, 255, 255, 0.7);
+    /* Убрана белая подложка */
+    color: white; /* Добавлен белый цвет текста для лучшей читаемости */
+    margin-top: calc(20px + 4rem); /* Располагаем текст на 20px ниже букв */
 }
+
+.divider {
+    width: 2px;
+    background-color: white;
+}
+
 
 .section:hover {
     background-size: cover;
