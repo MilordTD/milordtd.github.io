@@ -291,6 +291,8 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
     outline: none;
     border-color: #4CAF50;
+    background-color: black; /* Изменение цвета фона для select при фокусе */
+    color: white;
 }
 
 /* Установить ширину полей формы на 100% */
@@ -299,6 +301,13 @@ input:focus, textarea:focus, select:focus {
 .waiting-list-form textarea {
     width: 100%;
     box-sizing: border-box;
+    padding: 10px;
+    height: 40px; /* Установить одинаковую высоту */
+    font-size: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
 }
 
 /* Изменить цвет фона выпадающего списка "Country" на черный */
