@@ -1,4 +1,3 @@
-// checkout.js
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded');
     
@@ -60,13 +59,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="item-price">€${product.price.toFixed(2)}</span>
                     </div>
                     <div class="item-quantity">
-                        <button class="quantity-btn minus" data-index="${index}">-</button>
-                        <input type="number" class="quantity-input" value="${item.quantity}" min="1" data-index="${index}">
+                        ${item.quantity > 1 ? `<button class="quantity-btn minus" data-index="${index}">-</button>` : ''}
+                        <input type="number" class="quantity-input" value="${item.quantity}" min="1" data-index="${index}" readonly>
                         <button class="quantity-btn plus" data-index="${index}">+</button>
+                        ${item.quantity === 1 ? `<button class="remove-item" data-index="${index}"><i class="fas fa-trash"></i></button>` : ''}
                     </div>
-                    <button class="remove-item" data-index="${index}">
-                        <i class="fas fa-trash"></i>
-                    </button>
                 `;
                 cartItems.appendChild(itemElement);
                 subtotal += product.price * item.quantity;
@@ -390,7 +387,7 @@ window.initMap = function() {
 
     const mapOptions = {
         center: varenkoLocation,
-        zoom: 15
+        zoom: 17
     };
 
     const map = new google.maps.Map(mapContainer, mapOptions);
