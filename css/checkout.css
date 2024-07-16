@@ -1,3 +1,4 @@
+/* checkout.css */
 body, html {
     margin: 0;
     padding: 0;
@@ -263,11 +264,26 @@ input, textarea, select {
     font-size: 16px;
     background-color: rgba(255, 255, 255, 0.1);
     color: #ffffff;
+    box-sizing: border-box; /* Обеспечивает, что padding и border учитываются в общей ширине */
 }
 
 input:focus, textarea:focus, select:focus {
     outline: none;
     border-color: #4CAF50;
+}
+
+/* Установить ширину полей формы на 100% */
+.waiting-list-form input,
+.waiting-list-form select,
+.waiting-list-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Изменить цвет фона выпадающего списка "Country" на черный */
+.waiting-list-form select:focus {
+    background-color: black;
+    color: white;
 }
 
 .order-summary {
@@ -365,8 +381,11 @@ input[disabled] {
 }
 
 .disclaimer {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 15px;
+    border-radius: 4px;
     margin-bottom: 20px;
-    color: #ffffff !important;
 }
 
 @media (max-width: 768px) {
