@@ -194,9 +194,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let form;
         if (shippingMethod === 'pickup') {
-            form = pickupForm;
+            form = document.getElementById('pickup-form');
         } else if (shippingMethod === 'local') {
-            form = localDeliveryForm;
+            form = document.getElementById('local-delivery-form');
         } else {
             console.log('Invalid shipping method');
             return;
@@ -224,7 +224,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function handleStripeCheckout(shippingMethod, form) {
         showLoader();
-
+        
+        // Убедитесь, что form - это элемент формы
+        if (!(form instanceof HTMLFormElement)) {
+            console.error('Provided parameter is not an HTMLFormElement:', form);
+            hideLoader();
+            return;
+        }
+        
         const formData = new FormData(form);
         const customerData = {
             email: formData.get('email'),
