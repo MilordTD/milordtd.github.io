@@ -77,6 +77,11 @@ body, html {
     height: 100vh;
 }
 
+.divider {
+    width: 2px;
+    background-color: white;
+}
+
 .section {
     flex: 1;
     display: flex;
@@ -88,15 +93,7 @@ body, html {
     transition: background-image 0.3s ease;
     position: relative;
     overflow: hidden;
-}
-
-.divider {
-    width: 2px;
-    background-color: white;
-}
-
-.section h2, .section p {
-    transition: color 0.3s ease;
+    padding: 20px;
 }
 
 .section h2 {
@@ -112,31 +109,27 @@ body, html {
 }
 
 .section p {
-    padding: 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
     z-index: 2;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, calc(-50% + var(--y-offset) + 4rem + 20px));
     color: black;
-    width: 80%;
+    width: 100%;
+    max-width: 80%;
+    position: absolute;
+    top: calc(50% + 2rem + var(--y-offset));
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    box-sizing: border-box;
 }
 
-.section:hover {
-    background-size: cover;
-    background-position: center;
-}
-
-.section:hover h2, .section:hover p {
-    color: white;
-}
-
-#K h2 { --y-offset: -20px; }
-#A h2 { --y-offset: 30px; }
-#R h2 { --y-offset: -10px; }
-#H h2 { --y-offset: 15px; }
-#A2 h2 { --y-offset: -25px; }
-#T h2 { --y-offset: 5px; }
+/* Индивидуальные смещения для букв */
+#K h2 { --y-offset: -40px; }
+#A h2 { --y-offset: -20px; }
+#R h2 { --y-offset: -30px; }
+#H h2 { --y-offset: -25px; }
+#A2 h2 { --y-offset: -35px; }
+#T h2 { --y-offset: -15px; }
 
 .particle {
     position: absolute;
@@ -154,5 +147,23 @@ body, html {
     100% {
         transform: translateY(-100px);
         opacity: 0;
+    }
+}
+
+@media (max-height: 600px) {
+    .section h2 {
+        font-size: 3rem;
+    }
+    .section p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-height: 450px) {
+    .section h2 {
+        font-size: 2.5rem;
+    }
+    .section p {
+        font-size: 0.8rem;
     }
 }
