@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const paymentDetails = document.getElementById('payment-details');
     const otherDelivery = document.getElementById('other-delivery');
     const pickupForm = document.getElementById('pickup-form');
+    const menuIcon = document.querySelector('.menu-icon');
+    const popupMenu = document.querySelector('.popup-menu');
     const localDeliveryForm = document.getElementById('local-delivery-form');
 
     let cart = [];
@@ -26,6 +28,18 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Loaded cart:', cart);
         console.log('Loaded products:', products);
     }
+
+    // Toggle popup menu
+    menuIcon.addEventListener('click', () => {
+        popupMenu.style.display = popupMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Close popup menu when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!menuIcon.contains(event.target) && !popupMenu.contains(event.target)) {
+            popupMenu.style.display = 'none';
+        }
+    });
 
     // Display cart items
     function displayCartItems() {
