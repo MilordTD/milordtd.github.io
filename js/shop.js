@@ -17,6 +17,20 @@ document.addEventListener('DOMContentLoaded', function() {
     let mouseX = 0;
     let mouseY = 0;
 
+
+    // Toggle popup menu
+    menuIcon.addEventListener('click', () => {
+        popupMenu.style.display = popupMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Close popup menu when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!menuIcon.contains(event.target) && !popupMenu.contains(event.target)) {
+            popupMenu.style.display = 'none';
+        }
+    });
+
+
     function onDocumentMouseMove(event) {
         mouseX = (event.clientX - window.innerWidth / 2) / 100;
         mouseY = (event.clientY - window.innerHeight / 2) / 100;
