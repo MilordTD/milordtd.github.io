@@ -70,7 +70,7 @@
                     <h2>Payment Details</h2>
                     <p>Complete your purchase by providing your payment details.</p>
                     <form id="checkout-form">
-                        <div id="pickup-form" style="display: none;">
+                        <form id="pickup-form" style="display: none;">
                             <div class="form-group">
                                 <label for="pickup-email">Email Address</label>
                                 <input type="email" id="pickup-email" name="email" required>
@@ -88,9 +88,9 @@
                                 <div id="map-container" style="height: 300px; margin-top: 10px; border-radius: 4px; overflow: hidden;"></div>
 
                             </div>
-                        </div>
+                        </form>
 
-                        <div id="local-delivery-form" style="display: none;">
+                        <form id="local-delivery-form" style="display: none;">
                             <div class="form-group">
                                 <label for="local-email">Email Address</label>
                                 <input type="email" id="local-email" name="email" required>
@@ -115,7 +115,7 @@
                                 <label for="local-address">Address</label>
                                 <textarea id="local-address" name="address" rows="3" required></textarea>
                             </div>
-                        </div>
+                        </form>
 
                         <div class="order-summary">
                             <div class="summary-row">
