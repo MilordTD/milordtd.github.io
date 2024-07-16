@@ -130,11 +130,15 @@ document.addEventListener('DOMContentLoaded', function() {
         option.addEventListener('click', function() {
             console.log('Shipping option clicked:', this.dataset.value);
             
-            // Remove 'selected' class from all options
-            shippingOptions.forEach(opt => opt.classList.remove('selected'));
+            // Remove 'selected' class from all options and reset border color
+            shippingOptions.forEach(opt => {
+                opt.classList.remove('selected');
+                opt.style.borderColor = '';
+            });
             
-            // Add 'selected' class to clicked option
+            // Add 'selected' class to clicked option and set border color to green
             this.classList.add('selected');
+            this.style.borderColor = '#4CAF50';
 
             // Update shipping cost and form visibility
             const shippingMethod = this.dataset.value;
@@ -215,11 +219,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             requiredFields.forEach(field => {
                 if (!field.value.trim()) {
-                    field.style.border = '2px solid red';
+                    field.classList.add('error');
                     isValid = false;
                     console.log('Invalid field:', field.id);
                 } else {
-                    field.style.border = '';
+                    field.classList.remove('error');
                 }
             });
 
@@ -391,7 +395,7 @@ window.initMap = function() {
 
     const mapOptions = {
         center: varenkoLocation,
-        zoom: 15
+        zoom: 17
     };
 
     const map = new google.maps.Map(mapContainer, mapOptions);
