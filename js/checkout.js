@@ -181,10 +181,12 @@ document.addEventListener('DOMContentLoaded', function() {
     stripeCheckoutBtn.addEventListener('click', function(e) {
         e.preventDefault();
         console.log('Stripe checkout button clicked');
-        
+
+        // Validate shipping method and required fields
         const selectedShippingOption = document.querySelector('.shipping-option.selected');
         if (!selectedShippingOption) {
-            console.log('No shipping method selected');
+            // Highlight shipping options if none is selected
+            shippingOptions.forEach(option => option.style.borderColor = 'red');
             alert('Please select a shipping method');
             return;
         }
@@ -198,47 +200,50 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (shippingMethod === 'local') {
             form = document.getElementById('local-delivery-form');
         } else {
-            console.log('Invalid shipping method');
-            return;
+            form = null; // No additional form for "other" delivery
         }
 
         // Check if the selected form exists and is an HTMLFormElement
-        if (!form || !(form instanceof HTMLFormElement)) {
+        if (form && !(form instanceof HTMLFormElement)) {
             console.error('Selected form is not valid or not an HTMLFormElement:', form);
             return;
         }
 
-        const requiredFields = form.querySelectorAll('input[required], textarea[required]');
-        let isValid = true;
+        if (form) {
+            const requiredFields = form.querySelectorAll('input[required], textarea[required]');
+            let isValid = true;
 
-        requiredFields.forEach(field => {
-            if (!field.value.trim()) {
-                field.style.border = '2px solid red';
-                isValid = false;
-                console.log('Invalid field:', field.id);
-            } else {
-                field.style.border = '';
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.style.border = '2px solid red';
+                    isValid = false;
+                    console.log('Invalid field:', field.id);
+                } else {
+                    field.style.border = '';
+                }
+            });
+
+            if (!isValid) {
+                console.log('Form validation failed');
+                alert('Please fill in the required fields');
+                return;
             }
-        });
-
-        if (isValid) {
-            handleStripeCheckout(shippingMethod, form);
-        } else {
-            console.log('Form validation failed');
         }
+
+        handleStripeCheckout(shippingMethod, form);
     });
 
     async function handleStripeCheckout(shippingMethod, form) {
         showLoader();
 
         // Check if form is an HTMLFormElement
-        if (!(form instanceof HTMLFormElement)) {
+        if (form && !(form instanceof HTMLFormElement)) {
             console.error('Provided parameter is not an HTMLFormElement:', form);
             hideLoader();
             return;
         }
 
-        const formData = new FormData(form);
+        const formData = form ? new FormData(form) : new FormData();
         const customerData = {
             email: formData.get('email'),
             name: formData.get('name'),
@@ -386,7 +391,7 @@ window.initMap = function() {
 
     const mapOptions = {
         center: varenkoLocation,
-        zoom: 17
+        zoom: 15
     };
 
     const map = new google.maps.Map(mapContainer, mapOptions);
