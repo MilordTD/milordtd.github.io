@@ -381,15 +381,23 @@ window.initMap = function() {
         console.error('Map container not found');
         return;
     }
+
+    // Координаты для магазина "Varenka"
+    const varenkoLocation = { lat: 41.1510219, lng: -8.6120077 };
+
     const mapOptions = {
-        center: { lat: 41.1496, lng: -8.6108 }, // Coordinates for Porto
-        zoom: 15
+        center: varenkoLocation,
+        zoom: 17
     };
+
     const map = new google.maps.Map(mapContainer, mapOptions);
+
     const marker = new google.maps.Marker({
-        position: mapOptions.center,
+        position: varenkoLocation,
         map: map,
-        title: 'Pickup Location'
+        title: 'Varenka'
     });
-    console.log('Map initialized');
+
+    console.log('Map initialized with marker at Varenka');
 };
+
