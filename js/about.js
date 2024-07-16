@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const id = section.id;
         section.addEventListener('mouseover', () => {
             section.style.backgroundImage = `url(${images[id]})`;
+            createParticles(section);
         });
         section.addEventListener('mouseout', () => {
             section.style.backgroundImage = 'none';
@@ -33,4 +34,32 @@ document.addEventListener('DOMContentLoaded', () => {
             popupMenu.style.display = 'none';
         }
     });
+
+    function createParticles(section) {
+        const letter = section.querySelector('h2');
+        const rect = letter.getBoundingClientRect();
+
+        for (let i = 0; i < 20; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            const size = Math.random() * 5 + 2;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            const startX = rect.left + rect.width * Math.random();
+            const startY = rect.top + rect.height * Math.random();
+            
+            particle.style.left = `${startX}px`;
+            particle.style.top = `${startY}px`;
+            
+            particle.style.animation = `particleAnimation ${Math.random() * 1 + 0.5}s ease-out`;
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => {
+                document.body.removeChild(particle);
+            }, 1500);
+        }
+    }
 });
