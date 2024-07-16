@@ -257,40 +257,42 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Handle waiting list form submission
-    waitingListForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const email = document.getElementById('waiting-email').value;
-        const phone = document.getElementById('waiting-phone').value;
-        const country = document.getElementById('waiting-country').value;
-        const city = document.getElementById('waiting-city').value;
-        
-        console.log('Sending waitlist submission...');
-        
-        try {
-            const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    isWaitlist: true,
-                    customerData: { email, phone, country, city }
-                }),
-            });
+// Handle waiting list form submission
+waitingListForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const email = document.getElementById('waiting-email').value;
+    const phone = document.getElementById('waiting-phone').value;
+    const country = document.getElementById('waiting-country').value;
+    const city = document.getElementById('waiting-city').value;
+    
+    console.log('Sending waitlist submission...');
+    
+    try {
+        const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                isWaitlist: true,
+                customerData: { email, phone, country, city }
+            }),
+        });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const result = await response.json();
-            console.log('Waitlist submission result:', result);
-            alert('Thank you for joining the waiting list! We\'ll notify you when delivery becomes available in your area.');
-        } catch (error) {
-            console.error('Error submitting waitlist:', error);
-            alert('An error occurred while submitting your information. Please try again later.');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-    });
+
+        const result = await response.json();
+        console.log('Waitlist submission result:', result);
+        
+        // Redirect to shop page with waitlist success parameter
+        window.location.href = '/shop?waitlist_status=success';
+    } catch (error) {
+        console.error('Error submitting waitlist:', error);
+        alert('An error occurred while submitting your information. Please try again later.');
+    }
+});
 
     // Load countries and cities for the waiting list form
     const countries = ['USA', 'Canada', 'UK', 'Germany', 'France', 'Spain', 'Italy'];
