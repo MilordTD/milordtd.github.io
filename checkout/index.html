@@ -11,14 +11,13 @@
     <link rel="manifest" href="/site.webmanifest">
 </head>
 
-<nav class="popup-menu">
-    <ul>
-        <li><a href="/shop">Shop</a></li>
-        <li><a href="/about">About</a></li>
-    </ul>
-</nav>
-
 <body>
+    <nav class="popup-menu">
+        <ul>
+            <li><a href="/shop">Shop</a></li>
+            <li><a href="/about">About</a></li>
+        </ul>
+    </nav>
     <div class="container">
         <div class="header">
             <div class="logo">
@@ -70,7 +69,7 @@
                     <h2>Payment Details</h2>
                     <p>Complete your purchase by providing your payment details.</p>
                     <form id="checkout-form">
-                        <form id="pickup-form" style="display: none;">
+                        <div id="pickup-form" style="display: none;">
                             <div class="form-group">
                                 <label for="pickup-email">Email Address</label>
                                 <input type="email" id="pickup-email" name="email" required>
@@ -87,9 +86,9 @@
                                 <p>Pickup address: [Insert cafe address here]</p>
                                 <div id="map-container"></div>
                             </div>
-                        </form>
+                        </div>
 
-                        <form id="local-delivery-form" style="display: none;">
+                        <div id="local-delivery-form" style="display: none;">
                             <div class="form-group">
                                 <label for="local-email">Email Address</label>
                                 <input type="email" id="local-email" name="email" required>
@@ -114,7 +113,7 @@
                                 <label for="local-address">Address</label>
                                 <textarea id="local-address" name="address" rows="3" required></textarea>
                             </div>
-                        </form>
+                        </div>
 
                         <div class="order-summary">
                             <div class="summary-row">
