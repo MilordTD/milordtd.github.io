@@ -1,3 +1,4 @@
+// checkout.js
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM fully loaded');
     
@@ -63,7 +64,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         <input type="number" class="quantity-input" value="${item.quantity}" min="1" data-index="${index}">
                         <button class="quantity-btn plus" data-index="${index}">+</button>
                     </div>
-                    <button class="remove-item" data-index="${index}">Remove</button>
+                    <button class="remove-item" data-index="${index}">
+                        <i class="fas fa-trash"></i>
+                    </button>
                 `;
                 cartItems.appendChild(itemElement);
                 subtotal += product.price * item.quantity;
@@ -107,8 +110,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const index = parseInt(e.target.dataset.index);
             const change = e.target.classList.contains('plus') ? 1 : -1;
             handleQuantityChange(index, change);
-        } else if (e.target.classList.contains('remove-item')) {
-            const index = parseInt(e.target.dataset.index);
+        } else if (e.target.closest('.remove-item')) {
+            const index = parseInt(e.target.closest('.remove-item').dataset.index);
             removeItem(index);
         }
     });
@@ -400,4 +403,3 @@ window.initMap = function() {
 
     console.log('Map initialized with marker at Varenka');
 };
-
