@@ -1,22 +1,43 @@
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded');
     const cartItems = document.getElementById('cart-items');
     const subtotalElement = document.getElementById('subtotal');
     const shippingCostElement = document.getElementById('shipping-cost');
     const totalCostElement = document.getElementById('total-cost');
     const checkoutForm = document.getElementById('checkout-form');
+    const menuIcon = document.querySelector('.menu-icon');
+    const popupMenu = document.querySelector('.popup-menu');
     const addressGroup = document.getElementById('address-group');
     const stripeCheckoutBtn = document.getElementById('stripe-checkout-btn');
     const waitingListForm = document.getElementById('waiting-list-form');
     const countrySelect = document.getElementById('waiting-country');
     const cityInput = document.getElementById('waiting-city');
 
+    console.log('Elements found:', { cartItems, subtotalElement, shippingCostElement, totalCostElement, checkoutForm, addressGroup, stripeCheckoutBtn, waitingListForm, countrySelect, cityInput });
+
     let cart = [];
     let products = {};
+
+
+    // Toggle popup menu
+    menuIcon.addEventListener('click', () => {
+        popupMenu.style.display = popupMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Close popup menu when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!menuIcon.contains(event.target) && !popupMenu.contains(event.target)) {
+            popupMenu.style.display = 'none';
+        }
+    });
+
 
     // Load cart data and products from localStorage
     function loadCartData() {
         cart = JSON.parse(localStorage.getItem('cart')) || [];
         products = JSON.parse(localStorage.getItem('products')) || {};
+        console.log('Loaded cart:', cart);
+        console.log('Loaded products:', products);
     }
 
     // Display cart items
@@ -50,6 +71,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         subtotalElement.textContent = `€${subtotal.toFixed(2)}`;
         updateTotalCost();
+        console.log('Cart items displayed, subtotal:', subtotal);
     }
 
     // Update total cost
@@ -58,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const shippingCost = parseFloat(shippingCostElement.textContent.slice(1));
         const total = subtotal + shippingCost;
         totalCostElement.textContent = `€${total.toFixed(2)}`;
+        console.log('Total cost updated:', total);
     }
 
     // Handle quantity change
@@ -66,6 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (cart[index].quantity < 1) cart[index].quantity = 1;
         localStorage.setItem('cart', JSON.stringify(cart));
         displayCartItems();
+        console.log('Quantity changed for item at index:', index, 'New quantity:', cart[index].quantity);
     }
 
     // Remove item from cart
@@ -73,6 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
         cart.splice(index, 1);
         localStorage.setItem('cart', JSON.stringify(cart));
         displayCartItems();
+        console.log('Item removed from cart at index:', index);
     }
 
     // Event listeners for quantity buttons and remove button
@@ -95,13 +120,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 cart[index].quantity = newQuantity;
                 localStorage.setItem('cart', JSON.stringify(cart));
                 displayCartItems();
+                console.log('Quantity manually changed for item at index:', index, 'New quantity:', newQuantity);
             }
         }
     });
 
     // Handle shipping method change
-    document.querySelectorAll('input[name="shipping"]').forEach(input => {
+    const shippingMethods = document.querySelectorAll('input[name="shipping"]');
+    console.log('Shipping methods:', shippingMethods);
+
+    shippingMethods.forEach(input => {
         input.addEventListener('change', function() {
+            console.log('Shipping method changed:', this.value);
             if (this.value === 'pickup') {
                 shippingCostElement.textContent = '€0.00';
                 addressGroup.style.display = 'none';
@@ -122,25 +152,36 @@ document.addEventListener('DOMContentLoaded', function() {
     function showLoader() {
         stripeCheckoutBtn.classList.add('loading');
         stripeCheckoutBtn.disabled = true;
+        console.log('Loader shown');
     }
 
     function hideLoader() {
         stripeCheckoutBtn.classList.remove('loading');
         stripeCheckoutBtn.disabled = false;
+        console.log('Loader hidden');
     }
 
     // Handle form submission and Stripe checkout
     stripeCheckoutBtn.addEventListener('click', function(e) {
         e.preventDefault();
+        console.log('Stripe checkout button clicked');
         
-        const shippingMethod = document.querySelector('input[name="shipping"]:checked').value;
+        const shippingMethod = document.querySelector('input[name="shipping"]:checked');
+        console.log('Selected shipping method:', shippingMethod ? shippingMethod.value : 'None selected');
+        
+        if (!shippingMethod) {
+            alert('Please select a shipping method');
+            return;
+        }
+
         let requiredFields;
 
-        if (shippingMethod === 'pickup') {
+        if (shippingMethod.value === 'pickup') {
             requiredFields = checkoutForm.querySelectorAll('#email, #phone, #name');
-        } else if (shippingMethod === 'local') {
+        } else if (shippingMethod.value === 'local') {
             requiredFields = checkoutForm.querySelectorAll('#email, #phone, #name, #address');
         } else {
+            console.log('Invalid shipping method');
             return; // Для третьего варианта не выполняем Stripe checkout
         }
 
@@ -150,13 +191,16 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!field.value.trim()) {
                 field.style.border = '2px solid red';
                 isValid = false;
+                console.log('Invalid field:', field.id);
             } else {
                 field.style.border = '';
             }
         });
 
         if (isValid) {
-            handleStripeCheckout(shippingMethod);
+            handleStripeCheckout(shippingMethod.value);
+        } else {
+            console.log('Form validation failed');
         }
     });
 
@@ -235,6 +279,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 option.textContent = country.name.common;
                 countrySelect.appendChild(option);
             });
+            console.log('Countries loaded successfully');
         } catch (error) {
             console.error('Error loading countries:', error);
             countrySelect.innerHTML = '<option value="">Error loading countries. Please try again later.</option>';
@@ -244,6 +289,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Обработчик изменения выбранной страны
     countrySelect.addEventListener('change', function() {
         const selectedCountry = this.value;
+        console.log('Selected country:', selectedCountry);
         if (selectedCountry) {
             cityInput.disabled = false;
         } else {
@@ -255,12 +301,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle waiting list form submission
     waitingListForm.addEventListener('submit', async function(e) {
         e.preventDefault();
+        console.log('Waitlist form submitted');
         const email = document.getElementById('waiting-email').value;
         const phone = document.getElementById('waiting-phone').value;
         const country = countrySelect.options[countrySelect.selectedIndex].text;
         const city = cityInput.value;
         
         console.log('Sending waitlist submission...');
+        console.log('Waitlist data:', { email, phone, country, city });
         
         try {
             const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
@@ -291,4 +339,26 @@ document.addEventListener('DOMContentLoaded', function() {
     loadCartData();
     displayCartItems();
     loadCountries();
+    console.log('Page initialized');
 });
+
+// Глобальная функция initMap для callback Google Maps API
+window.initMap = function() {
+    console.log('Google Maps API loaded, initMap called');
+    const mapContainer = document.getElementById('map-container');
+    if (!mapContainer) {
+        console.error('Map container not found');
+        return;
+    }
+    const mapOptions = {
+        center: { lat: 41.1496, lng: -8.6108 }, // Coordinates for Porto
+        zoom: 15
+    };
+    const map = new google.maps.Map(mapContainer, mapOptions);
+    const marker = new google.maps.Marker({
+        position: mapOptions.center,
+        map: map,
+        title: 'Pickup Location'
+    });
+    console.log('Map initialized');
+};
