@@ -202,6 +202,12 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Check if the selected form exists and is an HTMLFormElement
+        if (!form || !(form instanceof HTMLFormElement)) {
+            console.error('Selected form is not valid or not an HTMLFormElement:', form);
+            return;
+        }
+
         const requiredFields = form.querySelectorAll('input[required], textarea[required]');
         let isValid = true;
 
@@ -224,14 +230,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function handleStripeCheckout(shippingMethod, form) {
         showLoader();
-        
-        // Убедитесь, что form - это элемент формы
+
+        // Check if form is an HTMLFormElement
         if (!(form instanceof HTMLFormElement)) {
             console.error('Provided parameter is not an HTMLFormElement:', form);
             hideLoader();
             return;
         }
-        
+
         const formData = new FormData(form);
         const customerData = {
             email: formData.get('email'),
