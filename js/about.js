@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const gridItems = document.querySelectorAll('.grid-item');
-    
+  const sections = document.querySelectorAll('.section');
+  
     const images = {
         K: '/images/pin_photo_1.png',
         A: '/images/pin_photo_2.png',
@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
         T: '/images/pin_photo_2.png'
     };
 
-    gridItems.forEach(item => {
-        const id = item.id;
-        item.style.setProperty('--bg-image', `url(${images[id]})`);
-    });
+  sections.forEach(section => {
+    const id = section.id;
+    section.style.setProperty('--bg-image', `url(${images[id]})`);
+  });
 });
