@@ -365,11 +365,8 @@ input[disabled] {
 }
 
 .disclaimer {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 15px;
-    border-radius: 4px;
     margin-bottom: 20px;
+    color: #ffffff !important;
 }
 
 @media (max-width: 768px) {
