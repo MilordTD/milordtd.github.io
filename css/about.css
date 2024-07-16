@@ -1,50 +1,57 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
 .vertical-sections {
-  display: flex;
-  height: 100vh;
+    display: flex;
+    height: 100vh;
 }
 
 .section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: #9bb865;
+    transition: background-image 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.divider {
+    width: 2px;
+    background-color: white;
 }
 
 .section h2 {
-  font-size: 4rem;
-  margin: 0;
-  z-index: 2;
+    font-family: 'Gotu', sans-serif;
+    font-size: 4rem;
+    margin: 0;
+    z-index: 2;
+    position: absolute;
+    transform: translateY(var(--y-offset));
 }
 
 .section p {
-  padding: 1rem;
-  z-index: 2;
-  transition: all 0.3s ease;
+    padding: 1rem;
+    z-index: 2;
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.7);
 }
 
-.section:hover p {
-  background-color: rgba(0, 0, 0, 0.8);
-  color: white;
+.section:hover {
+    background-size: cover;
+    background-position: center;
 }
 
-.section::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-size: cover;
-  background-position: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.section:hover::before {
-  opacity: 1;
-}
+#K h2 { --y-offset: -20px; }
+#A h2 { --y-offset: 30px; }
+#R h2 { --y-offset: -10px; }
+#H h2 { --y-offset: 15px; }
+#A2 h2 { --y-offset: -25px; }
+#T h2 { --y-offset: 5px; }

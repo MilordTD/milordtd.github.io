@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const sections = document.querySelectorAll('.section');
-  
+    const sections = document.querySelectorAll('.section');
+    
     const images = {
         K: '/images/pin_photo_1.png',
         A: '/images/pin_photo_2.png',
@@ -10,8 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
         T: '/images/pin_photo_2.png'
     };
 
-  sections.forEach(section => {
-    const id = section.id;
-    section.style.setProperty('--bg-image', `url(${images[id]})`);
-  });
+    sections.forEach(section => {
+        const id = section.id;
+        section.addEventListener('mouseover', () => {
+            section.style.backgroundImage = `url(${images[id]})`;
+        });
+        section.addEventListener('mouseout', () => {
+            section.style.backgroundImage = 'none';
+        });
+    });
 });
