@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const sections = document.querySelectorAll('.section');
+    const menuIcon = document.querySelector('.menu-icon');
+    const popupMenu = document.querySelector('.popup-menu');
     
     const images = {
         K: '/images/pin_photo_1.png',
@@ -18,5 +20,17 @@ document.addEventListener('DOMContentLoaded', () => {
         section.addEventListener('mouseout', () => {
             section.style.backgroundImage = 'none';
         });
+    });
+
+    // Toggle popup menu
+    menuIcon.addEventListener('click', () => {
+        popupMenu.style.display = popupMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Close popup menu when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!menuIcon.contains(event.target) && !popupMenu.contains(event.target)) {
+            popupMenu.style.display = 'none';
+        }
     });
 });
