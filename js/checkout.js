@@ -6,16 +6,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const shippingCostElement = document.getElementById('shipping-cost');
     const totalCostElement = document.getElementById('total-cost');
     const checkoutForm = document.getElementById('checkout-form');
-    const menuIcon = document.querySelector('.menu-icon');
-    const popupMenu = document.querySelector('.popup-menu');
-    const addressGroup = document.getElementById('address-group');
     const stripeCheckoutBtn = document.getElementById('stripe-checkout-btn');
     const waitingListForm = document.getElementById('waiting-list-form');
     const countrySelect = document.getElementById('waiting-country');
-    const cityInput = document.getElementById('waiting-city');
+    const citySelect = document.getElementById('waiting-city');
     const shippingOptions = document.querySelectorAll('.shipping-option');
-
-    console.log('Elements found:', { cartItems, subtotalElement, shippingCostElement, totalCostElement, checkoutForm, addressGroup, stripeCheckoutBtn, waitingListForm, countrySelect, cityInput, shippingOptions });
+    const paymentDetails = document.getElementById('payment-details');
+    const otherDelivery = document.getElementById('other-delivery');
+    const pickupForm = document.getElementById('pickup-form');
+    const localDeliveryForm = document.getElementById('local-delivery-form');
 
     let cart = [];
     let products = {};
@@ -27,19 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Loaded cart:', cart);
         console.log('Loaded products:', products);
     }
-
-
-    // Toggle popup menu
-    menuIcon.addEventListener('click', () => {
-        popupMenu.style.display = popupMenu.style.display === 'block' ? 'none' : 'block';
-    });
-
-    // Close popup menu when clicking outside
-    document.addEventListener('click', (event) => {
-        if (!menuIcon.contains(event.target) && !popupMenu.contains(event.target)) {
-            popupMenu.style.display = 'none';
-        }
-    });
 
     // Display cart items
     function displayCartItems() {
@@ -137,17 +123,26 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add 'selected' class to clicked option
             this.classList.add('selected');
 
-            // Update shipping cost and address visibility
+            // Update shipping cost and form visibility
             const shippingMethod = this.dataset.value;
             if (shippingMethod === 'pickup') {
                 shippingCostElement.textContent = '€0.00';
-                addressGroup.style.display = 'none';
+                paymentDetails.style.display = 'block';
+                otherDelivery.style.display = 'none';
+                pickupForm.style.display = 'block';
+                localDeliveryForm.style.display = 'none';
             } else if (shippingMethod === 'local') {
                 shippingCostElement.textContent = '€5.00';
-                addressGroup.style.display = 'block';
+                paymentDetails.style.display = 'block';
+                otherDelivery.style.display = 'none';
+                pickupForm.style.display = 'none';
+                localDeliveryForm.style.display = 'block';
             } else if (shippingMethod === 'other') {
                 shippingCostElement.textContent = '€10.00';
-                addressGroup.style.display = 'block';
+                paymentDetails.style.display = 'none';
+                otherDelivery.style.display = 'block';
+                pickupForm.style.display = 'none';
+                localDeliveryForm.style.display = 'none';
             }
             updateTotalCost();
         });
@@ -183,17 +178,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const shippingMethod = selectedShippingOption.dataset.value;
         console.log('Selected shipping method:', shippingMethod);
 
-        let requiredFields;
-
+        let form;
         if (shippingMethod === 'pickup') {
-            requiredFields = checkoutForm.querySelectorAll('#email, #phone, #name');
+            form = pickupForm;
         } else if (shippingMethod === 'local') {
-            requiredFields = checkoutForm.querySelectorAll('#email, #phone, #name, #address');
+            form = localDeliveryForm;
         } else {
             console.log('Invalid shipping method');
             return;
         }
 
+        const requiredFields = form.querySelectorAll('input[required], textarea[required]');
         let isValid = true;
 
         requiredFields.forEach(field => {
@@ -207,16 +202,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         if (isValid) {
-            handleStripeCheckout(shippingMethod);
+            handleStripeCheckout(shippingMethod, form);
         } else {
             console.log('Form validation failed');
         }
     });
 
-    async function handleStripeCheckout(shippingMethod) {
+    async function handleStripeCheckout(shippingMethod, form) {
         showLoader();
 
-        const formData = new FormData(checkoutForm);
+        const formData = new FormData(form);
         const customerData = {
             email: formData.get('email'),
             name: formData.get('name'),
@@ -227,8 +222,6 @@ document.addEventListener('DOMContentLoaded', function() {
         let shippingCost = 0;
         if (shippingMethod === 'local') {
             shippingCost = 5;
-        } else if (shippingMethod === 'other') {
-            shippingCost = 10;
         }
 
         console.log('Sending request to create-checkout-session...');
@@ -300,10 +293,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedCountry = this.value;
         console.log('Selected country:', selectedCountry);
         if (selectedCountry) {
-            cityInput.disabled = false;
+            citySelect.disabled = false;
+            // Here you would typically load cities for the selected country
+            // For simplicity, we'll just enable the city input
+            citySelect.innerHTML = '<option value="">Select City</option>';
         } else {
-            cityInput.value = '';
-            cityInput.disabled = true;
+            citySelect.innerHTML = '<option value="">Select City</option>';
+            citySelect.disabled = true;
         }
     });
 
@@ -312,12 +308,11 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         console.log('Waitlist form submitted');
         const email = document.getElementById('waiting-email').value;
-        const phone = document.getElementById('waiting-phone').value;
         const country = countrySelect.options[countrySelect.selectedIndex].text;
-        const city = cityInput.value;
+        const city = citySelect.value;
         
         console.log('Sending waitlist submission...');
-        console.log('Waitlist data:', { email, phone, country, city });
+        console.log('Waitlist data:', { email, country, city });
         
         try {
             const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
@@ -327,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 },
                 body: JSON.stringify({
                     isWaitlist: true,
-                    customerData: { email, phone, country, city }
+                    customerData: { email, country, city }
                 }),
             });
 
