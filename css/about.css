@@ -49,6 +49,41 @@ body, html {
     background-position: center;
 }
 
+
+.header {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 10px 0;
+    z-index: 10000;
+}
+
+.logo {
+    font-size: 36px;
+    font-weight: bold;
+    margin-left: 40px;
+}
+
+.logo-link {
+    color: white;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+}
+
+.logo-link:hover {
+    opacity: 0.8;
+}
+
+.menu-icon {
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+    position: absolute;
+    right: 40px;
+}
+
 #K h2 { --y-offset: -20px; }
 #A h2 { --y-offset: 30px; }
 #R h2 { --y-offset: -10px; }
