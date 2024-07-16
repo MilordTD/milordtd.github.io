@@ -142,7 +142,7 @@ p {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 4px;
     background-color: rgba(255, 255, 255, 0.1);
-    
+
 }
 
 .cart-item img {
@@ -258,7 +258,7 @@ label {
 
 input, textarea, select {
     width: 100%;
-    padding: 10px;
+    padding: 5px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 4px;
     font-size: 16px;
@@ -381,10 +381,7 @@ input[disabled] {
 }
 
 .disclaimer {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 15px;
-    border-radius: 4px;
+    color: white !important;
     margin-bottom: 20px;
 }
 
