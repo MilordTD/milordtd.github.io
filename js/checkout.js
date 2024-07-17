@@ -357,13 +357,4 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 });
 
-// Код для отображения модального окна при загрузке страницы /shop с параметром waitlistSuccess=true
-window.addEventListener('load', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('waitlistSuccess') === 'true') {
-        const waitlistSuccessModal = document.getElementById('waitlistSuccessModal');
-        if (waitlistSuccessModal) {
-            waitlistSuccessModal.style.display = 'block';
-        }
-    }
-});
+
