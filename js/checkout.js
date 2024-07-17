@@ -238,79 +238,51 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     async function handleStripeCheckout(shippingMethod, form) {
-    showLoader();
-
-    // Проверяем, является ли form экземпляром HTMLFormElement
-    if (form && !(form instanceof HTMLFormElement)) {
-        console.error('Provided parameter is not an HTMLFormElement:', form);
-        hideLoader();
-        return;
-    }
-
-    const formData = form ? new FormData(form) : new FormData();
-    const customerName = formData.get('name');
-
-    if (!customerName || customerName.trim() === '') {
-        alert('Пожалуйста, введите ваше имя');
-        hideLoader();
-        return;
-    }
-
-    const customerData = {
-        email: formData.get('email'),
-        name: customerName,
-        phone: formData.get('phone'),
-        address: formData.get('address')
-    };
-
-    let shippingCost = 0;
-    if (shippingMethod === 'local') {
-        shippingCost = 5;
-    }
-
-    console.log('Sending request to create-checkout-session...');
-    console.log('Cart data:', cart);
-    console.log('Customer data:', customerData);
-    console.log('Shipping method:', shippingMethod);
-    console.log('Shipping cost:', shippingCost);
-
-    try {
-        const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                cart: cart,
-                customerData: customerData,
-                shippingMethod: shippingMethod,
-                shippingCost: shippingCost
-            }),
-        });
-
-        console.log('Response status:', response.status);
-        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Error response:', errorText);
-            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-        }
-
-        const data = await response.json();
-        console.log('Response data:', data);
+        showLoader();
         
-        if (data.url) {
-            window.location.href = data.url;
-        } else {
-            throw new Error("No checkout URL in the response");
+        const formData = new FormData(form);
+        const customerData = {
+            email: formData.get('email'),
+            name: formData.get('name'),
+            phone: formData.get('phone'),
+            address: formData.get('address')
+        };
+        
+        let shippingCost = 0;
+        if (shippingMethod === 'local') {
+            shippingCost = 5;
         }
-    } catch (error) {
-        console.error('Error:', error);
-        alert(`An error occurred: ${error.message}. Please try again later.`);
-        hideLoader();
+
+        try {
+            const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    cart: cart,
+                    customerData: customerData,
+                    shippingMethod: shippingMethod,
+                    shippingCost: shippingCost
+                }),
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            }
+
+            const data = await response.json();
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                throw new Error("No checkout URL in the response");
+            }
+        } catch (error) {
+            alert(`An error occurred: ${error.message}. Please try again later.`);
+            hideLoader();
+        }
     }
-}
 
     // Загрузка списка стран
     async function loadCountries() {
