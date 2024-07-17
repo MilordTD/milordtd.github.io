@@ -142,7 +142,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const shippingMethod = selectedShippingOption.dataset.value;
         const form = document.getElementById('checkout-form');
 
-        const requiredFields = form.querySelectorAll('input[required], textarea[required], select[required]');
+        let requiredFields;
+        if (shippingMethod === 'pickup') {
+            requiredFields = form.querySelectorAll('#pickup-fields input[required], #pickup-fields textarea[required]');
+        } else if (shippingMethod === 'local') {
+            requiredFields = form.querySelectorAll('#local-fields input[required], #local-fields textarea[required]');
+        } else if (shippingMethod === 'other') {
+            requiredFields = form.querySelectorAll('#other-fields input[required], #other-fields select[required]');
+        } else {
+            requiredFields = form.querySelectorAll('input[required], textarea[required], select[required]');
+        }
+
         let isValid = true;
         requiredFields.forEach(field => {
             if (!field.value.trim()) {
@@ -170,8 +180,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const formData = new FormData(form);
         const customerData = {
             email: formData.get('email'),
-            name: formData.get('name'),
-            phone: formData.get('phone'),
+            name: formData.get('name') || '',
+            phone: formData.get('phone') || '',
             address: formData.get('address') || '',
             country: formData.get('country') || '',
             city: formData.get('city') || ''

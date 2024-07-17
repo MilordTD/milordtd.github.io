@@ -75,17 +75,17 @@
         <label for="email">Email Address</label>
         <input type="email" id="email" name="email" required>
     </div>
-    <div class="form-group common-fields">
-        <label for="phone">Phone</label>
-        <input type="tel" id="phone" name="phone" required>
-    </div>
-    <div class="form-group common-fields">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" required>
-    </div>
 
     <!-- Поля для "Pick up from 'Varenka'" -->
     <div id="pickup-fields" class="shipping-method-fields">
+        <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" required>
+        </div>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+        </div>
         <div class="pickup-address">
             <p>Pickup address: Rua do Almada 448, 4050-034 Porto</p>
             <div id="map-container" style="height: 300px; margin-top: 10px; border-radius: 4px; overflow: hidden;"></div>
@@ -94,6 +94,14 @@
 
     <!-- Поля для "Delivery in Grande Porto" -->
     <div id="local-fields" class="shipping-method-fields">
+        <div class="form-group">
+            <label for="local-phone">Phone</label>
+            <input type="tel" id="local-phone" name="phone" required>
+        </div>
+        <div class="form-group">
+            <label for="local-name">Name</label>
+            <input type="text" id="local-name" name="name" required>
+        </div>
         <div class="form-group">
             <label for="country">Country</label>
             <input type="text" id="country" name="country" value="Portugal" disabled>
@@ -143,6 +151,7 @@
         <div class="loader"></div>
     </button>
 </form>
+
 
                 </div>
 
