@@ -70,74 +70,80 @@
                     <h2>Payment Details</h2>
                     <p>Complete your purchase by providing your payment details.</p>
                     <form id="checkout-form">
-                        
-                        <form id="pickup-form" style="display: block;">
-    <div class="form-group">
-        <label for="pickup-email">Email Address</label>
-        <input type="email" id="pickup-email" name="email" required>
+    <!-- Поля для всех методов доставки -->
+    <div class="form-group common-fields">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required>
     </div>
-    <div class="form-group">
-        <label for="pickup-phone">Phone</label>
-        <input type="tel" id="pickup-phone" name="phone" required>
+    <div class="form-group common-fields">
+        <label for="phone">Phone</label>
+        <input type="tel" id="phone" name="phone" required>
     </div>
-    <div class="form-group">
-        <label for="pickup-name">Name</label>
-        <input type="text" id="pickup-name" name="name" required>
+    <div class="form-group common-fields">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
     </div>
-    <div class="pickup-address">
-        <p>Pickup address: Rua do Almada 448, 4050-034 Porto</p>
-        <div id="map-container" style="height: 300px; margin-top: 10px; border-radius: 4px; overflow: hidden;"></div>
+
+    <!-- Поля для "Pick up from 'Varenka'" -->
+    <div id="pickup-fields" class="shipping-method-fields">
+        <div class="pickup-address">
+            <p>Pickup address: Rua do Almada 448, 4050-034 Porto</p>
+            <div id="map-container" style="height: 300px; margin-top: 10px; border-radius: 4px; overflow: hidden;"></div>
+        </div>
     </div>
+
+    <!-- Поля для "Delivery in Grande Porto" -->
+    <div id="local-fields" class="shipping-method-fields">
+        <div class="form-group">
+            <label for="country">Country</label>
+            <input type="text" id="country" name="country" value="Portugal" disabled>
+        </div>
+        <div class="form-group">
+            <label for="city">Region</label>
+            <input type="text" id="city" name="city" value="Grande Porto" disabled>
+        </div>
+        <div class="form-group">
+            <label for="address">Address</label>
+            <textarea id="address" name="address" rows="3" required></textarea>
+        </div>
+    </div>
+
+    <!-- Поля для "Delivery to any location outside Grande Porto, Portugal" -->
+    <div id="other-fields" class="shipping-method-fields">
+        <div class="form-group">
+            <label for="other-country">Country</label>
+            <select id="other-country" name="country" required>
+                <!-- Список стран будет добавлен с помощью JavaScript -->
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="other-city">City</label>
+            <input type="text" id="other-city" name="city" required>
+        </div>
+    </div>
+
+    <!-- Краткое содержание заказа -->
+    <div class="order-summary">
+        <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="subtotal">€0.00</span>
+        </div>
+        <div class="summary-row">
+            <span>Shipping</span>
+            <span id="shipping-cost">€0.00</span>
+        </div>
+        <div class="summary-row total">
+            <span>Total</span>
+            <span id="total-cost">€0.00</span>
+        </div>
+    </div>
+
+    <button id="stripe-checkout-btn" class="pay-button">
+        <span class="button-text">Proceed to Payment</span>
+        <div class="loader"></div>
+    </button>
 </form>
 
-
-
-                        <form id="local-delivery-form" style="display: none;">
-                            <div class="form-group">
-                                <label for="local-email">Email Address</label>
-                                <input type="email" id="local-email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="local-phone">Phone</label>
-                                <input type="tel" id="local-phone" name="phone" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="local-name">Name</label>
-                                <input type="text" id="local-name" name="name" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="local-country">Country</label>
-                                <input type="text" id="local-country" name="country" value="Portugal" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="local-city">Region</label>
-                                <input type="text" id="local-city" name="city" value="Grande Porto" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label for="local-address">Address</label>
-                                <textarea id="local-address" name="address" rows="3" required></textarea>
-                            </div>
-                        </form>
-
-                        <div class="order-summary">
-                            <div class="summary-row">
-                                <span>Subtotal</span>
-                                <span id="subtotal">€0.00</span>
-                            </div>
-                            <div class="summary-row">
-                                <span>Shipping</span>
-                                <span id="shipping-cost">€0.00</span>
-                            </div>
-                            <div class="summary-row total">
-                                <span>Total</span>
-                                <span id="total-cost">€0.00</span>
-                            </div>
-                        </div>
-                        <button id="stripe-checkout-btn" class="pay-button">
-                            <span class="button-text">Proceed to Payment</span>
-                            <div class="loader"></div>
-                        </button>
-                    </form>
                 </div>
 
                 <div id="other-delivery" class="section other-delivery" style="display: none;">

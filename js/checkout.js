@@ -1,27 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM fully loaded');
-    
-    const cartItems = document.getElementById('cart-items');
+    const shippingOptions = document.querySelectorAll('.shipping-option');
+    const pickupFields = document.getElementById('pickup-fields');
+    const localFields = document.getElementById('local-fields');
+    const otherFields = document.getElementById('other-fields');
+    const stripeCheckoutBtn = document.getElementById('stripe-checkout-btn');
+    const countrySelect = document.getElementById('other-country');
     const subtotalElement = document.getElementById('subtotal');
     const shippingCostElement = document.getElementById('shipping-cost');
     const totalCostElement = document.getElementById('total-cost');
-    const checkoutForm = document.getElementById('checkout-form');
-    const stripeCheckoutBtn = document.getElementById('stripe-checkout-btn');
-    const waitingListForm = document.getElementById('waiting-list-form');
-    const countrySelect = document.getElementById('waiting-country');
-    const cityInput = document.getElementById('waiting-city');
-    const shippingOptions = document.querySelectorAll('.shipping-option');
-    const paymentDetails = document.getElementById('payment-details');
-    const otherDelivery = document.getElementById('other-delivery');
-    const pickupForm = document.getElementById('pickup-form');
-    const menuIcon = document.querySelector('.menu-icon');
-    const popupMenu = document.querySelector('.popup-menu');
-    const localDeliveryForm = document.getElementById('local-delivery-form');
+    const cartItems = document.getElementById('cart-items');
 
     let cart = [];
     let products = {};
 
-    // Load cart data and products from localStorage
+    // Загрузка данных корзины
     function loadCartData() {
         cart = JSON.parse(localStorage.getItem('cart')) || [];
         products = JSON.parse(localStorage.getItem('products')) || {};
@@ -29,19 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Loaded products:', products);
     }
 
-    // Toggle popup menu
-    menuIcon.addEventListener('click', () => {
-        popupMenu.style.display = popupMenu.style.display === 'block' ? 'none' : 'block';
-    });
-
-    // Close popup menu when clicking outside
-    document.addEventListener('click', (event) => {
-        if (!menuIcon.contains(event.target) && !popupMenu.contains(event.target)) {
-            popupMenu.style.display = 'none';
-        }
-    });
-
-    // Display cart items
+    // Отображение товаров корзины
     function displayCartItems() {
         cartItems.innerHTML = '';
         let subtotal = 0;
@@ -74,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Cart items displayed, subtotal:', subtotal);
     }
 
-    // Update total cost
+    // Обновление общей стоимости
     function updateTotalCost() {
         const subtotal = parseFloat(subtotalElement.textContent.slice(1));
         const shippingCost = parseFloat(shippingCostElement.textContent.slice(1));
@@ -83,239 +63,50 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Total cost updated:', total);
     }
 
-    // Handle quantity change
-    function handleQuantityChange(index, change) {
-        cart[index].quantity += change;
-        if (cart[index].quantity < 1) cart[index].quantity = 1;
-        localStorage.setItem('cart', JSON.stringify(cart));
-        displayCartItems();
-        console.log('Quantity changed for item at index:', index, 'New quantity:', cart[index].quantity);
+    // Скрытие всех полей доставки
+    function hideAllShippingFields() {
+        pickupFields.style.display = 'none';
+        localFields.style.display = 'none';
+        otherFields.style.display = 'none';
     }
 
-    // Remove item from cart
-    function removeItem(index) {
-        cart.splice(index, 1);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        displayCartItems();
-        console.log('Item removed from cart at index:', index);
-    }
-
-    // Event listeners for quantity buttons and remove button
-    cartItems.addEventListener('click', function(e) {
-        if (e.target.classList.contains('quantity-btn')) {
-            const index = parseInt(e.target.dataset.index);
-            const change = e.target.classList.contains('plus') ? 1 : -1;
-            handleQuantityChange(index, change);
-        } else if (e.target.closest('.remove-item')) {
-            const index = parseInt(e.target.closest('.remove-item').dataset.index);
-            removeItem(index);
-        }
-    });
-
-    cartItems.addEventListener('change', function(e) {
-        if (e.target.classList.contains('quantity-input')) {
-            const index = parseInt(e.target.dataset.index);
-            const newQuantity = parseInt(e.target.value);
-            if (newQuantity >= 1) {
-                cart[index].quantity = newQuantity;
-                localStorage.setItem('cart', JSON.stringify(cart));
-                displayCartItems();
-                console.log('Quantity manually changed for item at index:', index, 'New quantity:', newQuantity);
-            }
-        }
-    });
-
-    // Handle shipping method selection
+    // Обработка выбора метода доставки
     shippingOptions.forEach(option => {
         option.addEventListener('click', function() {
             console.log('Shipping option clicked:', this.dataset.value);
-            
-            // Remove 'selected' class from all options and reset border color
+
+            // Сброс выделения для всех опций доставки
             shippingOptions.forEach(opt => {
                 opt.classList.remove('selected');
                 opt.style.borderColor = '';
             });
-            
-            // Add 'selected' class to clicked option and set border color to green
+
+            // Выделение выбранной опции доставки
             this.classList.add('selected');
             this.style.borderColor = '#4CAF50';
 
-            // Update shipping cost and form visibility
-            const shippingMethod = this.dataset.value;
+            hideAllShippingFields();
 
+            const shippingMethod = this.dataset.value;
             if (shippingMethod === 'pickup') {
                 shippingCostElement.textContent = '€0.00';
-                paymentDetails.style.display = 'block';
-                otherDelivery.style.display = 'none';
-                if (pickupForm) pickupForm.style.display = 'block';
-                if (localDeliveryForm) localDeliveryForm.style.display = 'none';
+                pickupFields.style.display = 'block';
             } else if (shippingMethod === 'local') {
                 shippingCostElement.textContent = '€5.00';
-                paymentDetails.style.display = 'block';
-                otherDelivery.style.display = 'none';
-                if (pickupForm) pickupForm.style.display = 'none';
-                if (localDeliveryForm) localDeliveryForm.style.display = 'block';
+                localFields.style.display = 'block';
             } else if (shippingMethod === 'other') {
                 shippingCostElement.textContent = '€10.00';
-                paymentDetails.style.display = 'none';
-                otherDelivery.style.display = 'block';
-                if (pickupForm) pickupForm.style.display = 'none';
-                if (localDeliveryForm) localDeliveryForm.style.display = 'none';
+                otherFields.style.display = 'block';
             }
             updateTotalCost();
         });
     });
-
-    // Initialize Stripe
-    const stripe = Stripe('pk_test_51Pa3ibRscs7gmx3WK8tvLJAXQ2ugBOGM7KMEUyyNgLoQqYeLNxB2qo06ueA8kjWGd1qokCJNcSHgnKWe9JtF4V2M00SbWEiUby');
-
-    function showLoader() {
-        stripeCheckoutBtn.classList.add('loading');
-        stripeCheckoutBtn.disabled = true;
-        console.log('Loader shown');
-    }
-
-    function hideLoader() {
-        stripeCheckoutBtn.classList.remove('loading');
-        stripeCheckoutBtn.disabled = false;
-        console.log('Loader hidden');
-    }
-
-    // Handle form submission and Stripe checkout
-    stripeCheckoutBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        console.log('Stripe checkout button clicked');
-
-        // Validate shipping method and required fields
-        const selectedShippingOption = document.querySelector('.shipping-option.selected');
-        if (!selectedShippingOption) {
-            // Highlight shipping options if none is selected
-            shippingOptions.forEach(option => option.style.borderColor = 'red');
-            alert('Please select a shipping method');
-            return;
-        }
-
-        const shippingMethod = selectedShippingOption.dataset.value;
-        console.log('Selected shipping method:', shippingMethod);
-
-        let form;
-        if (shippingMethod === 'pickup') {
-            form = document.getElementById('pickup-form');
-        } else if (shippingMethod === 'local') {
-            form = document.getElementById('local-delivery-form');
-        } else {
-            form = null; // No additional form for "other" delivery
-        }
-
-        // Check if the selected form exists and is an HTMLFormElement
-        if (form && !(form instanceof HTMLFormElement)) {
-            console.error('Selected form is not valid or not an HTMLFormElement:', form);
-            return;
-        }
-
-        if (form) {
-            const requiredFields = form.querySelectorAll('input[required], textarea[required]');
-            let isValid = true;
-
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    field.classList.add('error');
-                    isValid = false;
-                    console.log('Invalid field:', field.id);
-                } else {
-                    field.classList.remove('error');
-                }
-            });
-
-            if (!isValid) {
-                console.log('Form validation failed');
-                alert('Please fill in the required fields');
-                return;
-            }
-        }
-
-        handleStripeCheckout(shippingMethod, form);
-    });
-
-    async function handleStripeCheckout(shippingMethod, form) {
-    showLoader();
-
-    // Извлечение данных из формы
-    const formData = form ? new FormData(form) : new FormData();
-    const customerData = {
-        email: formData.get('email'),
-        name: formData.get('name'),
-        phone: formData.get('phone'),
-        address: formData.get('address') // Возможно, это поле не используется в форме pickup
-    };
-
-    // Логирование данных для отладки
-    console.log('Customer Data:', customerData);
-
-    // Проверка валидности email
-    if (!customerData.email || !validateEmail(customerData.email)) {
-        alert('Please provide a valid email address.');
-        hideLoader();
-        return;
-    }
-
-    let shippingCost = 0;
-    if (shippingMethod === 'local') {
-        shippingCost = 5;
-    }
-
-    try {
-        const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                cart: cart,
-                customerData: customerData,
-                shippingMethod: shippingMethod,
-                shippingCost: shippingCost
-            })
-        });
-
-        console.log('Response status:', response.status);
-        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            console.error('Error response:', errorText);
-            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-        }
-
-        const data = await response.json();
-        console.log('Response data:', data);
-
-        if (data.url) {
-            window.location.href = data.url;
-        } else {
-            throw new Error("No checkout URL in the response");
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        alert(`An error occurred: ${error.message}. Please try again later.`);
-        hideLoader();
-    }
-}
-
-// Вспомогательная функция для проверки валидности email
-function validateEmail(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i;
-    return re.test(String(email).toLowerCase());
-}
-
-
 
     // Загрузка списка стран
     async function loadCountries() {
         try {
             const response = await fetch('https://restcountries.com/v3.1/all?fields=name,cca2');
             const countries = await response.json();
-            
             countrySelect.innerHTML = '<option value="">Select Country</option>';
             countries.sort((a, b) => a.name.common.localeCompare(b.name.common)).forEach(country => {
                 const option = document.createElement('option');
@@ -330,87 +121,130 @@ function validateEmail(email) {
         }
     }
 
-    // Обработчик изменения выбранной страны
-    countrySelect.addEventListener('change', function() {
-        const selectedCountry = this.value;
-        console.log('Selected country:', selectedCountry);
-        if (selectedCountry) {
-            cityInput.disabled = false;
-            // Для упрощения, просто включаем поле input для ввода города
-            cityInput.placeholder = 'Enter your city';
-        } else {
-            cityInput.value = '';
-            cityInput.disabled = true;
+    // Инициализация страницы
+    loadCountries();
+    hideAllShippingFields();
+    loadCartData();
+    displayCartItems();
+
+    // Обработка нажатия на кнопку Stripe Checkout
+    stripeCheckoutBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log('Stripe checkout button clicked');
+
+        const selectedShippingOption = document.querySelector('.shipping-option.selected');
+        if (!selectedShippingOption) {
+            shippingOptions.forEach(option => option.style.borderColor = 'red');
+            alert('Please select a shipping method');
+            return;
         }
+
+        const shippingMethod = selectedShippingOption.dataset.value;
+        const form = document.getElementById('checkout-form');
+
+        const requiredFields = form.querySelectorAll('input[required], textarea[required], select[required]');
+        let isValid = true;
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.classList.add('error');
+                isValid = false;
+                console.log('Invalid field:', field.id);
+            } else {
+                field.classList.remove('error');
+            }
+        });
+
+        if (!isValid) {
+            console.log('Form validation failed');
+            alert('Please fill in the required fields');
+            return;
+        }
+
+        handleStripeCheckout(shippingMethod, form);
     });
 
-    // Handle waiting list form submission
-    waitingListForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        console.log('Waitlist form submitted');
-        const email = document.getElementById('waiting-email').value;
-        const country = countrySelect.options[countrySelect.selectedIndex].text;
-        const city = cityInput.value;
+    // Функция для обработки Stripe Checkout
+    async function handleStripeCheckout(shippingMethod, form) {
+        showLoader();
 
-        console.log('Sending waitlist submission...');
-        console.log('Waitlist data:', { email, country, city });
+        const formData = new FormData(form);
+        const customerData = {
+            email: formData.get('email'),
+            name: formData.get('name'),
+            phone: formData.get('phone'),
+            address: formData.get('address') || '',
+            country: formData.get('country') || '',
+            city: formData.get('city') || ''
+        };
+
+        console.log('Customer Data:', customerData);
+
+        if (!customerData.email || !validateEmail(customerData.email)) {
+            alert('Please provide a valid email address.');
+            hideLoader();
+            return;
+        }
+
+        let shippingCost = 0;
+        if (shippingMethod === 'local') {
+            shippingCost = 5;
+        } else if (shippingMethod === 'other') {
+            shippingCost = 10;
+        }
 
         try {
             const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    isWaitlist: true,
-                    customerData: { email, country, city }
-                }),
+                    cart: cart,
+                    customerData: customerData,
+                    shippingMethod: shippingMethod,
+                    shippingCost: shippingCost
+                })
             });
 
+            console.log('Response status:', response.status);
+            console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                const errorText = await response.text();
+                console.error('Error response:', errorText);
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
             }
 
-            const result = await response.json();
-            console.log('Waitlist submission result:', result);
-            window.location.href = '/shop?waitlist_status=success';
+            const data = await response.json();
+            console.log('Response data:', data);
+
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                throw new Error("No checkout URL in the response");
+            }
         } catch (error) {
-            console.error('Error submitting waitlist:', error);
-            alert('An error occurred while submitting your information. Please try again later.');
+            console.error('Error:', error);
+            alert(`An error occurred: ${error.message}. Please try again later.`);
+            hideLoader();
         }
-    });
-
-    // Инициализация страницы
-    loadCartData();
-    displayCartItems();
-    loadCountries();
-    console.log('Page initialized');
-});
-
-// Глобальная функция initMap для callback Google Maps API
-window.initMap = function() {
-    console.log('Google Maps API loaded, initMap called');
-    const mapContainer = document.getElementById('map-container');
-    if (!mapContainer) {
-        console.error('Map container not found');
-        return;
     }
 
-    // Координаты для магазина "Varenka"
-    const varenkoLocation = { lat: 41.1510219, lng: -8.6120077 };
+    // Вспомогательная функция для проверки валидности email
+    function validateEmail(email) {
+        const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i;
+        return re.test(String(email).toLowerCase());
+    }
 
-    const mapOptions = {
-        center: varenkoLocation,
-        zoom: 17
-    };
+    function showLoader() {
+        stripeCheckoutBtn.classList.add('loading');
+        stripeCheckoutBtn.disabled = true;
+        console.log('Loader shown');
+    }
 
-    const map = new google.maps.Map(mapContainer, mapOptions);
-
-    const marker = new google.maps.Marker({
-        position: varenkoLocation,
-        map: map,
-        title: 'Varenka'
-    });
-
-    console.log('Map initialized with marker at Varenka');
-};
+    function hideLoader() {
+        stripeCheckoutBtn.classList.remove('loading');
+        stripeCheckoutBtn.disabled = false;
+        console.log('Loader hidden');
+    }
+});
