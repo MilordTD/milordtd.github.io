@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
         email: formData.get('email'),
         name: formData.get('name'),
         phone: formData.get('phone'),
-        address: formData.get('address')
+        address: formData.get('address') // Возможно, это поле не используется в форме pickup
     };
 
     // Логирование данных для отладки
@@ -259,13 +259,11 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    // Установка стоимости доставки
     let shippingCost = 0;
     if (shippingMethod === 'local') {
         shippingCost = 5;
     }
 
-    // Отправка запроса к серверу для создания сессии Stripe
     try {
         const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
             method: 'POST',
@@ -280,29 +278,24 @@ document.addEventListener('DOMContentLoaded', function() {
             })
         });
 
-        // Логирование статуса ответа и заголовков для отладки
         console.log('Response status:', response.status);
         console.log('Response headers:', Object.fromEntries(response.headers.entries()));
 
-        // Проверка успешности ответа
         if (!response.ok) {
             const errorText = await response.text();
             console.error('Error response:', errorText);
             throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
         }
 
-        // Извлечение данных из ответа
         const data = await response.json();
         console.log('Response data:', data);
 
-        // Переход на страницу оплаты
         if (data.url) {
             window.location.href = data.url;
         } else {
             throw new Error("No checkout URL in the response");
         }
     } catch (error) {
-        // Обработка ошибок
         console.error('Error:', error);
         alert(`An error occurred: ${error.message}. Please try again later.`);
         hideLoader();
@@ -314,6 +307,7 @@ function validateEmail(email) {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i;
     return re.test(String(email).toLowerCase());
 }
+
 
 
     // Загрузка списка стран
