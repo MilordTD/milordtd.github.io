@@ -186,31 +186,20 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         console.log('Stripe checkout button clicked');
 
-        // Validate shipping method and required fields
         const selectedShippingOption = document.querySelector('.shipping-option.selected');
         if (!selectedShippingOption) {
-            // Highlight shipping options if none is selected
             shippingOptions.forEach(option => option.style.borderColor = 'red');
             alert('Please select a shipping method');
             return;
         }
 
         const shippingMethod = selectedShippingOption.dataset.value;
-        console.log('Selected shipping method:', shippingMethod);
+        let form = null;
 
-        let form;
         if (shippingMethod === 'pickup') {
             form = document.getElementById('pickup-form');
         } else if (shippingMethod === 'local') {
             form = document.getElementById('local-delivery-form');
-        } else {
-            form = null; // No additional form for "other" delivery
-        }
-
-        // Check if the selected form exists and is an HTMLFormElement
-        if (form && !(form instanceof HTMLFormElement)) {
-            console.error('Selected form is not valid or not an HTMLFormElement:', form);
-            return;
         }
 
         if (form) {
@@ -237,15 +226,8 @@ document.addEventListener('DOMContentLoaded', function() {
         handleStripeCheckout(shippingMethod, form);
     });
 
-    async function handleStripeCheckout(shippingMethod, form) {
+        async function handleStripeCheckout(shippingMethod, form) {
         showLoader();
-
-        // Check if form is an HTMLFormElement
-        if (form && !(form instanceof HTMLFormElement)) {
-            console.error('Provided parameter is not an HTMLFormElement:', form);
-            hideLoader();
-            return;
-        }
 
         const formData = form ? new FormData(form) : new FormData();
         const customerData = {
@@ -260,14 +242,8 @@ document.addEventListener('DOMContentLoaded', function() {
             shippingCost = 5;
         }
 
-        console.log('Sending request to create-checkout-session...');
-        console.log('Cart data:', cart);
-        console.log('Customer data:', customerData);
-        console.log('Shipping method:', shippingMethod);
-        console.log('Shipping cost:', shippingCost);
-
         try {
-            const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
+            const response = await fetch('/.netlify/functions/create-checkout-session', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -280,25 +256,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 }),
             });
 
-            console.log('Response status:', response.status);
-            console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
             if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Error response:', errorText);
-                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const data = await response.json();
-            console.log('Response data:', data);
-            
             if (data.url) {
                 window.location.href = data.url;
             } else {
                 throw new Error("No checkout URL in the response");
             }
         } catch (error) {
-            console.error('Error:', error);
             alert(`An error occurred: ${error.message}. Please try again later.`);
             hideLoader();
         }
