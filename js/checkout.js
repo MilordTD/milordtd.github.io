@@ -182,59 +182,65 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Handle form submission and Stripe checkout
-// Функция для проверки валидности email
-function validateEmail(email) {
-    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i;
-    return re.test(String(email).toLowerCase());
-}
+    stripeCheckoutBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log('Stripe checkout button clicked');
 
-// Обработчик нажатия на кнопку Stripe Checkout
-stripeCheckoutBtn.addEventListener('click', function(e) {
-    e.preventDefault();
-    console.log('Stripe checkout button clicked');
-
-    const selectedShippingOption = document.querySelector('.shipping-option.selected');
-    if (!selectedShippingOption) {
-        shippingOptions.forEach(option => option.style.borderColor = 'red');
-        alert('Please select a shipping method');
-        return;
-    }
-
-    const shippingMethod = selectedShippingOption.dataset.value;
-    let form;
-    if (shippingMethod === 'pickup') {
-        form = document.getElementById('pickup-form');
-    } else if (shippingMethod === 'local') {
-        form = document.getElementById('local-delivery-form');
-    } else {
-        form = null;
-    }
-
-    if (form) {
-        const requiredFields = form.querySelectorAll('input[required], textarea[required]');
-        let isValid = true;
-        requiredFields.forEach(field => {
-            if (!field.value.trim()) {
-                field.classList.add('error');
-                isValid = false;
-                console.log('Invalid field:', field.id);
-            } else {
-                field.classList.remove('error');
-            }
-        });
-        if (!isValid) {
-            console.log('Form validation failed');
-            alert('Please fill in the required fields');
+        // Validate shipping method and required fields
+        const selectedShippingOption = document.querySelector('.shipping-option.selected');
+        if (!selectedShippingOption) {
+            // Highlight shipping options if none is selected
+            shippingOptions.forEach(option => option.style.borderColor = 'red');
+            alert('Please select a shipping method');
             return;
         }
-    }
 
-    handleStripeCheckout(shippingMethod, form);
-});
+        const shippingMethod = selectedShippingOption.dataset.value;
+        console.log('Selected shipping method:', shippingMethod);
 
-// Функция для обработки Stripe Checkout
-async function handleStripeCheckout(shippingMethod, form) {
+        let form;
+        if (shippingMethod === 'pickup') {
+            form = document.getElementById('pickup-form');
+        } else if (shippingMethod === 'local') {
+            form = document.getElementById('local-delivery-form');
+        } else {
+            form = null; // No additional form for "other" delivery
+        }
+
+        // Check if the selected form exists and is an HTMLFormElement
+        if (form && !(form instanceof HTMLFormElement)) {
+            console.error('Selected form is not valid or not an HTMLFormElement:', form);
+            return;
+        }
+
+        if (form) {
+            const requiredFields = form.querySelectorAll('input[required], textarea[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    field.classList.add('error');
+                    isValid = false;
+                    console.log('Invalid field:', field.id);
+                } else {
+                    field.classList.remove('error');
+                }
+            });
+
+            if (!isValid) {
+                console.log('Form validation failed');
+                alert('Please fill in the required fields');
+                return;
+            }
+        }
+
+        handleStripeCheckout(shippingMethod, form);
+    });
+
+    async function handleStripeCheckout(shippingMethod, form) {
     showLoader();
+
+    // Извлечение данных из формы
     const formData = form ? new FormData(form) : new FormData();
     const customerData = {
         email: formData.get('email'),
@@ -243,32 +249,70 @@ async function handleStripeCheckout(shippingMethod, form) {
         address: formData.get('address')
     };
 
+    // Логирование данных для отладки
+    console.log('Customer Data:', customerData);
+
+    // Проверка валидности email
     if (!customerData.email || !validateEmail(customerData.email)) {
         alert('Please provide a valid email address.');
         hideLoader();
         return;
     }
 
+    // Установка стоимости доставки
     let shippingCost = 0;
     if (shippingMethod === 'local') {
         shippingCost = 5;
     }
 
+    // Отправка запроса к серверу для создания сессии Stripe
     try {
         const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ cart, customerData, shippingMethod, shippingCost }),
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                cart: cart,
+                customerData: customerData,
+                shippingMethod: shippingMethod,
+                shippingCost: shippingCost
+            })
         });
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        // Логирование статуса ответа и заголовков для отладки
+        console.log('Response status:', response.status);
+        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+        // Проверка успешности ответа
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error response:', errorText);
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+        }
+
+        // Извлечение данных из ответа
         const data = await response.json();
-        if (data.url) window.location.href = data.url;
-        else throw new Error("No checkout URL in the response");
+        console.log('Response data:', data);
+
+        // Переход на страницу оплаты
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            throw new Error("No checkout URL in the response");
+        }
     } catch (error) {
+        // Обработка ошибок
         console.error('Error:', error);
         alert(`An error occurred: ${error.message}. Please try again later.`);
         hideLoader();
     }
+}
+
+// Вспомогательная функция для проверки валидности email
+function validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i;
+    return re.test(String(email).toLowerCase());
 }
 
 
