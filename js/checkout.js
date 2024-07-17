@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const shippingCostElement = document.getElementById('shipping-cost');
     const totalCostElement = document.getElementById('total-cost');
     const cartItems = document.getElementById('cart-items');
+    const paymentDetails = document.getElementById('payment-details');
 
     let cart = [];
     let products = {};
@@ -90,13 +91,22 @@ document.addEventListener('DOMContentLoaded', function() {
             const shippingMethod = this.dataset.value;
             if (shippingMethod === 'pickup') {
                 shippingCostElement.textContent = '€0.00';
+                stripeCheckoutBtn.querySelector('.button-text').textContent = 'Proceed to Payment';
+                stripeCheckoutBtn.style.display = 'block';
                 pickupFields.style.display = 'block';
+                paymentDetails.querySelector('p').textContent = 'Complete your purchase by providing your payment details.';
             } else if (shippingMethod === 'local') {
                 shippingCostElement.textContent = '€5.00';
+                stripeCheckoutBtn.querySelector('.button-text').textContent = 'Proceed to Payment';
+                stripeCheckoutBtn.style.display = 'block';
                 localFields.style.display = 'block';
+                paymentDetails.querySelector('p').textContent = 'Complete your purchase by providing your payment details.';
             } else if (shippingMethod === 'other') {
                 shippingCostElement.textContent = '€10.00';
+                stripeCheckoutBtn.querySelector('.button-text').textContent = 'Submit';
+                stripeCheckoutBtn.style.display = 'block';
                 otherFields.style.display = 'block';
+                paymentDetails.querySelector('p').textContent = 'Delivery is currently available only within Grande Porto. If you would like delivery to another region, please fill out the fields below and we will notify you as soon as delivery becomes available in your area.';
             }
             updateTotalCost();
         });
@@ -170,7 +180,11 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        handleStripeCheckout(shippingMethod, form);
+        if (shippingMethod === 'other') {
+            handleTelegramSubmission(form);
+        } else {
+            handleStripeCheckout(shippingMethod, form);
+        }
     });
 
     // Функция для обработки Stripe Checkout
@@ -232,6 +246,61 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.location.href = data.url;
             } else {
                 throw new Error("No checkout URL in the response");
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert(`An error occurred: ${error.message}. Please try again later.`);
+            hideLoader();
+        }
+    }
+
+    // Функция для обработки отправки данных в Telegram
+    async function handleTelegramSubmission(form) {
+        showLoader();
+
+        const formData = new FormData(form);
+        const customerData = {
+            email: formData.get('email'),
+            country: formData.get('country'),
+            city: formData.get('city')
+        };
+
+        console.log('Telegram Data:', customerData);
+
+        if (!customerData.email || !validateEmail(customerData.email)) {
+            alert('Please provide a valid email address.');
+            hideLoader();
+            return;
+        }
+
+        try {
+            const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    isWaitlist: true,
+                    customerData: customerData
+                })
+            });
+
+            console.log('Response status:', response.status);
+            console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Error response:', errorText);
+                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
+            }
+
+            const data = await response.json();
+            console.log('Response data:', data);
+
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                throw new Error("No waitlist URL in the response");
             }
         } catch (error) {
             console.error('Error:', error);
