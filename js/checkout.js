@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Response data:', data);
 
             // Перенаправление на /shop и вызов модального окна
-            window.location.href = '/shop?waitlistSuccess=true';
+            window.location.href = '/shop?waitlistStatus=success';
         } catch (error) {
             console.error('Error:', error);
             alert(`An error occurred: ${error.message}. Please try again later.`);
