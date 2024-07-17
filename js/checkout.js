@@ -182,127 +182,95 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Handle form submission and Stripe checkout
-    stripeCheckoutBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        console.log('Stripe checkout button clicked');
+// Функция для проверки валидности email
+function validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\.,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,})$/i;
+    return re.test(String(email).toLowerCase());
+}
 
-        // Validate shipping method and required fields
-        const selectedShippingOption = document.querySelector('.shipping-option.selected');
-        if (!selectedShippingOption) {
-            // Highlight shipping options if none is selected
-            shippingOptions.forEach(option => option.style.borderColor = 'red');
-            alert('Please select a shipping method');
-            return;
-        }
+// Обработчик нажатия на кнопку Stripe Checkout
+stripeCheckoutBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    console.log('Stripe checkout button clicked');
 
-        const shippingMethod = selectedShippingOption.dataset.value;
-        console.log('Selected shipping method:', shippingMethod);
+    const selectedShippingOption = document.querySelector('.shipping-option.selected');
+    if (!selectedShippingOption) {
+        shippingOptions.forEach(option => option.style.borderColor = 'red');
+        alert('Please select a shipping method');
+        return;
+    }
 
-        let form;
-        if (shippingMethod === 'pickup') {
-            form = document.getElementById('pickup-form');
-        } else if (shippingMethod === 'local') {
-            form = document.getElementById('local-delivery-form');
-        } else {
-            form = null; // No additional form for "other" delivery
-        }
+    const shippingMethod = selectedShippingOption.dataset.value;
+    let form;
+    if (shippingMethod === 'pickup') {
+        form = document.getElementById('pickup-form');
+    } else if (shippingMethod === 'local') {
+        form = document.getElementById('local-delivery-form');
+    } else {
+        form = null;
+    }
 
-        // Check if the selected form exists and is an HTMLFormElement
-        if (form && !(form instanceof HTMLFormElement)) {
-            console.error('Selected form is not valid or not an HTMLFormElement:', form);
-            return;
-        }
-
-        if (form) {
-            const requiredFields = form.querySelectorAll('input[required], textarea[required]');
-            let isValid = true;
-
-            requiredFields.forEach(field => {
-                if (!field.value.trim()) {
-                    field.classList.add('error');
-                    isValid = false;
-                    console.log('Invalid field:', field.id);
-                } else {
-                    field.classList.remove('error');
-                }
-            });
-
-            if (!isValid) {
-                console.log('Form validation failed');
-                alert('Please fill in the required fields');
-                return;
-            }
-        }
-
-        handleStripeCheckout(shippingMethod, form);
-    });
-
-    async function handleStripeCheckout(shippingMethod, form) {
-        showLoader();
-
-        // Check if form is an HTMLFormElement
-        if (form && !(form instanceof HTMLFormElement)) {
-            console.error('Provided parameter is not an HTMLFormElement:', form);
-            hideLoader();
-            return;
-        }
-
-        const formData = form ? new FormData(form) : new FormData();
-        const customerData = {
-            email: formData.get('email'),
-            name: formData.get('name'),
-            phone: formData.get('phone'),
-            address: formData.get('address')
-        };
-
-        let shippingCost = 0;
-        if (shippingMethod === 'local') {
-            shippingCost = 5;
-        }
-
-        console.log('Sending request to create-checkout-session...');
-        console.log('Cart data:', cart);
-        console.log('Customer data:', customerData);
-        console.log('Shipping method:', shippingMethod);
-        console.log('Shipping cost:', shippingCost);
-
-        try {
-            const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    cart: cart,
-                    customerData: customerData,
-                    shippingMethod: shippingMethod,
-                    shippingCost: shippingCost
-                }),
-            });
-
-            console.log('Response status:', response.status);
-            console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Error response:', errorText);
-                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-            }
-
-            const data = await response.json();
-            console.log('Response data:', data);
-            
-            if (data.url) {
-                window.location.href = data.url;
+    if (form) {
+        const requiredFields = form.querySelectorAll('input[required], textarea[required]');
+        let isValid = true;
+        requiredFields.forEach(field => {
+            if (!field.value.trim()) {
+                field.classList.add('error');
+                isValid = false;
+                console.log('Invalid field:', field.id);
             } else {
-                throw new Error("No checkout URL in the response");
+                field.classList.remove('error');
             }
-        } catch (error) {
-            console.error('Error:', error);
-            alert(`An error occurred: ${error.message}. Please try again later.`);
-            hideLoader();
+        });
+        if (!isValid) {
+            console.log('Form validation failed');
+            alert('Please fill in the required fields');
+            return;
         }
     }
+
+    handleStripeCheckout(shippingMethod, form);
+});
+
+// Функция для обработки Stripe Checkout
+async function handleStripeCheckout(shippingMethod, form) {
+    showLoader();
+    const formData = form ? new FormData(form) : new FormData();
+    const customerData = {
+        email: formData.get('email'),
+        name: formData.get('name'),
+        phone: formData.get('phone'),
+        address: formData.get('address')
+    };
+
+    if (!customerData.email || !validateEmail(customerData.email)) {
+        alert('Please provide a valid email address.');
+        hideLoader();
+        return;
+    }
+
+    let shippingCost = 0;
+    if (shippingMethod === 'local') {
+        shippingCost = 5;
+    }
+
+    try {
+        const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ cart, customerData, shippingMethod, shippingCost }),
+        });
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+        if (data.url) window.location.href = data.url;
+        else throw new Error("No checkout URL in the response");
+    } catch (error) {
+        console.error('Error:', error);
+        alert(`An error occurred: ${error.message}. Please try again later.`);
+        hideLoader();
+    }
+}
+
 
     // Загрузка списка стран
     async function loadCountries() {
