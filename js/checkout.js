@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const totalCostElement = document.getElementById('total-cost');
     const cartItems = document.getElementById('cart-items');
     const paymentDetails = document.getElementById('payment-details');
+    const orderSummary = document.getElementById('order-summary');
 
     let cart = [];
     let products = {};
@@ -94,18 +95,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 stripeCheckoutBtn.querySelector('.button-text').textContent = 'Proceed to Payment';
                 stripeCheckoutBtn.style.display = 'block';
                 pickupFields.style.display = 'block';
+                orderSummary.style.display = 'block';
                 paymentDetails.querySelector('p').textContent = 'Complete your purchase by providing your payment details.';
             } else if (shippingMethod === 'local') {
                 shippingCostElement.textContent = '€5.00';
                 stripeCheckoutBtn.querySelector('.button-text').textContent = 'Proceed to Payment';
                 stripeCheckoutBtn.style.display = 'block';
                 localFields.style.display = 'block';
+                orderSummary.style.display = 'block';
                 paymentDetails.querySelector('p').textContent = 'Complete your purchase by providing your payment details.';
             } else if (shippingMethod === 'other') {
                 shippingCostElement.textContent = '€10.00';
                 stripeCheckoutBtn.querySelector('.button-text').textContent = 'Submit';
                 stripeCheckoutBtn.style.display = 'block';
                 otherFields.style.display = 'block';
+                orderSummary.style.display = 'none';
                 paymentDetails.querySelector('p').textContent = 'Delivery is currently available only within Grande Porto. If you would like delivery to another region, please fill out the fields below and we will notify you as soon as delivery becomes available in your area.';
             }
             updateTotalCost();
@@ -323,4 +327,32 @@ document.addEventListener('DOMContentLoaded', function() {
         stripeCheckoutBtn.disabled = false;
         console.log('Loader hidden');
     }
+
+    // Инициализация карты Google Maps
+    window.initMap = function() {
+        console.log('Google Maps API loaded, initMap called');
+        const mapContainer = document.getElementById('map-container');
+        if (!mapContainer) {
+            console.error('Map container not found');
+            return;
+        }
+
+        // Координаты для магазина "Varenka"
+        const varenkoLocation = { lat: 41.1510219, lng: -8.6120077 };
+
+        const mapOptions = {
+            center: varenkoLocation,
+            zoom: 17
+        };
+
+        const map = new google.maps.Map(mapContainer, mapOptions);
+
+        const marker = new google.maps.Marker({
+            position: varenkoLocation,
+            map: map,
+            title: 'Varenka'
+        });
+
+        console.log('Map initialized with marker at Varenka');
+    };
 });

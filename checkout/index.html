@@ -131,7 +131,7 @@
     </div>
 
     <!-- Краткое содержание заказа -->
-    <div class="order-summary">
+    <div class="order-summary" id="order-summary">
         <div class="summary-row">
             <span>Subtotal</span>
             <span id="subtotal">€0.00</span>
@@ -151,7 +151,6 @@
         <div class="loader"></div>
     </button>
 </form>
-
 
                 </div>
 
@@ -183,7 +182,7 @@
     </div>
 
     <script src="https://js.stripe.com/v3/"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4JymRfTQM1RglXSpsnrgwwVcl6uaOMvE&callback=initMap"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4JymRfTQM1RglXSpsnrgwwVcl6uaOMvE&callback=initMap" async defer></script>
     <script src="/js/checkout.js"></script>
 </body>
 </html>
