@@ -8,7 +8,7 @@
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
     "inStock": 5,
-    "price": 49.99,
+    "price": 12.50,
     "gallery": [
       "/images/pin_photo_1.png",
       "/images/pin_photo_2.png",
@@ -25,7 +25,7 @@
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
     "inStock": 3,
-    "price": 29.99,
+    "price": 5.00,
     "gallery": [
       "/images/pin_photo_1.png",
       "/images/pin_photo_2.png",
@@ -42,7 +42,7 @@
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
     "inStock": 3,
-    "price": 34.99,
+    "price": 5.00,
     "gallery": [
       "/images/pin_photo_1.png",
       "/images/pin_photo_2.png",
@@ -59,7 +59,7 @@
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
     "inStock": 2,
-    "price": 39.99,
+    "price": 5.00,
     "gallery": [
       "/images/pin_photo_1.png",
       "/images/pin_photo_2.png",
@@ -76,7 +76,7 @@
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
     "inStock": 1,
-    "price": 99.99,
+    "price": 9.50,
     "gallery": [
       "/images/pin_photo_1.png",
       "/images/pin_photo_2.png",
@@ -84,23 +84,7 @@
       "/images/pin_photo_4.png"
     ]
   },
-  "toteBag1": {
-    "name": "Mystical Tote Bag",
-    "ingredients": "Enchanted cotton<br>Moonlight-infused thread<br>Stardust lining",
-    "characteristics": "Size: 15\" x 16\"<br>Material: 100% cotton<br>Magical expansion charm",
-    "buffs": "Feather-light: The bag and its contents weigh next to nothing",
-    "debuffs": "Mischievous Pocket: 5% chance of small items playfully 'hiding' in the bag",
-    "modelUrl": "/models/scene.gltf",
-    "category": "bag",
-    "inStock": 10,
-    "price": 24.99,
-    "gallery": [
-      "/images/pin_photo_1.png",
-      "/images/pin_photo_2.png",
-      "/images/pin_photo_3.png",
-      "/images/pin_photo_4.png"
-    ]
-  },
+  
   "dagger": {
     "name": "Shadowstrike Dagger",
     "ingredients": "Obsidian blade<br>Nightshade-infused hilt<br>Shadow essence coating",
@@ -110,7 +94,7 @@
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
     "inStock": 8,
-    "price": 39.99,
+    "price": 12.50,
     "gallery": [
       "/images/pin_photo_1.png",
       "/images/pin_photo_2.png",
@@ -127,7 +111,7 @@
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
     "inStock": 6,
-    "price": 54.99,
+    "price": 15.50,
     "gallery": [
       "/images/pin_photo_1.png",
       "/images/pin_photo_2.png",
@@ -144,7 +128,24 @@
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
     "inStock": 4,
-    "price": 44.99,
+    "price": 12.50,
+    "gallery": [
+      "/images/pin_photo_1.png",
+      "/images/pin_photo_2.png",
+      "/images/pin_photo_3.png",
+      "/images/pin_photo_4.png"
+    ]
+  },
+  "toteBag1": {
+    "name": "Mystical Tote Bag",
+    "ingredients": "Enchanted cotton<br>Moonlight-infused thread<br>Stardust lining",
+    "characteristics": "Size: 15\" x 16\"<br>Material: 100% cotton<br>Magical expansion charm",
+    "buffs": "Feather-light: The bag and its contents weigh next to nothing",
+    "debuffs": "Mischievous Pocket: 5% chance of small items playfully 'hiding' in the bag",
+    "modelUrl": "/models/scene.gltf",
+    "category": "bag",
+    "inStock": 10,
+    "price": 22.50,
     "gallery": [
       "/images/pin_photo_1.png",
       "/images/pin_photo_2.png",
