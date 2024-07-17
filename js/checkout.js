@@ -301,8 +301,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
             console.log('Response data:', data);
 
-            alert("Your waitlist request has been submitted successfully. We will notify you once delivery becomes available in your area.");
-            hideLoader();
+            // Перенаправление на /shop и вызов модального окна
+            window.location.href = '/shop?waitlistSuccess=true';
         } catch (error) {
             console.error('Error:', error);
             alert(`An error occurred: ${error.message}. Please try again later.`);
@@ -355,4 +355,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         console.log('Map initialized with marker at Varenka');
     };
+});
+
+// Код для отображения модального окна при загрузке страницы /shop с параметром waitlistSuccess=true
+window.addEventListener('load', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('waitlistSuccess') === 'true') {
+        const waitlistSuccessModal = document.getElementById('waitlistSuccessModal');
+        if (waitlistSuccessModal) {
+            waitlistSuccessModal.style.display = 'block';
+        }
+    }
 });
