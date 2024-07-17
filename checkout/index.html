@@ -71,50 +71,51 @@
                     <p>Complete your purchase by providing your payment details.</p>
                     <form id="checkout-form">
                         <form id="pickup-form" style="display: none;">
-    <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" required>
-    </div>
-    <div class="form-group">
-        <label for="phone">Phone</label>
-        <input type="tel" id="phone" name="phone" required>
-    </div>
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" required>
-    </div>
-    <div class="pickup-address">
-        <p>Pickup address: Rua do Almada 448, 4050-034 Porto</p>
-        <div id="map-container" style="height: 300px; margin-top: 10px; border-radius: 4px; overflow: hidden;"></div>
-    </div>
-</form>
+                            <div class="form-group">
+                                <label for="pickup-email">Email Address</label>
+                                <input type="email" id="pickup-email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="pickup-phone">Phone</label>
+                                <input type="tel" id="pickup-phone" name="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="pickup-name">Name</label>
+                                <input type="text" id="pickup-name" name="name" required>
+                            </div>
+                            <div class="pickup-address">
+                                <p>Pickup address: Rua do Almada 448, 4050-034 Porto</p>
+                                <div id="map-container" style="height: 300px; margin-top: 10px; border-radius: 4px; overflow: hidden;"></div>
+
+                            </div>
+                        </form>
 
                         <form id="local-delivery-form" style="display: none;">
-    <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" required>
-    </div>
-    <div class="form-group">
-        <label for="phone">Phone</label>
-        <input type="tel" id="phone" name="phone" required>
-    </div>
-    <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" required>
-    </div>
-    <div class="form-group">
-        <label for="country">Country</label>
-        <input type="text" id="country" name="country" value="Portugal" disabled>
-    </div>
-    <div class="form-group">
-        <label for="city">Region</label>
-        <input type="text" id="city" name="city" value="Grande Porto" disabled>
-    </div>
-    <div class="form-group">
-        <label for="address">Address</label>
-        <textarea id="address" name="address" rows="3" required></textarea>
-    </div>
-</form>
+                            <div class="form-group">
+                                <label for="local-email">Email Address</label>
+                                <input type="email" id="local-email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="local-phone">Phone</label>
+                                <input type="tel" id="local-phone" name="phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="local-name">Name</label>
+                                <input type="text" id="local-name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="local-country">Country</label>
+                                <input type="text" id="local-country" name="country" value="Portugal" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="local-city">Region</label>
+                                <input type="text" id="local-city" name="city" value="Grande Porto" disabled>
+                            </div>
+                            <div class="form-group">
+                                <label for="local-address">Address</label>
+                                <textarea id="local-address" name="address" rows="3" required></textarea>
+                            </div>
+                        </form>
 
                         <div class="order-summary">
                             <div class="summary-row">
@@ -141,23 +142,24 @@
                     <h2>International Delivery</h2>
                     <p class="disclaimer">Delivery is not currently available, but I want to understand if it's needed. If you live outside of Grande Porto, please leave your location and email. When delivery to your region becomes available, I'll email you.</p>
                     <form id="waiting-list-form">
-    <div class="form-group">
-        <label for="email">Email Address</label>
-        <input type="email" id="email" name="email" required>
-    </div>
-    <div class="form-group">
-        <label for="country">Country</label>
-        <select id="country" name="country" required>
-            <option value="">Select Country</option>
-            <!-- Список стран будет добавлен с помощью JavaScript -->
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="city">City</label>
-        <input type="text" id="city" name="city" required>
-    </div>
-    <button type="submit" class="waiting-list-btn">Join the Waiting List</button>
-</form>
+                        <div class="form-group">
+                            <label for="waiting-email">Email Address</label>
+                            <input type="email" id="waiting-email" name="waiting-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="waiting-country">Country</label>
+                            <select id="waiting-country" name="waiting-country" required>
+                                <option value="">Select Country</option>
+                                <!-- Список стран будет добавлен с помощью JavaScript -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="waiting-city">City</label>
+                            <!-- Изменить с select на input -->
+                            <input type="text" id="waiting-city" name="waiting-city" required>
+                        </div>
+                        <button type="submit" class="waiting-list-btn">Join the Waiting List</button>
+                    </form>
                 </div>
             </div>
         </div>
