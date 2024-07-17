@@ -297,11 +297,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
             console.log('Response data:', data);
 
-            if (data.url) {
-                window.location.href = data.url;
-            } else {
-                throw new Error("No waitlist URL in the response");
-            }
+            alert("Your waitlist request has been submitted successfully. We will notify you once delivery becomes available in your area.");
+            hideLoader();
         } catch (error) {
             console.error('Error:', error);
             alert(`An error occurred: ${error.message}. Please try again later.`);
