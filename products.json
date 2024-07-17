@@ -7,7 +7,7 @@
     "debuffs": "Ancient Babble: Each time you use the Tome, roll a d20; on a roll of 1, uncontrollably start speaking in an ancient, incomprehensible language",
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
-    "inStock": 5,
+    "inStock": 50,
     "price": 12.50,
     "gallery": [
       "/images/pin_photo_1.png",
@@ -24,7 +24,7 @@
     "debuffs": "Light Sensitivity: Eyes become extra sensitive to bright light for 1 hour after use",
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
-    "inStock": 3,
+    "inStock": 50,
     "price": 5.00,
     "gallery": [
       "/images/pin_photo_1.png",
@@ -41,7 +41,7 @@
     "debuffs": "Hotheaded: Become easily angered and impulsive for 30 minutes after consumption",
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
-    "inStock": 3,
+    "inStock": 50,
     "price": 5.00,
     "gallery": [
       "/images/pin_photo_1.png",
@@ -58,7 +58,7 @@
     "debuffs": "Dehydration: Feel extremely thirsty for 1 hour after the effect wears off",
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
-    "inStock": 2,
+    "inStock": 50,
     "price": 5.00,
     "gallery": [
       "/images/pin_photo_1.png",
@@ -75,8 +75,8 @@
     "debuffs": "Sensory Overload: 5% chance of temporary sensory enhancement, potentially overwhelming",
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
-    "inStock": 1,
-    "price": 9.50,
+    "inStock": 50,
+    "price": 12.50,
     "gallery": [
       "/images/pin_photo_1.png",
       "/images/pin_photo_2.png",
@@ -93,7 +93,7 @@
     "debuffs": "Shadow Whisper: 10% chance of hearing eerie whispers when in dark areas",
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
-    "inStock": 8,
+    "inStock": 50,
     "price": 12.50,
     "gallery": [
       "/images/pin_photo_1.png",
@@ -110,7 +110,7 @@
     "debuffs": "Static Buildup: Hair stands on end for 1 hour after using Thunder Charge",
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
-    "inStock": 6,
+    "inStock": 50,
     "price": 15.50,
     "gallery": [
       "/images/pin_photo_1.png",
@@ -127,7 +127,7 @@
     "debuffs": "Earworm Effect: 25% chance listeners can't get your last song out of their head for a day",
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
-    "inStock": 4,
+    "inStock": 50,
     "price": 12.50,
     "gallery": [
       "/images/pin_photo_1.png",
