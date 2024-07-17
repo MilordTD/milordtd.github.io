@@ -239,19 +239,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function handleStripeCheckout(shippingMethod, form) {
         showLoader();
-        
-        const formData = new FormData(form);
+
+        // Check if form is an HTMLFormElement
+        if (form && !(form instanceof HTMLFormElement)) {
+            console.error('Provided parameter is not an HTMLFormElement:', form);
+            hideLoader();
+            return;
+        }
+
+        const formData = form ? new FormData(form) : new FormData();
         const customerData = {
             email: formData.get('email'),
             name: formData.get('name'),
             phone: formData.get('phone'),
             address: formData.get('address')
         };
-        
+
         let shippingCost = 0;
         if (shippingMethod === 'local') {
             shippingCost = 5;
         }
+
+        console.log('Sending request to create-checkout-session...');
+        console.log('Cart data:', cart);
+        console.log('Customer data:', customerData);
+        console.log('Shipping method:', shippingMethod);
+        console.log('Shipping cost:', shippingCost);
 
         try {
             const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
@@ -267,18 +280,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 }),
             });
 
+            console.log('Response status:', response.status);
+            console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
             if (!response.ok) {
                 const errorText = await response.text();
+                console.error('Error response:', errorText);
                 throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
             }
 
             const data = await response.json();
+            console.log('Response data:', data);
+            
             if (data.url) {
                 window.location.href = data.url;
             } else {
                 throw new Error("No checkout URL in the response");
             }
         } catch (error) {
+            console.error('Error:', error);
             alert(`An error occurred: ${error.message}. Please try again later.`);
             hideLoader();
         }
