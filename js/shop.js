@@ -64,9 +64,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Настройка камеры и освещения
             camera.position.z = 5;
             camera.position.y = 0.5;
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
             scene.add(ambientLight);
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.05);
             directionalLight.position.set(5, 5, 5);
             scene.add(directionalLight);
         }, undefined, (error) => {
