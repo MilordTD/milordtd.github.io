@@ -13,6 +13,8 @@ body, html {
     background-image: url('/images/background.png');
     background-size: cover;
     background-position: center;
+    padding-top: 40px; /* Отступ от верха для header */
+    box-sizing: border-box;
 }
 
 .header, .artifact-collection {
@@ -25,8 +27,11 @@ body, html {
     align-items: left;
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding: 5px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
 }
 
 .artifact-collection {
@@ -90,117 +95,24 @@ body, html {
     opacity: 0.8;
 }
 
-.intro-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('/images/background.png');
-    background-size: cover;
-    background-position: center;
-    z-index: 9999;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 2s ease-in-out, background-size 2s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-
-.intro-overlay.active {
-    pointer-events: auto;
-}
-
-.intro-overlay:not(.active) {
-    pointer-events: none;
-}
-
-body.overlay-active .container > *:not(.intro-overlay) {
-    pointer-events: none;
-}
-
-
-.intro-content {
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 20px;
-    border-radius: 10px;
-    width: 200px;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 0.5s ease-out;
-    color: white;
-    z-index: 2;
-    position: relative;
-}
-
-.intro-button {
-    background-color: rgba(155, 183, 100, 1);
-    color: white;
-    border: 2px solid rgba(155, 183, 100, 1);
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: box-shadow 0.3s ease, background-color 0.3s ease;
-    position: relative;
-    z-index: 10001;
-}
-
-.erin-image {
-    position: fixed;
-    top: 20%;
-    right: 20%;
-    width: 200px;
-    height: auto;
-    z-index: 10001; /* Чуть ниже, чем у intro-overlay */
-    transition: all 1s ease;
-}
-
-
-.erin-image.moved {
-    top: 50px;
-    right: 200px;
-    width: 400px;
-}
-
-.intro-button:hover {
-    box-shadow: inset 0 0 0 2px white;
-}
-
-.product-detail, .product-list-container {
-    opacity: 0;
-    transition: opacity 0.5s ease-in;
-}
-
-.shrink-background {
-    background-size: 100% 100% !important;
-}
-
-.fade-out {
-    opacity: 0 !important;
-    transition: opacity 2s ease-in-out;
-}
-
 .main-content {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
-    padding: 40px;
+    padding: 0 40px;
     overflow-y: auto;
 }
 
 .product-detail {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 20px;
     background-color: rgba(0, 0, 0, 0.8);
-    margin-bottom: 40px;
-    width: 680px;
     border-radius: 12px;
+    margin-bottom: 40px;
+    padding: 20px;
     box-sizing: border-box;
-    position: relative;
-    height: 460px;
-    z-index: 10000; 
-
+    overflow-y: auto;
 }
 
 #product-name {
@@ -292,14 +204,13 @@ body.overlay-active .container > *:not(.intro-overlay) {
 }
 
 .product-list-container {
+    height: 15vh;
     position: fixed;
-    bottom: 20px;
+    bottom: 40px;
     left: 40px;
     right: 40px;
     display: flex;
     flex-direction: column;
-    transition: margin-right 0.3s ease;
-    overflow: hidden;
     z-index: 10000;
 }
 
@@ -354,10 +265,12 @@ body.overlay-active .container > *:not(.intro-overlay) {
 }
 
 .product-list {
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     overflow-x: auto;
+    overflow-y: hidden;
     padding: 20px;
     position: relative;
     border-radius: 0 0 8px 8px;
@@ -547,8 +460,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
     height: 100%;
     overflow: auto;
     background-color: rgba(0,0,0,0.9);
-    cursor: pointer;  /* Добавляем курсор-указатель для всего модального окна */
-
+    cursor: pointer;
 }
 
 .modal-content {
@@ -587,14 +499,14 @@ body.overlay-active .container > *:not(.intro-overlay) {
     justify-content: center;
     align-items: center;
     height: 100%;
-    cursor: default;  /* Изменяем курсор на default для modal-content */
+    cursor: default;
 }
 
 #imageModal img {
     max-width: 100%;
     max-height: 90vh;
     object-fit: contain;
-    cursor: default;  /* Изменяем курсор на default для изображения */
+    cursor: default;
 }
 
 .close {
@@ -663,4 +575,100 @@ body.overlay-active .container > *:not(.intro-overlay) {
     .checkout-columns {
         flex-direction: column;
     }
+}
+
+/* Медиа-запрос для маленьких экранов */
+@media (max-height: 600px) {
+    .product-list-container {
+        height: 20vh; /* Увеличиваем высоту на маленьких экранах */
+    }
+}
+
+/* Стили для intro overlay */
+.intro-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/images/background.png');
+    background-size: cover;
+    background-position: center;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 2s ease-in-out, background-size 2s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.intro-overlay.active {
+    pointer-events: auto;
+}
+
+.intro-overlay:not(.active) {
+    pointer-events: none;
+}
+
+body.overlay-active .container > *:not(.intro-overlay) {
+    pointer-events: none;
+}
+
+.intro-content {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    width: 200px;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+    color: white;
+    z-index: 2;
+    position: relative;
+}
+
+.intro-button {
+    background-color: rgba(155, 183, 100, 1);
+    color: white;
+    border: 2px solid rgba(155, 183, 100, 1);
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
+    position: relative;
+    z-index: 10001;
+}
+
+.erin-image {
+    position: fixed;
+    top: 20%;
+    right: 20%;
+    width: 200px;
+    height: auto;
+    z-index: 10001;
+    transition: all 1s ease;
+}
+
+.erin-image.moved {
+    top: 50px;
+    right: 200px;
+    width: 400px;
+}
+
+.intro-button:hover {
+    box-shadow: inset 0 0 0 2px white;
+}
+
+.product-detail, .product-list-container {
+    opacity: 0;
+    transition: opacity 0.5s ease-in;
+}
+
+.shrink-background {
+    background-size: 100% 100% !important;
+}
+
+.fade-out {
+    opacity: 0 !important;
+    transition: opacity 2s ease-in-out;
 }
