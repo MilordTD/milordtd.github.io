@@ -661,7 +661,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
     width: calc(50% - 40px); /* Та же ширина, что и у .product-detail */
     height: calc(100vh - 90px - 15vh - 80px); /* Высота равна высоте .product-detail */
     object-fit: cover; /* Сохраняет пропорции изображения */
-    z-index: 10001;
+    z-index: 9999;
     transition: all 1s ease;
 }
 
