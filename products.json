@@ -10,10 +10,10 @@
     "inStock": 50,
     "price": 12.50,
     "gallery": [
-      "/images/pin_photo_1.png",
-      "/images/pin_photo_2.png",
-      "/images/pin_photo_3.png",
-      "/images/pin_photo_4.png"
+      "/images/tome_1.jpg",
+      "/images/tome_2.jpg",
+      "/images/tome_3.jpg",
+      "/images/tome_1.jpg"
     ]
   },
   "yellowPotion": {
@@ -27,10 +27,10 @@
     "inStock": 50,
     "price": 5.00,
     "gallery": [
-      "/images/pin_photo_1.png",
-      "/images/pin_photo_2.png",
-      "/images/pin_photo_3.png",
-      "/images/pin_photo_4.png"
+      "/images/yPotion_2.jpg",
+      "/images/yPotion_3.jpg",
+      "/images/yPotion_2.jpg",
+      "/images/yPotion_3.jpg"
     ]
   },
   "redPotion": {
@@ -44,10 +44,10 @@
     "inStock": 50,
     "price": 5.00,
     "gallery": [
-      "/images/pin_photo_1.png",
-      "/images/pin_photo_2.png",
-      "/images/pin_photo_3.png",
-      "/images/pin_photo_4.png"
+      "/images/rPotion_2.jpg",
+      "/images/rPotion_3.jpg",
+      "/images/rPotion_2.jpg",
+      "/images/rPotion_3.jpg"
     ]
   },
   "bluePotion": {
@@ -61,10 +61,10 @@
     "inStock": 50,
     "price": 5.00,
     "gallery": [
-      "/images/pin_photo_1.png",
-      "/images/pin_photo_2.png",
-      "/images/pin_photo_3.png",
-      "/images/pin_photo_4.png"
+      "/images/bPotion_2.jpg",
+      "/images/bPotion_3.jpg",
+      "/images/bPotion_2.jpg",
+      "/images/bPotion_3.jpg"
     ]
   },
   "potionSet": {
@@ -78,10 +78,10 @@
     "inStock": 50,
     "price": 12.50,
     "gallery": [
-      "/images/pin_photo_1.png",
-      "/images/pin_photo_2.png",
-      "/images/pin_photo_3.png",
-      "/images/pin_photo_4.png"
+      "/images/allPotion_2.jpg",
+      "/images/allPotion_3.jpg",
+      "/images/allPotion_2.jpg",
+      "/images/allPotion_3.jpg"
     ]
   },
   
@@ -96,10 +96,10 @@
     "inStock": 50,
     "price": 12.50,
     "gallery": [
-      "/images/pin_photo_1.png",
-      "/images/pin_photo_2.png",
-      "/images/pin_photo_3.png",
-      "/images/pin_photo_4.png"
+      "/images/dagger_1.jpg",
+      "/images/dagger_2.jpg",
+      "/images/dagger_3.jpg",
+      "/images/dagger_1.jpg"
     ]
   },
   "sword": {
@@ -113,10 +113,10 @@
     "inStock": 50,
     "price": 15.50,
     "gallery": [
-      "/images/pin_photo_1.png",
-      "/images/pin_photo_2.png",
-      "/images/pin_photo_3.png",
-      "/images/pin_photo_4.png"
+      "/images/sword_1.jpg",
+      "/images/sword_2.jpg",
+      "/images/sword_3.jpg",
+      "/images/sword_1.jpg"
     ]
   },
   "guitar": {
@@ -130,10 +130,10 @@
     "inStock": 50,
     "price": 12.50,
     "gallery": [
-      "/images/pin_photo_1.png",
-      "/images/pin_photo_2.png",
-      "/images/pin_photo_3.png",
-      "/images/pin_photo_4.png"
+      "/images/guitar_1.jpg",
+      "/images/guitar_2.jpg",
+      "/images/guitar_3.jpg",
+      "/images/guitar_1.jpg"
     ]
   },
   "toteBag1": {
