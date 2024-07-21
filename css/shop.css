@@ -664,7 +664,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
 .erin-image.moved {
     position: fixed;
     /*top: 90px;  Такое же значение, как у .product-detail */
-    right: 40px; /* Отступ справа */
+    right: 10%; /* Отступ справа */
     width: calc(50% - 40px); /* Та же ширина, что и у .product-detail */
     height: calc(100vh - 90px - 15vh - 80px); /* Высота равна высоте .product-detail */
     object-fit: cover; /* Сохраняет пропорции изображения */
