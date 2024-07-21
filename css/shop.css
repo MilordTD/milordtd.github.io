@@ -118,7 +118,7 @@ body, html {
     box-sizing: border-box;
     overflow-y: auto;
     position: absolute;
-    top: 90px; /* Учитываем padding-top контейнера */
+    top: 20%; /* Учитываем padding-top контейнера */
     left: 10%; /* Позиционируем на 1/3 ширины экрана */
     /* transform: translateX(-50%); Сдвигаем влево на половину своей ширины для центрирования */
     bottom: 40%;
@@ -654,7 +654,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
 
 .erin-image {
     position: fixed;
-    top: 20%;
+    /*top: 20%;*/
     right: 20%;
     width: 200px;
     height: auto;
@@ -665,8 +665,8 @@ body.overlay-active .container > *:not(.intro-overlay) {
 .erin-image.moved {
     position: fixed;
     /*top: 90px;  Такое же значение, как у .product-detail */
-    right: 10%; /* Отступ справа */
-    width: calc(50% - 40px); /* Та же ширина, что и у .product-detail */
+    right: 0; /* Отступ справа */
+    width: calc(70%); /* Та же ширина, что и у .product-detail */
     /*height: calc(100vh - 90px - 15vh - 80px);  Высота равна высоте .product-detail */
     object-fit: cover; /* Сохраняет пропорции изображения */
     z-index: 9999;
