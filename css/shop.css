@@ -105,6 +105,9 @@ body, html {
 
 .product-detail {
     width: calc(50% - 40px); /* Половина ширины экрана минус правый отступ */
+    height: 50vh; /* 50% высоты viewport */
+    min-height: 470px;
+    max-height: 700px;
     margin-right: 40px;
     display: flex;
     flex-direction: column;
@@ -115,7 +118,7 @@ body, html {
     overflow-y: auto;
     position: absolute;
     top: 90px; /* Учитываем padding-top контейнера */
-    bottom: calc(15vh + 80px); /* Высота product-list-container + отступы */
+    left: 0; /* Прижимаем к левому краю */
 }
 
 #product-name {
