@@ -123,26 +123,6 @@ body, html {
     /* transform: translateX(-50%); Сдвигаем влево на половину своей ширины для центрирования */
 }
 
-.product-detail h2 {
-    font-size: calc(16px + 0.5vw);
-}
-
-.product-detail h3 {
-    font-size: calc(14px + 0.3vw);
-}
-
-.product-detail p, .product-detail li {
-    font-size: calc(12px + 0.2vw);
-}
-
-/* Медиа-запрос для обеспечения корректного отображения на узких экранах */
-@media (max-width: 1380px) {
-    .product-detail {
-        left: 0;
-        transform: none;
-        margin-left: 40px; /* Возвращаем левый отступ */
-    }
-}
 
 #product-name {
     color: white;
