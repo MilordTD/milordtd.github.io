@@ -122,6 +122,7 @@ body, html {
     left: 10%; /* Позиционируем на 1/3 ширины экрана */
     /* transform: translateX(-50%); Сдвигаем влево на половину своей ширины для центрирования */
     bottom: 40%;
+    z-index: 10000;
 }
 
 
@@ -666,7 +667,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
     /*top: 90px;  Такое же значение, как у .product-detail */
     right: 10%; /* Отступ справа */
     width: calc(50% - 40px); /* Та же ширина, что и у .product-detail */
-    height: calc(100vh - 90px - 15vh - 80px); /* Высота равна высоте .product-detail */
+    /*height: calc(100vh - 90px - 15vh - 80px);  Высота равна высоте .product-detail */
     object-fit: cover; /* Сохраняет пропорции изображения */
     z-index: 9999;
     transition: all 1s ease;
