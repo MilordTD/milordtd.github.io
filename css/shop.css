@@ -651,13 +651,13 @@ body.overlay-active .container > *:not(.intro-overlay) {
     font-family: 'MedievalSharp', cursive;
     font-size: 28px;
     margin-bottom: 15px;
-    color: #ffd700; /* Золотой цвет для заголовка */
+    color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .intro-content p {
     font-family: 'Crimson Pro', serif;
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1.5;
     margin-bottom: 20px;
 }
