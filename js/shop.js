@@ -40,6 +40,28 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.addEventListener('mousemove', onDocumentMouseMove, false);
 
+    function typewriterEffect(element, text, speed = 50) {
+        let i = 0;
+        element.innerHTML = '';
+        function type() {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(type, speed);
+            }
+        }
+        type();
+    }
+
+    // Запускаем эффект печатной машинки после открытия интро
+    const introButton = document.querySelector('.intro-button');
+    const typewriterText = document.getElementById('typewriter-text');
+    const textToType = "Hello! I'm Erin - an artist, tattoo master, and adventurer. I also love pins. Here's my first pin collection \"Artifact\". You can buy pins separately or together. It's best to store them on a tote bag where you can arrange them right in the \"inventory\".";
+
+    setTimeout(() => {
+        typewriterEffect(typewriterText, textToType);
+    }, 1000); // Задержка в 1 секунду перед началом печати
+
     // Загрузка 3D модели
     const loader = new GLTFLoader();
     let currentModel;
