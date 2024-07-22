@@ -34,11 +34,11 @@
     ]
   },
   "redPotion": {
-    "name": "Red Potion",
+    "name": "Health potion",
     "ingredients": "Dragon's breath<br>Crushed rubies<br>Phoenix feather",
     "characteristics": "Volume: 30ml<br>Color: Deep crimson<br>Slightly smoking",
-    "buffs": "Fireproof: Gain resistance to fire damage for 1 hour",
-    "debuffs": "Hotheaded: Become easily angered and impulsive for 30 minutes after consumption",
+    "buffs": "HP potion, a staple item of any adventurer’s pack. An absolute necessity for those who don’t run from danger, and a chance for those who have to. The essence of life itself, packaged in best-quality, lightweight, hit-resistant reusable glass vial. Refillable at any good-aligned god temple. A classic.",
+    "debuffs": "",
     "modelUrl": "/models/scene.gltf",
     "category": "pin",
     "inStock": 50,
