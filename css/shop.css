@@ -132,7 +132,7 @@ h1, h2, h3, h4, h5, h6, .logo {
 
 #product-name {
     color: white;
-    font-size: 24px;
+    font-size: 32px;
     margin: 0 0 20px 0;
     white-space: nowrap;
     overflow: hidden;
@@ -178,7 +178,7 @@ h1, h2, h3, h4, h5, h6, .logo {
 .product-info {
     font-family: 'Crimson Pro', serif;
     width: 200px;
-    font-size: 12px;
+    font-size: 14px;
     background-color: rgba(255, 255, 255, 1);
     padding: 15px;
     border-radius: 8px;
@@ -195,7 +195,7 @@ h1, h2, h3, h4, h5, h6, .logo {
 }
 
 .info-block h3 {
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 5px;
     margin-top: 0px;
 }
