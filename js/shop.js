@@ -152,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateProductInfo(productId) {
         const product = products[productId];
         document.getElementById('product-name').textContent = product.name;
+        document.getElementById('product-price').textContent = `€${product.price.toFixed(2)}`;
         document.getElementById('product-ingredients').innerHTML = product.ingredients;
         document.getElementById('product-characteristics').innerHTML = product.characteristics;
         document.getElementById('product-buffs').innerHTML = product.buffs;
