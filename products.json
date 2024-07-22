@@ -36,7 +36,7 @@
   "redPotion": {
     "name": "Health potion",
     "ingredients": "Metal: Gold Raised Metal<br>Enamel: Lavender Gray, Muted Rose, Black Cherry, Primary Red",
-    "characteristics": "Height: 20 mm<br>Wide: 13.5 mm<br>Fastening: Butterfly clutch",
+    "characteristics": "Height: 20 mm Wide: 13.5 mm<br>Fastening: Butterfly clutch",
     "buffs": "HP potion, a staple item of any adventurer’s pack. An absolute necessity for those who don’t run from danger, and a chance for those who have to. The essence of life itself, packaged in best-quality, lightweight, hit-resistant reusable glass vial. Refillable at any good-aligned god temple. A classic.",
     "debuffs": "",
     "modelUrl": "/models/scene.gltf",
