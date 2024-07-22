@@ -251,8 +251,9 @@ h1, h2, h3, h4, h5, h6, .logo {
 }
 
 .product-price {
+    font-size: 16px !important;
     font-weight: bold;
-    color: #4CAF50; /* Зеленый цвет для цены, можете изменить по желанию */
+    color: rgba(155, 183, 100, 1); /* Зеленый цвет для цены, можете изменить по желанию */
 }
 
 .category-filter-line {
