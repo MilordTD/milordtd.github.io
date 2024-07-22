@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
         mouseY = (event.clientY - window.innerHeight / 2) / 100;
     }
 
-    function typewriterEffect(element, text, speed = 50) {
+    function typewriterEffect(element, text, speed = 20) {
     let i = 0;
     element.innerHTML = '';
     function type() {
@@ -54,11 +54,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const typewriterText = document.getElementById('typewriter-text');
-    const textToType = "I’m Erin, an artist, traveler\nand adventurer. I’ve got a neat\ncollection of trinkets, artifacts\nand equipment. Wanna trade?";
+    const textToType = "I’m Erin, an artist, traveler and adventurer.\nI’ve got a neat collection of trinkets, artifacts\nand equipment. Wanna trade?";
 
     // Запускаем эффект печатной машинки после открытия интро
     setTimeout(() => {
-        typewriterEffect(typewriterText, textToType);
+        typewriterEffect(typewriterText, textToType, 20);
     }, 1000); // Задержка в 1 секунду перед началом печати
 
     // Загрузка 3D модели
