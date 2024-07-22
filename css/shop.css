@@ -182,6 +182,7 @@ h1, h2, h3, h4, h5, h6, .logo {
     background-color: rgba(255, 255, 255, 1);
     padding: 15px;
     border-radius: 8px;
+    display: flex;
     flex-direction: column;
     overflow-y: auto;
     position: absolute;
@@ -237,6 +238,21 @@ h1, h2, h3, h4, h5, h6, .logo {
     display: flex;
     align-items: flex-end;
     width: 100%;
+}
+
+.price-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.price-block h3 {
+    margin: 0;
+}
+
+.product-price {
+    font-weight: bold;
+    color: #4CAF50; /* Зеленый цвет для цены, можете изменить по желанию */
 }
 
 .category-filter-line {
