@@ -638,13 +638,28 @@ body.overlay-active .container > *:not(.intro-overlay) {
     background-color: rgba(0, 0, 0, 0.7);
     padding: 20px;
     border-radius: 10px;
-    width: 200px;
+    width: 300px;
     text-align: center;
     opacity: 0;
     transition: opacity 0.5s ease-out;
     color: white;
     z-index: 2;
     position: relative;
+}
+
+.intro-content h1 {
+    font-family: 'MedievalSharp', cursive;
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #ffd700; /* Золотой цвет для заголовка */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.intro-content p {
+    font-family: 'Crimson Pro', serif;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
 }
 
 .intro-button {
