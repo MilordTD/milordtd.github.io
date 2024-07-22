@@ -36,23 +36,25 @@ document.addEventListener('DOMContentLoaded', function() {
         mouseY = (event.clientY - window.innerHeight / 2) / 100;
     }
 
-    document.addEventListener('mousemove', onDocumentMouseMove, false);
-
     function typewriterEffect(element, text, speed = 50) {
-        let i = 0;
-        element.innerHTML = '';
-        function type() {
-            if (i < text.length) {
+    let i = 0;
+    element.innerHTML = '';
+    function type() {
+        if (i < text.length) {
+            if (text.charAt(i) === '\n') {
+                element.innerHTML += '<br>';
+            } else {
                 element.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, speed);
             }
+            i++;
+            setTimeout(type, speed);
         }
-        type();
+    }
+    type();
     }
 
     const typewriterText = document.getElementById('typewriter-text');
-    const textToType = "Hello! I'm Erin - an artist, tattoo master, and adventurer. I also love pins. Here's my first pin collection \"Artifact\". You can buy pins separately or together. It's best to store them on a tote bag where you can arrange them right in the \"inventory\".";
+    const textToType = "I’m Erin, an artist, traveler\nand adventurer. I’ve got a neat\ncollection of trinkets, artifacts\nand equipment. Wanna trade?";
 
     // Запускаем эффект печатной машинки после открытия интро
     setTimeout(() => {
