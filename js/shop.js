@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let mouseX = 0;
     let mouseY = 0;
 
-
     // Toggle popup menu
     menuIcon.addEventListener('click', () => {
         popupMenu.style.display = popupMenu.style.display === 'block' ? 'none' : 'block';
@@ -31,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
             popupMenu.style.display = 'none';
         }
     });
-
 
     function onDocumentMouseMove(event) {
         mouseX = (event.clientX - window.innerWidth / 2) / 100;
@@ -53,11 +51,10 @@ document.addEventListener('DOMContentLoaded', function() {
         type();
     }
 
-    // Запускаем эффект печатной машинки после открытия интро
-    const introButton = document.querySelector('.intro-button');
     const typewriterText = document.getElementById('typewriter-text');
     const textToType = "Hello! I'm Erin - an artist, tattoo master, and adventurer. I also love pins. Here's my first pin collection \"Artifact\". You can buy pins separately or together. It's best to store them on a tote bag where you can arrange them right in the \"inventory\".";
 
+    // Запускаем эффект печатной машинки после открытия интро
     setTimeout(() => {
         typewriterEffect(typewriterText, textToType);
     }, 1000); // Задержка в 1 секунду перед началом печати
@@ -436,7 +433,7 @@ document.addEventListener('DOMContentLoaded', function() {
         animatedImage.src = productImage;
         animatedImage.style.position = 'fixed';
         animatedImage.style.left = `${startRect.left}px`;
-animatedImage.style.top = `${startRect.top}px`;
+        animatedImage.style.top = `${startRect.top}px`;
         animatedImage.style.width = `${startRect.width}px`;
         animatedImage.style.height = `${startRect.height}px`;
         animatedImage.style.zIndex = '9999';
