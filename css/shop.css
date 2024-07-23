@@ -826,7 +826,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
     .modal-product-gallery {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 20px;
     }
 
     .product-list-container.with-cart {
