@@ -210,8 +210,7 @@ quantityButtons.forEach(button => {
         }
     });
 
-    // Функция для обработки Stripe Checkout
-    async function handleStripeCheckout(shippingMethod, form) {
+async function handleStripeCheckout(shippingMethod, form) {
     showLoader();
 
     const formData = new FormData(form);
