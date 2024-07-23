@@ -787,7 +787,34 @@ body.overlay-active .container > *:not(.intro-overlay) {
     }
 
     #productDetailModal .modal-content {
-        margin: 10% auto;
-        width: 90%;
+        max-width: 80%;
+        max-height: 80%;
+        overflow-y: auto;
+    }
+
+    .modal-product-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+    }
+
+    #modal-book-3d-model {
+    width: 260px;
+    height: 260px;
+    margin-bottom: 10px;
+    }
+
+    .modal-product-gallery {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    }
+
+    .modal-product-gallery .gallery-item {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    cursor: pointer;
     }
 }

@@ -228,9 +228,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    let currentProductId;
+let currentProductId;
 
     function openModal(modalIdOrImgSrc) {
+        console.log('Opening modal:', modalIdOrImgSrc);
         if (modalIdOrImgSrc.startsWith('#')) {
             const modal = document.getElementById(modalIdOrImgSrc.slice(1));
             if (modal) {
@@ -239,6 +240,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 modal.style.display = 'block';
                 document.body.style.overflow = 'hidden';
+                console.log('Modal opened');
+            } else {
+                console.error('Modal not found:', modalIdOrImgSrc);
             }
         } else {
             const imageModal = document.getElementById('imageModal');
@@ -260,11 +264,21 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateProductDetailModal(productId) {
+        console.log('Updating product detail modal for product:', productId);
         const product = products[productId];
         const modalContent = document.querySelector('#productDetailModal .product-detail-modal-content');
         
+        if (!modalContent) {
+            console.error('Modal content element not found');
+            return;
+        }
+        
         modalContent.innerHTML = `
             <h2>${product.name}</h2>
+            <div class="modal-product-image">
+                <div id="modal-book-3d-model"></div>
+                <div class="modal-product-gallery"></div>
+            </div>
             <p>Price: €${product.price.toFixed(2)}</p>
             <div>
                 <h3>Ingredients</h3>
@@ -281,6 +295,16 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
         `;
 
+        console.log('Modal content updated');
+
+        // Загрузка 3D модели
+        loadModel(product.modelUrl, 'modal-book-3d-model');
+
+        // Обновление галереи
+        if (product.gallery && Array.isArray(product.gallery)) {
+            updateGallery(product.gallery, modalContent.querySelector('.modal-product-gallery'));
+        }
+
         const addToCartButton = modalContent.querySelector('.add-to-cart');
         addToCartButton.addEventListener('click', function() {
             addToCart(this.dataset.productId);
@@ -289,32 +313,65 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function handleResponsive() {
-    const productDetail = document.querySelector('.product-detail');
-    const productItems = document.querySelectorAll('.product-item');
+        const productDetail = document.querySelector('.product-detail');
+        const productItems = document.querySelectorAll('.product-item');
 
-    if (window.innerWidth <= 860 || window.innerHeight <= 860) {
-        if (productDetail) productDetail.style.display = 'none';
-        productItems.forEach(item => {
-            item.removeEventListener('click', updateProductInfo);
-            item.addEventListener('click', function() {
-                currentProductId = this.dataset.productId;
+        function handleProductClick(e) {
+            const productId = e.currentTarget.dataset.productId;
+            console.log('Product clicked:', productId);
+            console.log('Window size:', window.innerWidth, 'x', window.innerHeight);
+            
+            if (window.innerWidth <= 860 || window.innerHeight <= 860) {
+                console.log('Opening modal for product:', productId);
+                currentProductId = productId;
                 openModal('#productDetailModal');
-            });
-        });
-    } else {
-        if (productDetail) productDetail.style.display = 'flex';
+            } else {
+                console.log('Updating product info for:', productId);
+                updateProductInfo(productId);
+            }
+        }
+
         productItems.forEach(item => {
-            item.removeEventListener('click', function() {
-                currentProductId = this.dataset.productId;
-                openModal('#productDetailModal');
-            });
-            item.addEventListener('click', function() {
-                updateProductInfo(this.dataset.productId);
-            });
+            item.removeEventListener('click', handleProductClick);
+            item.addEventListener('click', handleProductClick);
         });
+
+        if (window.innerWidth <= 860 || window.innerHeight <= 860) {
+            if (productDetail) productDetail.style.display = 'none';
+        } else {
+            if (productDetail) productDetail.style.display = 'flex';
+        }
+
+        updateArrowVisibility();
     }
-    updateArrowVisibility();
-}
+
+    // Вызываем handleResponsive при загрузке страницы и при изменении размера окна
+    handleResponsive();
+    window.addEventListener('resize', handleResponsive);
+
+    // Добавляем обработчики для закрытия модальных окон
+    document.querySelectorAll('.modal .close').forEach(closeBtn => {
+        closeBtn.addEventListener('click', () => {
+            const modalId = closeBtn.closest('.modal').id;
+            closeModal(modalId);
+        });
+    });
+
+    // Закрытие модального окна при клике вне его содержимого
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModal(modal.id);
+            }
+        });
+    });
+
+    function addToCart(productId) {
+        cart.push(productId);
+        updateCart();
+        animateAddToCart();
+        closeModal('productDetailModal');
+    }
 
     // Обновление фильтра категорий
     function updateCategoryFilter() {
