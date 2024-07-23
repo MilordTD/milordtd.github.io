@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.addEventListener('mousemove', onDocumentMouseMove, false);
 
-    function typewriterEffect(element, text, speed = 20) {
+    function typewriterEffect(element, text, speed = 10) {
         let i = 0;
         element.innerHTML = '';
         function type() {
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Запускаем эффект печатной машинки после открытия интро
     setTimeout(() => {
-        typewriterEffect(typewriterText, textToType, 20);
+        typewriterEffect(typewriterText, textToType, 10);
     }, 1000); // Задержка в 1 секунду перед началом печати
 
     // Загрузка 3D модели
