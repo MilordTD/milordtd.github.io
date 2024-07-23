@@ -257,13 +257,6 @@ h1, h2, h3, h4, h5, h6, .logo {
     color: rgba(155, 183, 100, 1); /* Зеленый цвет для цены, можете изменить по желанию */
 }
 
-.category-filter-line {
-    flex-grow: 1;
-    height: 5px;
-    background-color: rgba(0, 0, 0, 0.7);
-    position: relative;
-}
-
 .category-filter {
     flex-shrink: 0;
     display: flex;
