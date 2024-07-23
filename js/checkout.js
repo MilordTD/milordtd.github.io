@@ -116,6 +116,7 @@ quantityButtons.forEach(button => {
                 pickupFields.style.display = 'block';
                 orderSummary.style.display = 'block';
                 paymentDetails.querySelector('p').textContent = 'Complete your purchase by providing your payment details.';
+                loadGoogleMaps(); // Добавьте эту строку
             } else if (shippingMethod === 'local') {
                 shippingCostElement.textContent = '€5.00';
                 stripeCheckoutBtn.querySelector('.button-text').textContent = 'Proceed to Payment';
@@ -356,9 +357,8 @@ async function handleStripeCheckout(shippingMethod, form) {
         console.log('Loader hidden');
     }
 
-    // Инициализация карты Google Maps
-    window.initMap = function() {
-    console.log('Google Maps API loaded, initMap called');
+    function initMap() {
+    console.log('initMap called');
     const mapContainer = document.getElementById('map-container');
     if (!mapContainer) {
         console.error('Map container not found');
@@ -381,8 +381,27 @@ async function handleStripeCheckout(shippingMethod, form) {
         title: 'Varenka'
     });
 
-    console.log('Map initialized with marker at Varenka');
-};
+    console.log('Map initialized');
+}
+
+// Добавим эту функцию для загрузки карты
+function loadGoogleMaps() {
+    console.log('Loading Google Maps');
+    const script = document.createElement('script');
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyA4JymRfTQM1RglXSpsnrgwwVcl6uaOMvE&callback=initMap`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
+}
+
+// Вызовем функцию загрузки карты после загрузки DOM
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded');
+    const pickupOption = document.querySelector('.shipping-option[data-value="pickup"]');
+    if (pickupOption) {
+        pickupOption.addEventListener('click', loadGoogleMaps);
+    }
+});
 });
 
 
