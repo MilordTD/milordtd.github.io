@@ -324,7 +324,7 @@ let currentProductId;
             <p>${product.characteristics}</p>
         </div>
         <div>
-            <h3>Buffs and Debuffs</h3>
+            <h3>Item info</h3>
             <p>${product.buffs}</p>
         </div>
         <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
