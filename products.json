@@ -13,7 +13,7 @@
       "/images/tome_1.jpg",
       "/images/tome_2.jpg",
       "/images/tome_3.jpg",
-      "/images/tome_1.jpg"
+      "/images/tome_4.jpg"
     ]
   },
   "yellowPotion": {
@@ -27,10 +27,10 @@
     "inStock": 50,
     "price": 5.00,
     "gallery": [
+      "/images/yPotion_1.jpg",
       "/images/yPotion_2.jpg",
       "/images/yPotion_3.jpg",
-      "/images/yPotion_2.jpg",
-      "/images/yPotion_3.jpg"
+      "/images/yPotion_4.jpg"
     ]
   },
   "redPotion": {
@@ -44,10 +44,10 @@
     "inStock": 50,
     "price": 5.00,
     "gallery": [
+      "/images/rPotion_1.jpg",
       "/images/rPotion_2.jpg",
       "/images/rPotion_3.jpg",
-      "/images/rPotion_2.jpg",
-      "/images/rPotion_3.jpg"
+      "/images/rPotion_4.jpg"
     ]
   },
   "bluePotion": {
@@ -61,10 +61,10 @@
     "inStock": 50,
     "price": 5.00,
     "gallery": [
+      "/images/bPotion_1.jpg",
       "/images/bPotion_2.jpg",
       "/images/bPotion_3.jpg",
-      "/images/bPotion_2.jpg",
-      "/images/bPotion_3.jpg"
+      "/images/bPotion_4.jpg"
     ]
   },
   "potionSet": {
@@ -78,10 +78,10 @@
     "inStock": 50,
     "price": 12.50,
     "gallery": [
+      "/images/allPotion_1.jpg",
       "/images/allPotion_2.jpg",
       "/images/allPotion_3.jpg",
-      "/images/allPotion_2.jpg",
-      "/images/allPotion_3.jpg"
+      "/images/allPotion_4.jpg"
     ]
   },
   
@@ -99,7 +99,7 @@
       "/images/dagger_1.jpg",
       "/images/dagger_2.jpg",
       "/images/dagger_3.jpg",
-      "/images/dagger_1.jpg"
+      "/images/dagger_4.jpg"
     ]
   },
   "sword": {
@@ -116,7 +116,7 @@
       "/images/sword_1.jpg",
       "/images/sword_2.jpg",
       "/images/sword_3.jpg",
-      "/images/sword_1.jpg"
+      "/images/sword_4.jpg"
     ]
   },
   "guitar": {
@@ -133,7 +133,7 @@
       "/images/guitar_1.jpg",
       "/images/guitar_2.jpg",
       "/images/guitar_3.jpg",
-      "/images/guitar_1.jpg"
+      "/images/guitar_4.jpg"
     ]
   },
   "toteBag1": {
