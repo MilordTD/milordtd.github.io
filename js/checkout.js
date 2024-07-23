@@ -240,57 +240,45 @@ async function handleStripeCheckout(shippingMethod, form) {
     }
 
     console.log('Customer Data:', customerData);
+    console.log('Shipping Method:', shippingMethod);
 
-        if (!customerData.email || !validateEmail(customerData.email)) {
-            alert('Please provide a valid email address.');
-            hideLoader();
-            return;
+    try {
+        const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                cart: cart,
+                customerData: customerData,
+                shippingMethod: shippingMethod,
+                shippingCost: shippingCost
+            })
+        });
+
+        console.log('Response status:', response.status);
+        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error('Error response:', errorText);
+            throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
         }
 
-        let shippingCost = 0;
-        if (shippingMethod === 'local') {
-            shippingCost = 5;
-        } else if (shippingMethod === 'other') {
-            shippingCost = 10;
+        const data = await response.json();
+        console.log('Response data:', data);
+
+        if (data.url) {
+            window.location.href = data.url;
+        } else {
+            throw new Error("No checkout URL in the response");
         }
-
-        try {
-            const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    cart: cart,
-                    customerData: customerData,
-                    shippingMethod: shippingMethod,
-                    shippingCost: shippingCost
-                })
-            });
-
-            console.log('Response status:', response.status);
-            console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error('Error response:', errorText);
-                throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-            }
-
-            const data = await response.json();
-            console.log('Response data:', data);
-
-            if (data.url) {
-                window.location.href = data.url;
-            } else {
-                throw new Error("No checkout URL in the response");
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert(`An error occurred: ${error.message}. Please try again later.`);
-            hideLoader();
-        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert(`An error occurred: ${error.message}. Please try again later.`);
+        hideLoader();
     }
+}
 
     // Функция для обработки отправки данных в Telegram
     async function handleTelegramSubmission(form) {
