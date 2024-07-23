@@ -751,3 +751,40 @@ body.overlay-active .container > *:not(.intro-overlay) {
     opacity: 0 !important;
     transition: opacity 2s ease-in-out;
 }
+
+/* Специфичные стили для модального окна с деталями продукта */
+#productDetailModal .modal-content {
+    text-align: left;
+    background-color: rgba(255, 255, 255, 0.95);
+    color: black;
+}
+
+#productDetailModal .product-detail-modal-content {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+#productDetailModal .add-to-cart {
+    margin-top: 20px;
+    width: 100%;
+}
+
+@media screen and (max-width: 860px), screen and (max-height: 860px) {
+    .product-detail {
+        display: none;
+    }
+
+    .product-list-container {
+        top: 60px;
+    }
+
+    .cart-container {
+        top: 60px;
+    }
+
+    #productDetailModal .modal-content {
+        margin: 10% auto;
+        width: 90%;
+    }
+}

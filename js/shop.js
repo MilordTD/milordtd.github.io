@@ -223,31 +223,87 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function openModal(modalIdOrImgSrc) {
-        if (modalIdOrImgSrc.startsWith('#')) {
-            const modal = document.getElementById(modalIdOrImgSrc.slice(1));
-            if (modal) {
-                modal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            }
-        } else {
-            const imageModal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
-            if (imageModal && modalImg) {
-                modalImg.src = modalIdOrImgSrc;
-                imageModal.style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            }
-        }
-    }
+    let currentProductId;
 
-    function closeModal(modalId) {
-        const modal = document.getElementById(modalId);
+    function openModal(modalIdOrImgSrc) {
+    if (modalIdOrImgSrc.startsWith('#')) {
+        const modal = document.getElementById(modalIdOrImgSrc.slice(1));
         if (modal) {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            if (modalIdOrImgSrc === '#productDetailModal') {
+                updateProductDetailModal(currentProductId);
+            }
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+    } else {
+        const imageModal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        if (imageModal && modalImg) {
+            modalImg.src = modalIdOrImgSrc;
+            imageModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
         }
     }
+}
+
+function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    if (modal) {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    }
+}
+
+
+function updateProductDetailModal(productId) {
+    const product = products[productId];
+    const modalContent = document.querySelector('#productDetailModal .product-detail-modal-content');
+    
+    modalContent.innerHTML = `
+        <h2>${product.name}</h2>
+        <p>Price: €${product.price.toFixed(2)}</p>
+        <div>
+            <h3>Ingredients</h3>
+            <p>${product.ingredients}</p>
+        </div>
+        <div>
+            <h3>Characteristics</h3>
+            <p>${product.characteristics}</p>
+        </div>
+        <div>
+            <h3>Buffs and Debuffs</h3>
+            <p>${product.buffs}</p>
+        </div>
+        <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
+    `;
+
+    const addToCartButton = modalContent.querySelector('.add-to-cart');
+    addToCartButton.addEventListener('click', function() {
+        addToCart(this.dataset.productId);
+        closeModal('productDetailModal');
+    });
+}
+
+function handleResponsive() {
+    if (window.innerWidth <= 860 || window.innerHeight <= 860) {
+        document.querySelector('.product-detail').style.display = 'none';
+        document.querySelectorAll('.product-item').forEach(item => {
+            item.addEventListener('click', function() {
+                currentProductId = this.dataset.productId;
+                openModal('#productDetailModal');
+            });
+        });
+    } else {
+        document.querySelector('.product-detail').style.display = 'flex';
+        document.querySelectorAll('.product-item').forEach(item => {
+            item.addEventListener('click', function() {
+                updateProductInfo(this.dataset.productId);
+            });
+        });
+    }
+    updateArrowVisibility();
+}
+
 
     // Обработчики для закрытия модальных окон
     document.querySelectorAll('.modal .close').forEach(closeBtn => {
