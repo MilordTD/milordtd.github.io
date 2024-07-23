@@ -211,10 +211,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('product-debuffs').innerHTML = product.debuffs;
     loadModel(product.modelUrl, 'book-3d-model');
 
-    if (product.gallery && Array.isArray(product.gallery)) {
-        updateGallery(product.gallery, '.product-gallery');
+    const productGallery = document.querySelector('.product-gallery');
+    if (product.gallery && Array.isArray(product.gallery) && productGallery) {
+        updateGallery(product.gallery, productGallery);
     } else {
-        console.error('Invalid gallery data');
+        console.error('Product gallery not found or invalid gallery data');
     }
 
         document.querySelectorAll('.product-item').forEach(item => {
@@ -239,13 +240,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function updateGallery(galleryImages, containerSelector) {
-    let container = document.querySelector(containerSelector);
+    function updateGallery(galleryImages, container) {
+    if (typeof container === 'string') {
+        container = document.querySelector(container);
+    }
+    
     if (!container) {
-        console.warn(`Gallery container not found: ${containerSelector}. Creating a new one.`);
-        container = document.createElement('div');
-        container.className = 'product-gallery';
-        document.querySelector('.product-image').appendChild(container);
+        console.error('Gallery container not found');
+        return;
     }
     
     container.innerHTML = '';
@@ -332,8 +334,9 @@ let currentProductId;
     loadModel(product.modelUrl, 'modal-book-3d-model');
 
     // Update gallery
-    if (product.gallery && Array.isArray(product.gallery)) {
-        updateGallery(product.gallery, modalContent.querySelector('.modal-product-gallery'));
+    const modalGallery = modalContent.querySelector('.modal-product-gallery');
+    if (product.gallery && Array.isArray(product.gallery) && modalGallery) {
+        updateGallery(product.gallery, modalGallery);
     }
 
     const addToCartButton = modalContent.querySelector('.add-to-cart');
