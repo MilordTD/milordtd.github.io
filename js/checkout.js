@@ -110,13 +110,18 @@ quantityButtons.forEach(button => {
 
             const shippingMethod = this.dataset.value;
             if (shippingMethod === 'pickup') {
-                shippingCostElement.textContent = '€0.00';
-                stripeCheckoutBtn.querySelector('.button-text').textContent = 'Proceed to Payment';
-                stripeCheckoutBtn.style.display = 'block';
-                pickupFields.style.display = 'block';
-                orderSummary.style.display = 'block';
-                paymentDetails.querySelector('p').textContent = 'Complete your purchase by providing your payment details.';
-                loadGoogleMaps(); // Добавьте эту строку
+            shippingCostElement.textContent = '€0.00';
+            stripeCheckoutBtn.querySelector('.button-text').textContent = 'Proceed to Payment';
+            stripeCheckoutBtn.style.display = 'block';
+            pickupFields.style.display = 'block';
+            orderSummary.style.display = 'block';
+            paymentDetails.querySelector('p').textContent = 'Complete your purchase by providing your payment details.';
+            
+            // Добавим небольшую задержку перед загрузкой карты
+            setTimeout(() => {
+                console.log('Attempting to load Google Maps');
+                loadGoogleMaps();
+            }, 100);
             } else if (shippingMethod === 'local') {
                 shippingCostElement.textContent = '€5.00';
                 stripeCheckoutBtn.querySelector('.button-text').textContent = 'Proceed to Payment';
@@ -387,11 +392,48 @@ async function handleStripeCheckout(shippingMethod, form) {
 // Добавим эту функцию для загрузки карты
 function loadGoogleMaps() {
     console.log('Loading Google Maps');
+    if (window.google && window.google.maps) {
+        console.log('Google Maps API already loaded');
+        initMap();
+        return;
+    }
     const script = document.createElement('script');
-    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyA4JymRfTQM1RglXSpsnrgwwVcl6uaOMvE&callback=initMap`;
+    script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyA4JymRfTQM1RglXSpsnrgwwVcl6uaOMvE&callback=initMapCallback`;
     script.async = true;
     script.defer = true;
     document.head.appendChild(script);
+}
+
+window.initMapCallback = function() {
+    console.log('Google Maps API loaded, calling initMap');
+    initMap();
+}
+
+function initMap() {
+    console.log('initMap called');
+    const mapContainer = document.getElementById('map-container');
+    if (!mapContainer) {
+        console.error('Map container not found');
+        return;
+    }
+
+    // Координаты для магазина "Varenka"
+    const varenkoLocation = { lat: 41.1510219, lng: -8.6120077 };
+
+    const mapOptions = {
+        center: varenkoLocation,
+        zoom: 15
+    };
+
+    const map = new google.maps.Map(mapContainer, mapOptions);
+
+    const marker = new google.maps.Marker({
+        position: varenkoLocation,
+        map: map,
+        title: 'Varenka'
+    });
+
+    console.log('Map initialized');
 }
 
 // Вызовем функцию загрузки карты после загрузки DOM
