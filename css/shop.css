@@ -774,7 +774,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
     .erin-image.moved {
         position: fixed;
         bottom: 0;
-        right: 0;
+        left: -100px;
         width: auto;
         height: 80%;
         z-index: 9999;
