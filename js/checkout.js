@@ -215,14 +215,14 @@ quantityButtons.forEach(button => {
         showLoader();
 
     const formData = new FormData(form);
-    const customerData = {
-        email: formData.get('email'),
-        name: formData.get('name'),
-        phone: formData.get('phone'),
-        address: formData.get('address'),
-        country: formData.get('country'),
-        city: formData.get('city')
-    };
+const customerData = {
+    email: formData.get('email') || '',
+    name: formData.get('name') || '',
+    phone: formData.get('phone') || '',
+    address: formData.get('address') || '',
+    country: formData.get('country') || '',
+    city: formData.get('city') || ''
+};
 
     console.log('Customer Data:', customerData);
 
