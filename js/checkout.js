@@ -54,6 +54,25 @@ document.addEventListener('DOMContentLoaded', function() {
         subtotalElement.textContent = `€${subtotal.toFixed(2)}`;
         updateTotalCost();
         console.log('Cart items displayed, subtotal:', subtotal);
+
+        // Добавление обработчиков событий для кнопок изменения количества
+const quantityButtons = document.querySelectorAll('.quantity-btn');
+quantityButtons.forEach(button => {
+    button.addEventListener('click', function() {
+        const index = this.dataset.index;
+        if (this.classList.contains('plus')) {
+            cart[index].quantity++;
+        } else if (this.classList.contains('minus')) {
+            if (cart[index].quantity > 1) {
+                cart[index].quantity--;
+            }
+        } else if (this.classList.contains('remove-item')) {
+            cart.splice(index, 1);
+        }
+        localStorage.setItem('cart', JSON.stringify(cart));
+        displayCartItems();
+    });
+});
     }
 
     // Обновление общей стоимости
@@ -330,31 +349,31 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Инициализация карты Google Maps
     window.initMap = function() {
-        console.log('Google Maps API loaded, initMap called');
-        const mapContainer = document.getElementById('map-container');
-        if (!mapContainer) {
-            console.error('Map container not found');
-            return;
-        }
+    console.log('Google Maps API loaded, initMap called');
+    const mapContainer = document.getElementById('map-container');
+    if (!mapContainer) {
+        console.error('Map container not found');
+        return;
+    }
 
-        // Координаты для магазина "Varenka"
-        const varenkoLocation = { lat: 41.1510219, lng: -8.6120077 };
+    // Координаты для магазина "Varenka"
+    const varenkoLocation = { lat: 41.1510219, lng: -8.6120077 };
 
-        const mapOptions = {
-            center: varenkoLocation,
-            zoom: 17
-        };
-
-        const map = new google.maps.Map(mapContainer, mapOptions);
-
-        const marker = new google.maps.Marker({
-            position: varenkoLocation,
-            map: map,
-            title: 'Varenka'
-        });
-
-        console.log('Map initialized with marker at Varenka');
+    const mapOptions = {
+        center: varenkoLocation,
+        zoom: 17
     };
+
+    const map = new google.maps.Map(mapContainer, mapOptions);
+
+    const marker = new google.maps.Marker({
+        position: varenkoLocation,
+        map: map,
+        title: 'Varenka'
+    });
+
+    console.log('Map initialized with marker at Varenka');
+};
 });
 
 
