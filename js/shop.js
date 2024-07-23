@@ -245,6 +245,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateGallery(galleryImages, container) {
+    if (!container) {
+        console.error('Gallery container not found');
+        return;
+    }
     container.innerHTML = '';
     galleryImages.forEach((imgSrc, index) => {
         if (index < 4) {
