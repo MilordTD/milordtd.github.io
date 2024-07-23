@@ -226,13 +226,13 @@ h1, h2, h3, h4, h5, h6, .logo {
 .product-list-container {
     height: 15vh;
     min-height: 180px; /* Минимальная высота */
-    position: fixed;
     bottom: 40px;
     left: 10%;
     right: 10%;
     display: flex;
     flex-direction: column;
     z-index: 10000;
+    position: relative; 
 }
 
 .category-filter-wrapper {
@@ -307,6 +307,8 @@ h1, h2, h3, h4, h5, h6, .logo {
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     z-index: 1;
+    padding-left: 40px;  /* Добавляем отступ слева */
+    padding-right: 40px; /* Добавляем отступ справа */
 }
 
 .product-list::-webkit-scrollbar {
@@ -375,7 +377,14 @@ h1, h2, h3, h4, h5, h6, .logo {
     padding: 10px;
     cursor: pointer;
     z-index: 10;
-    display: none;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
 }
 
 .slider-arrow.left {
@@ -384,6 +393,10 @@ h1, h2, h3, h4, h5, h6, .logo {
 
 .slider-arrow.right {
     right: 10px;
+}
+
+.slider-arrow:hover {
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
 .cart-container {
