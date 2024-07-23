@@ -321,7 +321,7 @@ let currentProductId;
             console.log('Product clicked:', productId);
             console.log('Window size:', window.innerWidth, 'x', window.innerHeight);
             
-            if (window.innerWidth <= 860 || window.innerHeight <= 860) {
+            if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
                 console.log('Opening modal for product:', productId);
                 currentProductId = productId;
                 openModal('#productDetailModal');
@@ -336,7 +336,7 @@ let currentProductId;
             item.addEventListener('click', handleProductClick);
         });
 
-        if (window.innerWidth <= 860 || window.innerHeight <= 860) {
+        if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
             if (productDetail) productDetail.style.display = 'none';
         } else {
             if (productDetail) productDetail.style.display = 'flex';
@@ -475,7 +475,7 @@ let currentProductId;
         productListContainer.classList.add('with-cart');
         
         // Проверяем размер экрана и применяем соответствующие стили
-        if (window.innerWidth <= 860 || window.innerHeight <= 860) {
+        if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
             productListContainer.style.bottom = '220px';
         }
     } else {
@@ -483,7 +483,7 @@ let currentProductId;
         productListContainer.classList.remove('with-cart');
         
         // Возвращаем исходное положение при пустой корзине
-        if (window.innerWidth <= 860 || window.innerHeight <= 860) {
+        if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
             productListContainer.style.bottom = '20px';
         }
     }
