@@ -18,6 +18,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let mouseX = 0;
     let mouseY = 0;
+    let products = {};
+    let cart = [];
+    const cartContainer = document.querySelector('.cart-container');
+    const cartItems = document.querySelector('.cart-items');
+    const cartTotal = document.querySelector('.total-amount');
+    const productListContainer = document.querySelector('.product-list-container');
+    const productListWrapper = document.querySelector('.product-list-wrapper');
+    const leftArrow = document.querySelector('.slider-arrow.left');
+    const rightArrow = document.querySelector('.slider-arrow.right');
 
     // Toggle popup menu
     menuIcon.addEventListener('click', () => {
@@ -61,14 +70,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Запускаем эффект печатной машинки после открытия интро
     setTimeout(() => {
         typewriterEffect(typewriterText, textToType, 10);
-    }, 1000); // Задержка в 1 секунду перед началом печати
+    }, 1000);
 
     // Загрузка 3D модели
     const loader = new GLTFLoader();
     let currentModel;
 
     function loadModel(modelUrl) {
-        // Удаляем все существующие объекты со сцены
         while(scene.children.length > 0){ 
             scene.remove(scene.children[0]); 
         }
@@ -76,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function() {
         loader.load(modelUrl, (gltf) => {
             currentModel = gltf.scene;
             
-            // Масштабируем модель до высоты 200px
             const box = new THREE.Box3().setFromObject(currentModel);
             const height = box.max.y - box.min.y;
             const scale = 7 / height;
@@ -84,7 +91,6 @@ document.addEventListener('DOMContentLoaded', function() {
             
             scene.add(currentModel);
             
-            // Настройка камеры и освещения
             camera.position.z = 5;
             camera.position.y = 0.5;
             const ambientLight = new THREE.AmbientLight(0xffffff, 0.05);
@@ -108,15 +114,68 @@ document.addEventListener('DOMContentLoaded', function() {
 
     animate();
 
-    let products = {};
-    let cart = [];
-    const cartContainer = document.querySelector('.cart-container');
-    const cartItems = document.querySelector('.cart-items');
-    const cartTotal = document.querySelector('.total-amount');
-    const productListContainer = document.querySelector('.product-list-container');
-    const productListWrapper = document.querySelector('.product-list-wrapper');
-    const leftArrow = document.querySelector('.slider-arrow.left');
-    const rightArrow = document.querySelector('.slider-arrow.right');
+    function loadCartData() {
+        const savedCart = localStorage.getItem('cart');
+        if (savedCart) {
+            cart = JSON.parse(savedCart);
+        }
+        const savedProducts = localStorage.getItem('products');
+        if (savedProducts) {
+            products = JSON.parse(savedProducts);
+        }
+        console.log('Cart data loaded:', cart);
+        console.log('Products data loaded:', products);
+    }
+
+    function displayCartItems() {
+        cartItems.innerHTML = '';
+        let total = 0;
+
+        cart.forEach((item, index) => {
+            const product = products[item.id];
+            if (product) {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    <span>${product.name} x${item.quantity}</span>
+                    <span>€${(product.price * item.quantity).toFixed(2)}</span>
+                `;
+                cartItems.appendChild(itemElement);
+                total += product.price * item.quantity;
+            }
+        });
+
+        cartTotal.textContent = total.toFixed(2);
+        updateCart();
+    }
+
+    function handleQuantityChange(event) {
+        const index = event.target.dataset.index;
+        const action = event.target.classList.contains('plus') ? 'increase' : 'decrease';
+        
+        if (action === 'increase') {
+            cart[index].quantity++;
+        } else if (action === 'decrease') {
+            if (cart[index].quantity > 1) {
+                cart[index].quantity--;
+            } else {
+                cart.splice(index, 1);
+            }
+        }
+        
+        localStorage.setItem('cart', JSON.stringify(cart));
+        displayCartItems();
+    }
+
+    function handleAddToCart(event) {
+        const productId = event.target.dataset.productId;
+        addToCart(productId);
+    }
+
+    function handleProductClick(event) {
+        const productId = event.currentTarget.dataset.productId;
+        updateProductInfo(productId);
+    }
 
     function initializeShop() {
         console.log('Initializing shop');
@@ -128,46 +187,73 @@ document.addEventListener('DOMContentLoaded', function() {
         handleResponsive();
         checkStatus();
 
-        // Переинициализация обработчиков событий
         initializeEventListeners();
     }
 
     function initializeEventListeners() {
         console.log('Initializing event listeners');
         
-        // Обработчики для элементов корзины
         document.querySelectorAll('.quantity-btn').forEach(btn => {
+            btn.removeEventListener('click', handleQuantityChange);
             btn.addEventListener('click', handleQuantityChange);
         });
 
-        // Обработчики для кнопок добавления в корзину
         document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.removeEventListener('click', handleAddToCart);
             btn.addEventListener('click', handleAddToCart);
         });
 
-        // Обработчики для элементов продуктов
         document.querySelectorAll('.product-item').forEach(item => {
+            item.removeEventListener('click', handleProductClick);
             item.addEventListener('click', handleProductClick);
         });
 
-        // Другие обработчики событий...
+        const emptyCartButton = document.querySelector('.empty-cart-button');
+        if (emptyCartButton) {
+            emptyCartButton.removeEventListener('click', handleEmptyCart);
+            emptyCartButton.addEventListener('click', handleEmptyCart);
+        }
+
+        const checkoutButton = document.querySelector('.checkout-button');
+        if (checkoutButton) {
+            checkoutButton.removeEventListener('click', handleCheckout);
+            checkoutButton.addEventListener('click', handleCheckout);
+        }
     }
 
-    // Функция для обновления URL без перезагрузки страницы
+    function handleEmptyCart() {
+        cart = [];
+        updateCart();
+        updateProductInfo(Object.keys(products)[0]);
+    }
+
+    function handleCheckout() {
+        const cartWithQuantity = cart.reduce((acc, productId) => {
+            if (acc[productId]) {
+                acc[productId].quantity += 1;
+            } else {
+                acc[productId] = { id: productId, quantity: 1 };
+            }
+            return acc;
+        }, {});
+
+        localStorage.setItem('cart', JSON.stringify(Object.values(cartWithQuantity)));
+        localStorage.setItem('products', JSON.stringify(products));
+        
+        window.location.href = '/checkout/index.html';
+    }
+
     function updateURL(url) {
         history.pushState(null, '', url);
     }
 
-    // Обработчик изменения истории браузера
     window.addEventListener('popstate', function(event) {
         console.log('popstate event triggered');
         initializeShop();
     });
 
-    // Вызываем initializeShop при загрузке страницы
     initializeShop();
 
-    // Перехватываем клики по внутренним ссылкам
     document.body.addEventListener('click', function(e) {
         if (e.target.tagName === 'A' && e.target.href.startsWith(window.location.origin)) {
             e.preventDefault();
@@ -176,7 +262,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Загрузка данных о товарах из JSON файла
     fetch('/products.json')
         .then(response => response.json())
         .then(data => {
@@ -188,7 +273,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
     function initializeProducts() {
-        // Создание элементов товаров
         productListWrapper.innerHTML = '';
 
         for (const [id, product] of Object.entries(products)) {
@@ -212,7 +296,6 @@ document.addEventListener('DOMContentLoaded', function() {
             productListWrapper.appendChild(productItem);
         }
 
-        // Обновление обработчиков событий для продуктов
         document.querySelectorAll('.product-item').forEach(item => {
             item.addEventListener('click', function() {
                 const productId = this.dataset.productId;
@@ -220,19 +303,15 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        // Инициализация первого товара
         const firstProductId = Object.keys(products)[0];
         updateProductInfo(firstProductId);
 
-        // Обновление слайдера и фильтров
         initializeSlider();
         updateCategoryFilter();
 
-        // Вызываем функцию handleResponsive после инициализации продуктов
         handleResponsive();
     }
 
-    // Обновление информации о продукте
     function updateProductInfo(productId) {
         const product = products[productId];
         document.getElementById('product-name').textContent = product.name;
@@ -243,7 +322,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('product-debuffs').innerHTML = product.debuffs;
         loadModel(product.modelUrl);
 
-        // Обновление галереи
         if (product.gallery && Array.isArray(product.gallery)) {
             updateGallery(product.gallery);
         } else {
@@ -403,11 +481,9 @@ document.addEventListener('DOMContentLoaded', function() {
         updateArrowVisibility();
     }
 
-    // Вызываем handleResponsive при загрузке страницы и при изменении размера окна
     handleResponsive();
     window.addEventListener('resize', handleResponsive);
 
-    // Добавляем обработчики для закрытия модальных окон
     document.querySelectorAll('.modal .close').forEach(closeBtn => {
         closeBtn.addEventListener('click', () => {
             const modalId = closeBtn.closest('.modal').id;
@@ -415,7 +491,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Закрытие модального окна при клике вне его содержимого
     document.querySelectorAll('.modal').forEach(modal => {
         modal.addEventListener('click', (event) => {
             if (event.target === modal) {
@@ -431,7 +506,6 @@ document.addEventListener('DOMContentLoaded', function() {
         closeModal('productDetailModal');
     }
 
-    // Обновление фильтра категорий
     function updateCategoryFilter() {
         const categories = [...new Set(Object.values(products).map(product => product.category))];
         const categoryFilter = document.querySelector('.category-filter-container');
@@ -445,7 +519,6 @@ document.addEventListener('DOMContentLoaded', function() {
             categoryFilter.appendChild(button);
         });
 
-        // Обновление обработчиков событий для кнопок категорий
         document.querySelectorAll('.category-button').forEach(button => {
             button.addEventListener('click', function() {
                 const category = this.dataset.category;
@@ -469,7 +542,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Реализация горизонтального слайдера
     let currentPosition = 0;
 
     function updateSliderPosition() {
@@ -519,7 +591,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Функция обновления корзины
     function updateCart() {
         const cartItemCount = cart.length;
         
@@ -532,7 +603,6 @@ document.addEventListener('DOMContentLoaded', function() {
             cartContainer.classList.add('active');
             productListContainer.classList.add('with-cart');
             
-            // Проверяем размер экрана и применяем соответствующие стили
             if (window.innerWidth <= 860) {
                 productListContainer.style.bottom = '220px';
             }
@@ -540,14 +610,12 @@ document.addEventListener('DOMContentLoaded', function() {
             cartContainer.classList.remove('active');
             productListContainer.classList.remove('with-cart');
             
-            // Возвращаем исходное положение при пустой корзине
             if (window.innerWidth <= 860) {
                 productListContainer.style.bottom = '20px';
             }
         }
     }
 
-    // Обработчик для кнопки "Empty cart"
     const emptyCartButton = document.querySelector('.empty-cart-button');
     if (emptyCartButton) {
         emptyCartButton.addEventListener('click', () => {
@@ -557,10 +625,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Инициализация корзины
     updateCart();
 
-    // Обработчик для кнопки оформления заказа
     const checkoutButton = document.querySelector('.checkout-button');
     if (checkoutButton) {
         checkoutButton.addEventListener('click', () => {
@@ -607,16 +673,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         console.log('Animated image created and appended to body');
 
-        // Функция для расчета положения на дуге
         function calculatePosition(progress) {
             const startX = startRect.left;
             const startY = startRect.top;
             const endX = endRect.right - 20;
             const endY = endRect.bottom - 20;
 
-            // Контрольная точка для кривой Безье (вершина дуги)
             const controlX = (startX + endX) / 2;
-            const controlY = startY - 100; // Регулируйте это значение для изменения высоты дуги
+            const controlY = startY - 100;
 
             const x = Math.pow(1 - progress, 2) * startX + 
                       2 * (1 - progress) * progress * controlX + 
@@ -628,9 +692,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return { x, y };
         }
 
-        // Функция анимации
         function animate(currentTime) {
-            const duration = 1000; // Продолжительность анимации в мс
+            const duration = 1000;
             const progress = Math.min((currentTime - startTime) / duration, 1);
             const { x, y } = calculatePosition(progress);
 
@@ -651,7 +714,6 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(animate);
     }
 
-    // Проверка статуса оплаты и waitlist
     function checkStatus() {
         console.log('Checking status');
         const urlParams = new URLSearchParams(window.location.search);
@@ -666,7 +728,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (paymentStatus === 'success') {
             console.log('Opening success modal');
             openModal('#successModal');
-            // Очистка корзины после успешной оплаты
             cart = [];
             updateCart();
         } else if (waitlistStatus === 'success') {
@@ -674,12 +735,10 @@ document.addEventListener('DOMContentLoaded', function() {
             openModal('#waitlistSuccessModal');
         }
 
-        // Удаление параметров статуса из URL
         console.log('Removing status parameters from URL');
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 
-    // Основной код, выполняющийся после загрузки DOM
     console.log('DOM fully loaded');
     const introOverlay = document.querySelector('.intro-overlay');
     const introContent = document.querySelector('.intro-content');
@@ -687,11 +746,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const productDetail = document.querySelector('.product-detail');
     const erinImage = document.querySelector('.erin-image');
 
-    // Добавляем класс active к оверлею и body при загрузке страницы
     introOverlay.classList.add('active');
     document.body.classList.add('overlay-active');
 
-    // Показываем контент с эффектом fade in
     setTimeout(() => {
         introContent.style.opacity = '1';
     }, 500);
@@ -701,19 +758,15 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         event.stopPropagation();
         
-        // Скрываем intro-content
         introContent.style.opacity = '0';
         
-        // Перемещаем и увеличиваем изображение Эрин
         erinImage.classList.add('moved');
         
-        // Ждем завершения анимации скрытия intro-content
         setTimeout(() => {
             introOverlay.classList.remove('active');
             document.body.classList.remove('overlay-active');
             introOverlay.style.display = 'none';
             
-            // Показываем product-detail и product-list-container
             productDetail.style.opacity = '1';
             productListContainer.style.opacity = '1';
         }, 500);
@@ -740,7 +793,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500);
     }
 
-    // Обработчики для закрытия модальных окон
     document.querySelectorAll('.payment-status-modal .close').forEach(closeBtn => {
         closeBtn.addEventListener('click', () => {
             closeModal(closeBtn.closest('.modal').id);
@@ -753,19 +805,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Вызываем функцию при изменении размера окна
     window.addEventListener('resize', handleResponsive);
 
-    // Добавляем обработчик изменения размера окна
     window.addEventListener('resize', function() {
-        updateCart(); // Вызываем updateCart при изменении размера окна
+        updateCart();
     });
 
-    // Запускаем анимацию
     animate();
 });
 
-// Callback function for Google Maps API
 function initMap() {
     console.log('Google Maps API loaded');
 }
