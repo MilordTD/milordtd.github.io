@@ -463,21 +463,31 @@ let currentProductId;
 
     // Функция обновления корзины
     function updateCart() {
-        const cartItemCount = cart.length;
+    const cartItemCount = cart.length;
+    
+    cartItems.textContent = `Items in cart: ${cartItemCount}`;
+
+    let total = cart.reduce((sum, productId) => sum + products[productId].price, 0);
+    cartTotal.textContent = total.toFixed(2);
+
+    if (cartItemCount > 0) {
+        cartContainer.classList.add('active');
+        productListContainer.classList.add('with-cart');
         
-        cartItems.textContent = `Items in cart: ${cartItemCount}`;
-
-        let total = cart.reduce((sum, productId) => sum + products[productId].price, 0);
-        cartTotal.textContent = total.toFixed(2);
-
-        if (cartItemCount > 0) {
-            cartContainer.classList.add('active');
-            productListContainer.classList.add('with-cart');
-        } else {
-            cartContainer.classList.remove('active');
-            productListContainer.classList.remove('with-cart');
+        // Проверяем размер экрана и применяем соответствующие стили
+        if (window.innerWidth <= 860 || window.innerHeight <= 860) {
+            productListContainer.style.bottom = '220px';
+        }
+    } else {
+        cartContainer.classList.remove('active');
+        productListContainer.classList.remove('with-cart');
+        
+        // Возвращаем исходное положение при пустой корзине
+        if (window.innerWidth <= 860 || window.innerHeight <= 860) {
+            productListContainer.style.bottom = '20px';
         }
     }
+}
 
     // Обработчик для кнопки "Empty cart"
     const emptyCartButton = document.querySelector('.empty-cart-button');
@@ -687,6 +697,12 @@ let currentProductId;
 
     // Вызываем функцию при изменении размера окна
     window.addEventListener('resize', handleResponsive);
+
+// Добавляем обработчик изменения размера окна
+window.addEventListener('resize', function() {
+    updateCart(); // Вызываем updateCart при изменении размера окна
+});
+
 
     // Запускаем анимацию
     animate();

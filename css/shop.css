@@ -776,14 +776,19 @@ body.overlay-active .container > *:not(.intro-overlay) {
     }
 
     .product-list-container {
-        bottom: 60px;
-        left: 10px;
-        right: 10px;
+        left: 40px;
+        right: 40px;
+        width: auto;
+        bottom: 20px;
     }
 
     .cart-container {
         bottom: 60px;
         right: 10px;
+    }
+
+    .cart-container.active {
+        bottom: 20px;
     }
 
     #productDetailModal .modal-content {
@@ -809,6 +814,10 @@ body.overlay-active .container > *:not(.intro-overlay) {
     display: flex;
     justify-content: center;
     gap: 10px;
+    }
+
+    .product-list-container.with-cart {
+        bottom: 220px; /* Сдвигаем список продуктов выше при активной корзине */
     }
 
     .modal-product-gallery .gallery-item {
