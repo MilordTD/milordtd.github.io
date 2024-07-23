@@ -68,10 +68,12 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentModel;
 
     function loadModel(modelUrl, containerId) {
-    const container = document.getElementById(containerId);
+    let container = document.getElementById(containerId);
     if (!container) {
-        console.error(`Container not found: ${containerId}`);
-        return;
+        console.warn(`Container not found: ${containerId}. Creating a new one.`);
+        container = document.createElement('div');
+        container.id = containerId;
+        document.querySelector('.product-image').appendChild(container);
     }
 
     // Clear existing content
@@ -144,83 +146,76 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Загрузка данных о товарах из JSON файла
     fetch('/products.json')
-        .then(response => response.json())
-        .then(data => {
-            products = data;
-            initializeProducts();
-        })
-        .catch(error => {
-            console.error('Error loading products:', error);
-        });
+    .then(response => response.json())
+    .then(data => {
+        products = data;
+        initializeProducts();
+    })
+    .catch(error => {
+        console.error('Error loading products:', error);
+    });
 
     function initializeProducts() {
-        // Создание элементов товаров
-        productListWrapper.innerHTML = '';
+    // Create product items
+    productListWrapper.innerHTML = '';
 
-        for (const [id, product] of Object.entries(products)) {
-            const productItem = document.createElement('div');
-            productItem.className = 'product-item';
-            productItem.dataset.productId = id;
-            productItem.dataset.category = product.category;
+    for (const [id, product] of Object.entries(products)) {
+        const productItem = document.createElement('div');
+        productItem.className = 'product-item';
+        productItem.dataset.productId = id;
+        productItem.dataset.category = product.category;
 
-            const img = document.createElement('img');
-            img.src = `/images/pin_${id}.svg`;
-            img.alt = product.name;
+        const img = document.createElement('img');
+        img.src = `/images/pin_${id}.svg`;
+        img.alt = product.name;
 
-            if (product.inStock === 0) {
-                const soldOutOverlay = document.createElement('div');
-                soldOutOverlay.className = 'sold-out-overlay';
-                soldOutOverlay.textContent = 'Sold Out';
-                productItem.appendChild(soldOutOverlay);
-            }
-
-            productItem.appendChild(img);
-            productListWrapper.appendChild(productItem);
+        if (product.inStock === 0) {
+            const soldOutOverlay = document.createElement('div');
+            soldOutOverlay.className = 'sold-out-overlay';
+            soldOutOverlay.textContent = 'Sold Out';
+            productItem.appendChild(soldOutOverlay);
         }
 
-        // Обновление обработчиков событий для продуктов
-        document.querySelectorAll('.product-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const productId = this.dataset.productId;
-                updateProductInfo(productId);
-            });
-        });
-
-        // Инициализация первого товара
-        const firstProductId = Object.keys(products)[0];
-        updateProductInfo(firstProductId);
-
-        // Обновление слайдера и фильтров
-        initializeSlider();
-        updateCategoryFilter();
-
-        // Вызываем функцию handleResponsive после инициализации продуктов
-        handleResponsive();
-
-         productListWrapper.addEventListener('touchstart', handleTouchStart);
-    productListWrapper.addEventListener('touchmove', handleTouchMove);
-    productListWrapper.addEventListener('touchend', () => {
-        startX = null;
-    });
+        productItem.appendChild(img);
+        productListWrapper.appendChild(productItem);
     }
+
+    // Update event handlers for products
+    document.querySelectorAll('.product-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const productId = this.dataset.productId;
+            updateProductInfo(productId);
+        });
+    });
+
+    // Initialize first product
+    const firstProductId = Object.keys(products)[0];
+    updateProductInfo(firstProductId);
+
+    // Update slider and filters
+    initializeSlider();
+    updateCategoryFilter();
+
+    // Call handleResponsive after initializing products
+    handleResponsive();
+}
 
     // Обновление информации о продукте
     function updateProductInfo(productId) {
-        const product = products[productId];
-        document.getElementById('product-name').textContent = product.name;
-        document.getElementById('product-price').textContent = `€${product.price.toFixed(2)}`;
-        document.getElementById('product-ingredients').innerHTML = product.ingredients;
-        document.getElementById('product-characteristics').innerHTML = product.characteristics;
-        document.getElementById('product-buffs').innerHTML = product.buffs;
-        document.getElementById('product-debuffs').innerHTML = product.debuffs;
-        loadModel(product.modelUrl);
+    const product = products[productId];
+    document.getElementById('product-name').textContent = product.name;
+    document.getElementById('product-price').textContent = `€${product.price.toFixed(2)}`;
+    document.getElementById('product-ingredients').innerHTML = product.ingredients;
+    document.getElementById('product-characteristics').innerHTML = product.characteristics;
+    document.getElementById('product-buffs').innerHTML = product.buffs;
+    document.getElementById('product-debuffs').innerHTML = product.debuffs;
+    loadModel(product.modelUrl, 'book-3d-model');
 
-        // Обновление галереи
-        if (product.gallery && Array.isArray(product.gallery)) {
-            updateGallery(product.gallery);
-        } else {
-            productGallery.innerHTML = '';
-        }
+    if (product.gallery && Array.isArray(product.gallery)) {
+        updateGallery(product.gallery, '.product-gallery');
+    } else {
+        console.error('Invalid gallery data');
+    }
 
         document.querySelectorAll('.product-item').forEach(item => {
             item.classList.remove('active');
@@ -244,11 +239,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function updateGallery(galleryImages, container) {
+    function updateGallery(galleryImages, containerSelector) {
+    let container = document.querySelector(containerSelector);
     if (!container) {
-        console.error('Gallery container not found');
-        return;
+        console.warn(`Gallery container not found: ${containerSelector}. Creating a new one.`);
+        container = document.createElement('div');
+        container.className = 'product-gallery';
+        document.querySelector('.product-image').appendChild(container);
     }
+    
     container.innerHTML = '';
     galleryImages.forEach((imgSrc, index) => {
         if (index < 4) {

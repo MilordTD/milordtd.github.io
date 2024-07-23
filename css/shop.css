@@ -775,8 +775,8 @@ body.overlay-active .container > *:not(.intro-overlay) {
         position: fixed;
         bottom: 0;
         right: 0;
-        width: 80%;
-        height: auto;
+        width: auto;
+        height: 80%;
         z-index: 9999;
         transition: all 2s ease;
     }
