@@ -36,25 +36,27 @@ document.addEventListener('DOMContentLoaded', function() {
         mouseY = (event.clientY - window.innerHeight / 2) / 100;
     }
 
+    document.addEventListener('mousemove', onDocumentMouseMove, false);
+
     function typewriterEffect(element, text, speed = 20) {
-    let i = 0;
-    element.innerHTML = '';
-    function type() {
-        if (i < text.length) {
-            if (text.charAt(i) === '\n') {
-                element.innerHTML += '<br>';
-            } else {
-                element.innerHTML += text.charAt(i);
+        let i = 0;
+        element.innerHTML = '';
+        function type() {
+            if (i < text.length) {
+                if (text.charAt(i) === '\n') {
+                    element.innerHTML += '<br>';
+                } else {
+                    element.innerHTML += text.charAt(i);
+                }
+                i++;
+                setTimeout(type, speed);
             }
-            i++;
-            setTimeout(type, speed);
         }
-    }
-    type();
+        type();
     }
 
     const typewriterText = document.getElementById('typewriter-text');
-    const textToType = "I’m Erin, an artist, traveler and adventurer.\nI’ve got a neat collection of trinkets, artifacts\nand equipment. Wanna trade?";
+    const textToType = "I'm Erin, an artist, traveler and adventurer.\nI've got a neat collection of trinkets, artifacts\nand equipment. Wanna trade?";
 
     // Запускаем эффект печатной машинки после открытия интро
     setTimeout(() => {
@@ -167,6 +169,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Обновление слайдера и фильтров
         initializeSlider();
         updateCategoryFilter();
+
+        // Вызываем функцию handleResponsive после инициализации продуктов
+        handleResponsive();
     }
 
     // Обновление информации о продукте
@@ -226,113 +231,82 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentProductId;
 
     function openModal(modalIdOrImgSrc) {
-    if (modalIdOrImgSrc.startsWith('#')) {
-        const modal = document.getElementById(modalIdOrImgSrc.slice(1));
+        if (modalIdOrImgSrc.startsWith('#')) {
+            const modal = document.getElementById(modalIdOrImgSrc.slice(1));
+            if (modal) {
+                if (modalIdOrImgSrc === '#productDetailModal') {
+                    updateProductDetailModal(currentProductId);
+                }
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        } else {
+            const imageModal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            if (imageModal && modalImg) {
+                modalImg.src = modalIdOrImgSrc;
+                imageModal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+    }
+
+    function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
         if (modal) {
-            if (modalIdOrImgSrc === '#productDetailModal') {
-                updateProductDetailModal(currentProductId);
-            }
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-    } else {
-        const imageModal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImage');
-        if (imageModal && modalImg) {
-            modalImg.src = modalIdOrImgSrc;
-            imageModal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
     }
-}
 
-function closeModal(modalId) {
-    const modal = document.getElementById(modalId);
-    if (modal) {
-        modal.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
-}
+    function updateProductDetailModal(productId) {
+        const product = products[productId];
+        const modalContent = document.querySelector('#productDetailModal .product-detail-modal-content');
+        
+        modalContent.innerHTML = `
+            <h2>${product.name}</h2>
+            <p>Price: €${product.price.toFixed(2)}</p>
+            <div>
+                <h3>Ingredients</h3>
+                <p>${product.ingredients}</p>
+            </div>
+            <div>
+                <h3>Characteristics</h3>
+                <p>${product.characteristics}</p>
+            </div>
+            <div>
+                <h3>Buffs and Debuffs</h3>
+                <p>${product.buffs}</p>
+            </div>
+            <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
+        `;
 
-
-function updateProductDetailModal(productId) {
-    const product = products[productId];
-    const modalContent = document.querySelector('#productDetailModal .product-detail-modal-content');
-    
-    modalContent.innerHTML = `
-        <h2>${product.name}</h2>
-        <p>Price: €${product.price.toFixed(2)}</p>
-        <div>
-            <h3>Ingredients</h3>
-            <p>${product.ingredients}</p>
-        </div>
-        <div>
-            <h3>Characteristics</h3>
-            <p>${product.characteristics}</p>
-        </div>
-        <div>
-            <h3>Buffs and Debuffs</h3>
-            <p>${product.buffs}</p>
-        </div>
-        <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
-    `;
-
-    const addToCartButton = modalContent.querySelector('.add-to-cart');
-    addToCartButton.addEventListener('click', function() {
-        addToCart(this.dataset.productId);
-        closeModal('productDetailModal');
-    });
-}
-
-function handleResponsive() {
-    if (window.innerWidth <= 860 || window.innerHeight <= 860) {
-        document.querySelector('.product-detail').style.display = 'none';
-        document.querySelectorAll('.product-item').forEach(item => {
-            item.addEventListener('click', function() {
-                currentProductId = this.dataset.productId;
-                openModal('#productDetailModal');
-            });
-        });
-    } else {
-        document.querySelector('.product-detail').style.display = 'flex';
-        document.querySelectorAll('.product-item').forEach(item => {
-            item.addEventListener('click', function() {
-                updateProductInfo(this.dataset.productId);
-            });
+        const addToCartButton = modalContent.querySelector('.add-to-cart');
+        addToCartButton.addEventListener('click', function() {
+            addToCart(this.dataset.productId);
+            closeModal('productDetailModal');
         });
     }
-    updateArrowVisibility();
-}
 
-
-    // Обработчики для закрытия модальных окон
-    document.querySelectorAll('.modal .close').forEach(closeBtn => {
-        closeBtn.addEventListener('click', () => {
-            const modalId = closeBtn.closest('.modal').id;
-            closeModal(modalId);
-        });
-    });
-
-    // Закрытие модального окна при клике вне его содержимого
-    document.querySelectorAll('.modal').forEach(modal => {
-        modal.addEventListener('click', (event) => {
-            if (event.target === modal || event.target.classList.contains('modal-content')) {
-                closeModal(modal.id);
-            }
-        });
-    });
-
-    // Обработчики для открытия модальных окон с изображениями
-    document.querySelectorAll('.gallery-item').forEach(img => {
-        img.addEventListener('click', () => {
-            openModal(img.src);
-        });
-    });
-
-    // Предотвращение закрытия при клике на само изображение
-    document.getElementById('modalImage').addEventListener('click', (event) => {
-        event.stopPropagation();
-    });
+    function handleResponsive() {
+        if (window.innerWidth <= 860 || window.innerHeight <= 860) {
+            document.querySelector('.product-detail').style.display = 'none';
+            document.querySelectorAll('.product-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    currentProductId = this.dataset.productId;
+                    openModal('#productDetailModal');
+                });
+            });
+        } else {
+            document.querySelector('.product-detail').style.display = 'flex';
+            document.querySelectorAll('.product-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    updateProductInfo(this.dataset.productId);
+                });
+            });
+        }
+        updateArrowVisibility();
+    }
 
     // Обновление фильтра категорий
     function updateCategoryFilter() {
@@ -645,6 +619,9 @@ function handleResponsive() {
             closeModal(event.target.id);
         }
     });
+
+    // Вызываем функцию при изменении размера окна
+    window.addEventListener('resize', handleResponsive);
 
     // Запускаем анимацию
     animate();
