@@ -289,24 +289,32 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function handleResponsive() {
-        if (window.innerWidth <= 860 || window.innerHeight <= 860) {
-            document.querySelector('.product-detail').style.display = 'none';
-            document.querySelectorAll('.product-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    currentProductId = this.dataset.productId;
-                    openModal('#productDetailModal');
-                });
+    const productDetail = document.querySelector('.product-detail');
+    const productItems = document.querySelectorAll('.product-item');
+
+    if (window.innerWidth <= 860 || window.innerHeight <= 860) {
+        if (productDetail) productDetail.style.display = 'none';
+        productItems.forEach(item => {
+            item.removeEventListener('click', updateProductInfo);
+            item.addEventListener('click', function() {
+                currentProductId = this.dataset.productId;
+                openModal('#productDetailModal');
             });
-        } else {
-            document.querySelector('.product-detail').style.display = 'flex';
-            document.querySelectorAll('.product-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    updateProductInfo(this.dataset.productId);
-                });
+        });
+    } else {
+        if (productDetail) productDetail.style.display = 'flex';
+        productItems.forEach(item => {
+            item.removeEventListener('click', function() {
+                currentProductId = this.dataset.productId;
+                openModal('#productDetailModal');
             });
-        }
-        updateArrowVisibility();
+            item.addEventListener('click', function() {
+                updateProductInfo(this.dataset.productId);
+            });
+        });
     }
+    updateArrowVisibility();
+}
 
     // Обновление фильтра категорий
     function updateCategoryFilter() {
