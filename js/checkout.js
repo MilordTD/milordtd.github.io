@@ -218,12 +218,15 @@ async function handleStripeCheckout(shippingMethod, form) {
         email: formData.get('email') || '',
     };
 
+    let shippingCost = 0;
+
     if (shippingMethod === 'pickup') {
         customerData = {
             ...customerData,
             name: formData.get('name') || '',
             phone: formData.get('phone') || '',
         };
+        shippingCost = 0;
     } else if (shippingMethod === 'local') {
         customerData = {
             ...customerData,
@@ -231,16 +234,19 @@ async function handleStripeCheckout(shippingMethod, form) {
             phone: formData.get('local-phone') || '',
             address: formData.get('address') || '',
         };
+        shippingCost = 5; // Предполагаемая стоимость доставки для local
     } else if (shippingMethod === 'other') {
         customerData = {
             ...customerData,
             country: formData.get('country') || '',
             city: formData.get('city') || '',
         };
+        shippingCost = 10; // Предполагаемая стоимость доставки для other
     }
 
     console.log('Customer Data:', customerData);
     console.log('Shipping Method:', shippingMethod);
+    console.log('Shipping Cost:', shippingCost);
 
     try {
         const response = await fetch('https://bejewelled-hamster-2b071a.netlify.app/.netlify/functions/create-checkout-session', {
