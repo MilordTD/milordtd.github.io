@@ -185,11 +185,17 @@ h1, h2, h3, h4, h5, h6, .logo {
     border-radius: 8px;
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
+    overflow-y: hidden;
     position: absolute;
     right: 20px;
     top: 60px;
     bottom: 20px;
+}
+
+.scrollable-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-bottom: 15px; /* Добавляем отступ снизу для пространства между контентом и кнопкой */
 }
 
 .info-block {
