@@ -212,7 +212,7 @@ quantityButtons.forEach(button => {
 
     // Функция для обработки Stripe Checkout
     async function handleStripeCheckout(shippingMethod, form) {
-        showLoader();
+    showLoader();
 
     const formData = new FormData(form);
     let customerData = {
@@ -231,6 +231,10 @@ quantityButtons.forEach(button => {
             name: formData.get('local-name') || '',
             phone: formData.get('local-phone') || '',
             address: formData.get('address') || '',
+        };
+    } else if (shippingMethod === 'other') {
+        customerData = {
+            ...customerData,
             country: formData.get('country') || '',
             city: formData.get('city') || '',
         };
