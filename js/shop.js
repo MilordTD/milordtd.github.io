@@ -118,6 +118,64 @@ document.addEventListener('DOMContentLoaded', function() {
     const leftArrow = document.querySelector('.slider-arrow.left');
     const rightArrow = document.querySelector('.slider-arrow.right');
 
+    function initializeShop() {
+        console.log('Initializing shop');
+        loadCartData();
+        displayCartItems();
+        initializeProducts();
+        initializeSlider();
+        updateCategoryFilter();
+        handleResponsive();
+        checkStatus();
+
+        // Переинициализация обработчиков событий
+        initializeEventListeners();
+    }
+
+    function initializeEventListeners() {
+        console.log('Initializing event listeners');
+        
+        // Обработчики для элементов корзины
+        document.querySelectorAll('.quantity-btn').forEach(btn => {
+            btn.addEventListener('click', handleQuantityChange);
+        });
+
+        // Обработчики для кнопок добавления в корзину
+        document.querySelectorAll('.add-to-cart').forEach(btn => {
+            btn.addEventListener('click', handleAddToCart);
+        });
+
+        // Обработчики для элементов продуктов
+        document.querySelectorAll('.product-item').forEach(item => {
+            item.addEventListener('click', handleProductClick);
+        });
+
+        // Другие обработчики событий...
+    }
+
+    // Функция для обновления URL без перезагрузки страницы
+    function updateURL(url) {
+        history.pushState(null, '', url);
+    }
+
+    // Обработчик изменения истории браузера
+    window.addEventListener('popstate', function(event) {
+        console.log('popstate event triggered');
+        initializeShop();
+    });
+
+    // Вызываем initializeShop при загрузке страницы
+    initializeShop();
+
+    // Перехватываем клики по внутренним ссылкам
+    document.body.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A' && e.target.href.startsWith(window.location.origin)) {
+            e.preventDefault();
+            updateURL(e.target.href);
+            initializeShop();
+        }
+    });
+
     // Загрузка данных о товарах из JSON файла
     fetch('/products.json')
         .then(response => response.json())
@@ -228,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-let currentProductId;
+    let currentProductId;
 
     function openModal(modalIdOrImgSrc) {
         console.log('Opening modal:', modalIdOrImgSrc);
@@ -321,7 +379,7 @@ let currentProductId;
             console.log('Product clicked:', productId);
             console.log('Window size:', window.innerWidth, 'x', window.innerHeight);
             
-            if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
+            if (window.innerWidth <= 860) {
                 console.log('Opening modal for product:', productId);
                 currentProductId = productId;
                 openModal('#productDetailModal');
@@ -336,7 +394,7 @@ let currentProductId;
             item.addEventListener('click', handleProductClick);
         });
 
-        if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
+        if (window.innerWidth <= 860) {
             if (productDetail) productDetail.style.display = 'none';
         } else {
             if (productDetail) productDetail.style.display = 'flex';
@@ -463,31 +521,31 @@ let currentProductId;
 
     // Функция обновления корзины
     function updateCart() {
-    const cartItemCount = cart.length;
-    
-    cartItems.textContent = `Items in cart: ${cartItemCount}`;
-
-    let total = cart.reduce((sum, productId) => sum + products[productId].price, 0);
-    cartTotal.textContent = total.toFixed(2);
-
-    if (cartItemCount > 0) {
-        cartContainer.classList.add('active');
-        productListContainer.classList.add('with-cart');
+        const cartItemCount = cart.length;
         
-        // Проверяем размер экрана и применяем соответствующие стили
-        if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
-            productListContainer.style.bottom = '220px';
-        }
-    } else {
-        cartContainer.classList.remove('active');
-        productListContainer.classList.remove('with-cart');
-        
-        // Возвращаем исходное положение при пустой корзине
-        if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
-            productListContainer.style.bottom = '20px';
+        cartItems.textContent = `Items in cart: ${cartItemCount}`;
+
+        let total = cart.reduce((sum, productId) => sum + products[productId].price, 0);
+        cartTotal.textContent = total.toFixed(2);
+
+        if (cartItemCount > 0) {
+            cartContainer.classList.add('active');
+            productListContainer.classList.add('with-cart');
+            
+            // Проверяем размер экрана и применяем соответствующие стили
+            if (window.innerWidth <= 860) {
+                productListContainer.style.bottom = '220px';
+            }
+        } else {
+            cartContainer.classList.remove('active');
+            productListContainer.classList.remove('with-cart');
+            
+            // Возвращаем исходное положение при пустой корзине
+            if (window.innerWidth <= 860) {
+                productListContainer.style.bottom = '20px';
+            }
         }
     }
-}
 
     // Обработчик для кнопки "Empty cart"
     const emptyCartButton = document.querySelector('.empty-cart-button');
@@ -698,11 +756,10 @@ let currentProductId;
     // Вызываем функцию при изменении размера окна
     window.addEventListener('resize', handleResponsive);
 
-// Добавляем обработчик изменения размера окна
-window.addEventListener('resize', function() {
-    updateCart(); // Вызываем updateCart при изменении размера окна
-});
-
+    // Добавляем обработчик изменения размера окна
+    window.addEventListener('resize', function() {
+        updateCart(); // Вызываем updateCart при изменении размера окна
+    });
 
     // Запускаем анимацию
     animate();
