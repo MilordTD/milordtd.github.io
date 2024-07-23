@@ -234,17 +234,17 @@ async function handleStripeCheckout(shippingMethod, form) {
             phone: formData.get('local-phone') || '',
             address: formData.get('address') || '',
         };
-        shippingCost = 5; // Предполагаемая стоимость доставки для local
+        shippingCost = 5;
     } else if (shippingMethod === 'other') {
         customerData = {
             ...customerData,
             country: formData.get('country') || '',
             city: formData.get('city') || '',
         };
-        shippingCost = 10; // Предполагаемая стоимость доставки для other
+        shippingCost = 10;
     }
 
-    console.log('Customer Data:', customerData);
+    console.log('Customer Data before sending:', customerData);
     console.log('Shipping Method:', shippingMethod);
     console.log('Shipping Cost:', shippingCost);
 
