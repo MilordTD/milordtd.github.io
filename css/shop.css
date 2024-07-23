@@ -474,7 +474,7 @@ h1, h2, h3, h4, h5, h6, .logo {
 }
 
 .product-list-container.with-cart {
-    margin-right: calc(10% + 300px);
+    margin-right: 300px;
 }
 
 .remove-from-cart {
