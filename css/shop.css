@@ -770,7 +770,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
     width: 100%;
 }
 
-@media screen and (max-width: 860px), screen and (max-height: 1000px) {
+@media screen and (max-width: 860px), screen and (max-height: 700px) {
     .product-detail {
         display: none;
     }
