@@ -232,7 +232,7 @@ h1, h2, h3, h4, h5, h6, .logo {
     display: flex;
     flex-direction: column;
     z-index: 10000;
-    position: relative; 
+    position: fixed;
 }
 
 .category-filter-wrapper {
@@ -298,17 +298,15 @@ h1, h2, h3, h4, h5, h6, .logo {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    overflow-x: auto;
+    overflow-x: hidden;
     overflow-y: hidden;
-    padding: 20px;
+    padding: 20px 40px;
     position: relative;
     border-radius: 0 8px 8px 8px;
     background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     z-index: 1;
-    padding-left: 40px;  /* Добавляем отступ слева */
-    padding-right: 40px; /* Добавляем отступ справа */
 }
 
 .product-list::-webkit-scrollbar {
@@ -397,6 +395,11 @@ h1, h2, h3, h4, h5, h6, .logo {
 
 .slider-arrow:hover {
     background-color: rgba(0, 0, 0, 0.7);
+}
+
+/* Добавим стили для обеспечения видимости стрелок */
+.slider-arrow.visible {
+    display: flex;
 }
 
 .cart-container {
