@@ -67,35 +67,59 @@ document.addEventListener('DOMContentLoaded', function() {
     const loader = new GLTFLoader();
     let currentModel;
 
-    function loadModel(modelUrl) {
-        // Удаляем все существующие объекты со сцены
-        while(scene.children.length > 0){ 
-            scene.remove(scene.children[0]); 
-        }
-
-        loader.load(modelUrl, (gltf) => {
-            currentModel = gltf.scene;
-            
-            // Масштабируем модель до высоты 200px
-            const box = new THREE.Box3().setFromObject(currentModel);
-            const height = box.max.y - box.min.y;
-            const scale = 7 / height;
-            currentModel.scale.set(scale, scale, scale);
-            
-            scene.add(currentModel);
-            
-            // Настройка камеры и освещения
-            camera.position.z = 5;
-            camera.position.y = 0.5;
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.05);
-            scene.add(ambientLight);
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.05);
-            directionalLight.position.set(5, 5, 5);
-            scene.add(directionalLight);
-        }, undefined, (error) => {
-            console.error('An error happened', error);
-        });
+    function loadModel(modelUrl, containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) {
+        console.error(`Container not found: ${containerId}`);
+        return;
     }
+
+    // Clear existing content
+    container.innerHTML = '';
+
+    // Create a new renderer
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer.setClearColor(0x000000, 0);
+    renderer.setSize(260, 260);
+    container.appendChild(renderer.domElement);
+
+    // Create a new scene and camera
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+    camera.position.z = 5;
+    camera.position.y = 0.5;
+
+    // Add lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    directionalLight.position.set(5, 5, 5);
+    scene.add(directionalLight);
+
+    // Load the model
+    const loader = new GLTFLoader();
+    loader.load(modelUrl, (gltf) => {
+        const model = gltf.scene;
+        
+        // Scale the model
+        const box = new THREE.Box3().setFromObject(model);
+        const height = box.max.y - box.min.y;
+        const scale = 7 / height;
+        model.scale.set(scale, scale, scale);
+        
+        scene.add(model);
+        
+        // Animate the model
+        function animate() {
+            requestAnimationFrame(animate);
+            model.rotation.y += 0.01;
+            renderer.render(scene, camera);
+        }
+        animate();
+    }, undefined, (error) => {
+        console.error('An error happened', error);
+    });
+}
 
     function animate() {
         requestAnimationFrame(animate);
@@ -172,6 +196,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Вызываем функцию handleResponsive после инициализации продуктов
         handleResponsive();
+
+         productListWrapper.addEventListener('touchstart', handleTouchStart);
+    productListWrapper.addEventListener('touchmove', handleTouchMove);
+    productListWrapper.addEventListener('touchend', () => {
+        startX = null;
+    });
     }
 
     // Обновление информации о продукте
@@ -214,19 +244,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function updateGallery(galleryImages) {
-        productGallery.innerHTML = '';
-        galleryImages.forEach((imgSrc, index) => {
-            if (index < 4) {
-                const img = document.createElement('img');
-                img.src = imgSrc;
-                img.alt = `Product image ${index + 1}`;
-                img.classList.add('gallery-item');
-                img.addEventListener('click', () => openModal(imgSrc));
-                productGallery.appendChild(img);
-            }
-        });
-    }
+    function updateGallery(galleryImages, container) {
+    container.innerHTML = '';
+    galleryImages.forEach((imgSrc, index) => {
+        if (index < 4) {
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.alt = `Product image ${index + 1}`;
+            img.classList.add('gallery-item');
+            img.addEventListener('click', () => openModal(imgSrc));
+            container.appendChild(img);
+        }
+    });
+}
 
 let currentProductId;
 
@@ -264,53 +294,51 @@ let currentProductId;
     }
 
     function updateProductDetailModal(productId) {
-        console.log('Updating product detail modal for product:', productId);
-        const product = products[productId];
-        const modalContent = document.querySelector('#productDetailModal .product-detail-modal-content');
-        
-        if (!modalContent) {
-            console.error('Modal content element not found');
-            return;
-        }
-        
-        modalContent.innerHTML = `
-            <h2>${product.name}</h2>
-            <div class="modal-product-image">
-                <div id="modal-book-3d-model"></div>
-                <div class="modal-product-gallery"></div>
-            </div>
-            <p>Price: €${product.price.toFixed(2)}</p>
-            <div>
-                <h3>Ingredients</h3>
-                <p>${product.ingredients}</p>
-            </div>
-            <div>
-                <h3>Characteristics</h3>
-                <p>${product.characteristics}</p>
-            </div>
-            <div>
-                <h3>Buffs and Debuffs</h3>
-                <p>${product.buffs}</p>
-            </div>
-            <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
-        `;
-
-        console.log('Modal content updated');
-
-        // Загрузка 3D модели
-        loadModel(product.modelUrl, 'modal-book-3d-model');
-
-        // Обновление галереи
-        if (product.gallery && Array.isArray(product.gallery)) {
-            updateGallery(product.gallery, modalContent.querySelector('.modal-product-gallery'));
-        }
-
-        const addToCartButton = modalContent.querySelector('.add-to-cart');
-        addToCartButton.addEventListener('click', function() {
-            addToCart(this.dataset.productId);
-            closeModal('productDetailModal');
-        });
+    console.log('Updating product detail modal for product:', productId);
+    const product = products[productId];
+    const modalContent = document.querySelector('#productDetailModal .product-detail-modal-content');
+    
+    if (!modalContent) {
+        console.error('Modal content element not found');
+        return;
     }
+    
+    modalContent.innerHTML = `
+        <h2>${product.name}</h2>
+        <div class="modal-product-image">
+            <div id="modal-book-3d-model"></div>
+            <div class="modal-product-gallery"></div>
+        </div>
+        <p>Price: €${product.price.toFixed(2)}</p>
+        <div>
+            <h3>Ingredients</h3>
+            <p>${product.ingredients}</p>
+        </div>
+        <div>
+            <h3>Characteristics</h3>
+            <p>${product.characteristics}</p>
+        </div>
+        <div>
+            <h3>Buffs and Debuffs</h3>
+            <p>${product.buffs}</p>
+        </div>
+        <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
+    `;
+
+    // Load 3D model
+    loadModel(product.modelUrl, 'modal-book-3d-model');
+
+    // Update gallery
+    if (product.gallery && Array.isArray(product.gallery)) {
+        updateGallery(product.gallery, modalContent.querySelector('.modal-product-gallery'));
+    }
+
+    const addToCartButton = modalContent.querySelector('.add-to-cart');
+    addToCartButton.addEventListener('click', function() {
+        addToCart(this.dataset.productId);
+        closeModal('productDetailModal');
+    });
+}
 
     function handleResponsive() {
         const productDetail = document.querySelector('.product-detail');
@@ -521,6 +549,27 @@ let currentProductId;
             window.location.href = '/checkout/index.html';
         });
     }
+
+let startX;
+let scrollLeft;
+
+function handleTouchStart(e) {
+    startX = e.touches[0].pageX - productListWrapper.offsetLeft;
+    scrollLeft = productListWrapper.scrollLeft;
+}
+
+function handleTouchMove(e) {
+    if (!startX) return;
+    const x = e.touches[0].pageX - productListWrapper.offsetLeft;
+    const walk = (x - startX) * 2;
+    productListWrapper.scrollLeft = scrollLeft - walk;
+}
+
+productListWrapper.addEventListener('touchstart', handleTouchStart);
+productListWrapper.addEventListener('touchmove', handleTouchMove);
+productListWrapper.addEventListener('touchend', () => {
+    startX = null;
+});
 
     function animateAddToCart() {
         const modelContainer = document.getElementById('book-3d-model');

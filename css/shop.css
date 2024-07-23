@@ -776,9 +776,9 @@ body.overlay-active .container > *:not(.intro-overlay) {
     }
 
     .product-list-container {
-        left: 40px;
-        right: 40px;
-        width: auto;
+        left: 5%;
+        right: 5%;
+        width: 90%;
         bottom: 20px;
     }
 
@@ -794,8 +794,8 @@ body.overlay-active .container > *:not(.intro-overlay) {
     }
 
     #productDetailModal .modal-content {
-        max-width: 80%;
-        max-height: 80%;
+        max-width: 90%;
+        max-height: 90%;
         overflow-y: auto;
     }
 
