@@ -785,6 +785,8 @@ body.overlay-active .container > *:not(.intro-overlay) {
     .cart-container {
         bottom: 60px;
         right: 10px;
+        left: 10px;
+        width: auto;
     }
 
     .cart-container.active {
@@ -817,7 +819,10 @@ body.overlay-active .container > *:not(.intro-overlay) {
     }
 
     .product-list-container.with-cart {
-        bottom: 220px; /* Сдвигаем список продуктов выше при активной корзине */
+        bottom: 240px; /* Сдвигаем список продуктов выше при активной корзине */
+        left: 40px;
+        right: 40px;
+        width: auto;
     }
 
     .modal-product-gallery .gallery-item {
