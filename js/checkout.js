@@ -214,17 +214,17 @@ quantityButtons.forEach(button => {
     async function handleStripeCheckout(shippingMethod, form) {
         showLoader();
 
-        const formData = new FormData(form);
-        const customerData = {
-            email: formData.get('email'),
-            name: formData.get('name') || '',
-            phone: formData.get('phone') || '',
-            address: formData.get('address') || '',
-            country: formData.get('country') || '',
-            city: formData.get('city') || ''
-        };
+    const formData = new FormData(form);
+    const customerData = {
+        email: formData.get('email'),
+        name: formData.get('name'),
+        phone: formData.get('phone'),
+        address: formData.get('address'),
+        country: formData.get('country'),
+        city: formData.get('city')
+    };
 
-        console.log('Customer Data:', customerData);
+    console.log('Customer Data:', customerData);
 
         if (!customerData.email || !validateEmail(customerData.email)) {
             alert('Please provide a valid email address.');
