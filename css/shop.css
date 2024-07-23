@@ -771,6 +771,16 @@ body.overlay-active .container > *:not(.intro-overlay) {
 }
 
 @media screen and (max-width: 860px) /*, screen and (max-height: 860px)*/ {
+    .erin-image.moved {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 80%;
+        height: auto;
+        z-index: 9999;
+        transition: all 2s ease;
+    }
+
     .product-detail {
         display: none;
     }
