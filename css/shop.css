@@ -776,11 +776,14 @@ body.overlay-active .container > *:not(.intro-overlay) {
     }
 
     .product-list-container {
-        top: 60px;
+        bottom: 60px;
+        left: 10px;
+        right: 10px;
     }
 
     .cart-container {
-        top: 60px;
+        bottom: 60px;
+        right: 10px;
     }
 
     #productDetailModal .modal-content {
