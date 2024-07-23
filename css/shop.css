@@ -367,7 +367,7 @@ h1, h2, h3, h4, h5, h6, .logo {
 
 .slider-arrow {
     position: absolute;
-    top: 50%;
+    top: 110px;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
