@@ -147,10 +147,10 @@
     "inStock": 10,
     "price": 22.50,
     "gallery": [
-      "/images/pin_photo_1.png",
-      "/images/pin_photo_2.png",
-      "/images/pin_photo_3.png",
-      "/images/pin_photo_4.png"
+      "/images/nTote_1.png",
+      "/images/nTote_2.png",
+      "/images/nTote_3.png",
+      "/images/nTote_4.png"
     ]
   },
   "toteBag2": {
@@ -164,10 +164,10 @@
     "inStock": 10,
     "price": 22.50,
     "gallery": [
-      "/images/pin_photo_1.png",
-      "/images/pin_photo_2.png",
-      "/images/pin_photo_3.png",
-      "/images/pin_photo_4.png"
+      "/images/bTote_1.png",
+      "/images/bTote_2.png",
+      "/images/bTote_3.png",
+      "/images/bTote_4.png"
     ]
   }
 }
