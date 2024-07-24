@@ -4,12 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const popupMenu = document.querySelector('.popup-menu');
     
     const images = {
-        K: '/images/pin_photo_1.png',
-        A: '/images/pin_photo_2.png',
-        R: '/images/pin_photo_3.png',
-        H: '/images/pin_photo_4.png',
-        A2: '/images/pin_photo_1.png',
-        T: '/images/pin_photo_2.png'
+        K: '/images/k.png',
+        A: '/images/a.png',
+        R: '/images/r.png',
+        H: '/images/h.png',
+        A2: '/images/a2.png',
+        T: '/images/t.png'
     };
 
     sections.forEach(section => {
