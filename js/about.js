@@ -13,15 +13,15 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     sections.forEach(section => {
-        const id = section.id;
-        section.addEventListener('mouseover', () => {
-            section.style.backgroundImage = `url(${images[id]})`;
-            createParticles(section);
-        });
-        section.addEventListener('mouseout', () => {
-            section.style.backgroundImage = 'none';
-        });
+    const id = section.id;
+    section.addEventListener('mouseover', () => {
+        section.style.backgroundImage = `url(${images[id]})`;
+        createFairyDust(section);
     });
+    section.addEventListener('mouseout', () => {
+        section.style.backgroundImage = 'none';
+    });
+});
 
     // Toggle popup menu
     menuIcon.addEventListener('click', () => {
@@ -35,31 +35,35 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function createParticles(section) {
-        const letter = section.querySelector('h2');
-        const rect = letter.getBoundingClientRect();
+    function createFairyDust(section) {
+    const letter = section.querySelector('h2');
+    const rect = letter.getBoundingClientRect();
 
-        for (let i = 0; i < 20; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            
-            const size = Math.random() * 5 + 2;
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            
-            const startX = rect.left + rect.width * Math.random();
-            const startY = rect.top + rect.height * Math.random();
-            
-            particle.style.left = `${startX}px`;
-            particle.style.top = `${startY}px`;
-            
-            particle.style.animation = `particleAnimation ${Math.random() * 1 + 0.5}s ease-out`;
-            
-            document.body.appendChild(particle);
-            
-            setTimeout(() => {
-                document.body.removeChild(particle);
-            }, 1500);
-        }
+    for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('fairy-dust');
+        
+        const size = Math.random() * 8 + 2;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        
+        const startX = rect.left + rect.width * Math.random();
+        const startY = rect.top + rect.height * Math.random();
+        
+        particle.style.left = `${startX}px`;
+        particle.style.top = `${startY}px`;
+        
+        const endX = (Math.random() - 0.5) * 100;
+        particle.style.setProperty('--endX', `${endX}px`);
+        
+        const duration = Math.random() * 2 + 1;
+        particle.style.animation = `fairyDustAnimation ${duration}s ease-out`;
+        
+        document.body.appendChild(particle);
+        
+        setTimeout(() => {
+            document.body.removeChild(particle);
+        }, duration * 1000);
     }
+}
 });
