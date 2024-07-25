@@ -85,7 +85,7 @@ body, html {
     align-items: center;
     text-align: center;
     background-color: black; /* Изменено на голубой цвет (Steel Blue) */
-    transition: background-image 0.3s ease;
+    transition: background-image 1s ease;
     position: relative;
     overflow: hidden;
     padding: 20px;
@@ -93,11 +93,11 @@ body, html {
 
 .divider {
     width: 2px;
-    background-color: white;
+    background-color: #202020;
 }
 
 .section h2, .section p {
-    transition: color 0.3s ease;
+    transition: color 2s ease;
 }
 
 .section h2 {
@@ -109,7 +109,7 @@ body, html {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) translateY(var(--y-offset));
-    color: black;
+    color: white;
 }
 
 .section p {
