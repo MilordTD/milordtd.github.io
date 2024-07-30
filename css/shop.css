@@ -810,6 +810,24 @@ body.overlay-active .container > *:not(.intro-overlay) {
     width: 100%;
 }
 
+@media screen and (max-width: 860px) {
+    #productDetailModal .add-to-cart {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        font-size: 20px;
+        padding: 20px;
+        text-align: center;
+        z-index: 1001;
+    }
+
+    #productDetailModal .modal-content {
+        padding-bottom: 60px; /* Оставляем пространство для кнопки */
+    }
+}
+
 @media screen and (max-width: 860px) /*, screen and (max-height: 860px)*/ {
     .erin-image.moved {
         position: fixed;

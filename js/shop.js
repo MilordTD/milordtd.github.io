@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Инициализация 3D сцены
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
@@ -14,8 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let mouseY = 0;
     let currentModel;
     const loaderElement = document.getElementById('loader');
-    const largeImageContainer = document.getElementById('large-image-container');
-    const largeImage = document.getElementById('large-image');
 
     // Toggle popup menu
     const menuIcon = document.querySelector('.menu-icon');
@@ -155,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (currentModel) {
             currentModel.rotation.y = mouseX * Math.PI * 0.03;
-            currentModel.rotation.x = mouseY * Math.PI * 0.03;
+            currentModel.rotation.x = mouseY * Math.PI * 0.01;
         }
 
         if (rendererInstance && sceneInstance && cameraInstance) {
@@ -211,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update event handlers for products
         document.querySelectorAll('.product-item').forEach(item => {
-            item.addEventListener('click', function() {
+            item.addEventListener('click', function () {
                 const productId = this.dataset.productId;
                 updateProductInfo(productId);
             });
@@ -239,9 +237,14 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('product-buffs').innerHTML = product.buffs;
         document.getElementById('product-debuffs').innerHTML = product.debuffs;
 
+        // Проверка на мобильное устройство
         if (window.innerWidth <= 860) {
-            largeImage.src = product.gallery[0];
+            // Загрузка большой картинки для мобильного устройства
+            const largeImageContainer = document.getElementById('large-image-container');
+            largeImageContainer.src = product.gallery[0];
+            largeImageContainer.dataset.productId = productId;
         } else {
+            // Загрузка 3D модели для десктопа
             loadModel(product.modelUrl, 'book-3d-model');
         }
 
@@ -286,18 +289,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
         container.innerHTML = '';
         galleryImages.forEach((imgSrc, index) => {
-            const img = document.createElement('img');
-            img.src = imgSrc;
-            img.alt = `Product image ${index + 1}`;
-            img.classList.add('gallery-item');
-            img.addEventListener('click', () => {
-                if (window.innerWidth <= 860) {
-                    largeImage.src = imgSrc;
-                } else {
-                    openModal(imgSrc);
-                }
-            });
-            container.appendChild(img);
+            if (index < 4) {
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.alt = `Product image ${index + 1}`;
+                img.classList.add('gallery-item');
+                img.addEventListener('click', () => {
+                    const largeImageContainer = document.getElementById('large-image-container');
+                    if (window.innerWidth <= 860) {
+                        largeImageContainer.src = imgSrc;
+                    } else {
+                        openModal(imgSrc);
+                    }
+                });
+                container.appendChild(img);
+            }
         });
     }
 
@@ -378,7 +384,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const addToCartButton = modalContent.querySelector('.add-to-cart');
-        addToCartButton.addEventListener('click', function() {
+        addToCartButton.addEventListener('click', function () {
             addToCart(this.dataset.productId);
             closeModal('productDetailModal');
         });
@@ -410,10 +416,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (window.innerWidth <= 860) {
             if (productDetail) productDetail.style.display = 'none';
-            largeImageContainer.style.display = 'block';
         } else {
             if (productDetail) productDetail.style.display = 'flex';
-            largeImageContainer.style.display = 'none';
         }
 
         updateArrowVisibility();
@@ -434,7 +438,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Закрытие модального окна при клике вне его содержимого
     document.querySelectorAll('.modal').forEach(modal => {
         modal.addEventListener('click', (event) => {
-            if (event.target === modal) {
+            if (event.target === modal || event.target.classList.contains('modal-content')) {
                 closeModal(modal.id);
             }
         });
@@ -463,7 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Обновление обработчиков событий для кнопок категорий
         document.querySelectorAll('.category-button').forEach(button => {
-            button.addEventListener('click', function() {
+            button.addEventListener('click', function () {
                 const category = this.dataset.category;
 
                 document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
@@ -794,7 +798,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', handleResponsive);
 
     // Добавляем обработчик изменения размера окна
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         updateCart(); // Вызываем updateCart при изменении размера окна
     });
 
