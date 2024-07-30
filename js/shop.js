@@ -68,6 +68,29 @@ const loader = new GLTFLoader();
 let currentModel;
 let renderer, scene, camera;
 
+function initializeRenderer(container) {
+    if (!renderer) {
+        renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setClearColor(0x000000, 0);
+        renderer.setSize(260, 260);
+    }
+    container.appendChild(renderer.domElement);
+}
+
+function initializeSceneAndCamera() {
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+    camera.position.z = 5;
+    camera.position.y = 0.5;
+
+    // Add lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    scene.add(ambientLight);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+    directionalLight.position.set(5, 5, 5);
+    scene.add(directionalLight);
+}
+
 function loadModel(modelUrl, containerId) {
     let container = document.getElementById(containerId);
     if (!container) {
@@ -80,37 +103,22 @@ function loadModel(modelUrl, containerId) {
     // Clear existing content
     container.innerHTML = '';
 
-    // Create a new renderer
-    if (!renderer) {
-        renderer = new THREE.WebGLRenderer({ alpha: true });
-        renderer.setClearColor(0x000000, 0);
-        renderer.setSize(260, 260);
-    }
-    container.appendChild(renderer.domElement);
+    // Initialize renderer if not already initialized
+    initializeRenderer(container);
 
-    // Create a new scene and camera
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-    camera.position.z = 5;
-    camera.position.y = 0.5;
-
-    // Add lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-    directionalLight.position.set(5, 5, 5);
-    scene.add(directionalLight);
+    // Initialize scene and camera
+    initializeSceneAndCamera();
 
     // Load the model
     loader.load(modelUrl, (gltf) => {
         currentModel = gltf.scene;
-        
+
         // Scale the model
         const box = new THREE.Box3().setFromObject(currentModel);
         const height = box.max.y - box.min.y;
         const scale = 7 / height;
         currentModel.scale.set(scale, scale, scale);
-        
+
         scene.add(currentModel);
     }, undefined, (error) => {
         console.error('An error happened', error);
@@ -132,11 +140,14 @@ function animate() {
         currentModel.rotation.x = mouseY * Math.PI;
     }
 
-    renderer.render(scene, camera);
+    if (renderer && scene && camera) {
+        renderer.render(scene, camera);
+    }
 }
 
 // Вызов функции animate для начала анимационного цикла
 animate();
+
 
 
     let products = {};
