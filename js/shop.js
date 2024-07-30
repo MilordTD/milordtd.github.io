@@ -63,11 +63,12 @@ document.addEventListener('DOMContentLoaded', function() {
         typewriterEffect(typewriterText, textToType, 10);
     }, 1000); // Задержка в 1 секунду перед началом печати
 
-    // Загрузка 3D модели
-    const loader = new GLTFLoader();
-    let currentModel;
+// Загрузка 3D модели
+const loader = new GLTFLoader();
+let currentModel;
+let renderer, scene, camera;
 
-    function loadModel(modelUrl, containerId) {
+function loadModel(modelUrl, containerId) {
     let container = document.getElementById(containerId);
     if (!container) {
         console.warn(`Container not found: ${containerId}. Creating a new one.`);
@@ -80,14 +81,14 @@ document.addEventListener('DOMContentLoaded', function() {
     container.innerHTML = '';
 
     // Create a new renderer
-    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setClearColor(0x000000, 0);
     renderer.setSize(260, 260);
     container.appendChild(renderer.domElement);
 
     // Create a new scene and camera
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
     camera.position.z = 5;
     camera.position.y = 0.5;
 
@@ -99,40 +100,42 @@ document.addEventListener('DOMContentLoaded', function() {
     scene.add(directionalLight);
 
     // Load the model
-    const loader = new GLTFLoader();
     loader.load(modelUrl, (gltf) => {
-        const model = gltf.scene;
+        currentModel = gltf.scene;
         
         // Scale the model
-        const box = new THREE.Box3().setFromObject(model);
+        const box = new THREE.Box3().setFromObject(currentModel);
         const height = box.max.y - box.min.y;
         const scale = 7 / height;
-        model.scale.set(scale, scale, scale);
+        currentModel.scale.set(scale, scale, scale);
         
-        scene.add(model);
-        
-       // Animate the model
-        function animate() {
-            requestAnimationFrame(animate);
-            /* model.rotation.y += 0.01; */
-            renderer.render(scene, camera);
-        }
-        animate();
+        scene.add(currentModel);
     }, undefined, (error) => {
         console.error('An error happened', error);
     });
 }
 
-    function animate() {
-        requestAnimationFrame(animate);
-        if (currentModel) {
-            currentModel.rotation.y = mouseX * 0.01;
-            currentModel.rotation.x = mouseY * 0.01;
-        }
-        renderer.render(scene, camera);
+let mouseX = 0, mouseY = 0;
+
+document.addEventListener('mousemove', (event) => {
+    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+    mouseY = (event.clientY / window.innerHeight) * 2 - 1;
+});
+
+function animate() {
+    requestAnimationFrame(animate);
+
+    if (currentModel) {
+        currentModel.rotation.y = mouseX * Math.PI;
+        currentModel.rotation.x = mouseY * Math.PI;
     }
 
-    animate();
+    renderer.render(scene, camera);
+}
+
+// Вызов функции animate для начала анимационного цикла
+animate();
+
 
     let products = {};
     let cart = [];
