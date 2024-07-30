@@ -63,90 +63,93 @@ document.addEventListener('DOMContentLoaded', function() {
         typewriterEffect(typewriterText, textToType, 10);
     }, 1000); // Задержка в 1 секунду перед началом печати
 
-// Загрузка 3D модели
-const loader = new GLTFLoader();
-let currentModel;
-let renderer, scene, camera;
+    // Загрузка 3D модели
+    const loader = new GLTFLoader();
+    let currentModel;
 
-function initializeRenderer(container) {
-    if (!renderer) {
-        renderer = new THREE.WebGLRenderer({ alpha: true });
-        renderer.setClearColor(0x000000, 0);
-        renderer.setSize(260, 260);
-    }
-    container.appendChild(renderer.domElement);
-}
-
-function initializeSceneAndCamera() {
-    scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-    camera.position.z = 5;
-    camera.position.y = 0.5;
-
-    // Add lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-    directionalLight.position.set(5, 5, 5);
-    scene.add(directionalLight);
-}
-
-function loadModel(modelUrl, containerId) {
-    let container = document.getElementById(containerId);
-    if (!container) {
-        console.warn(`Container not found: ${containerId}. Creating a new one.`);
-        container = document.createElement('div');
-        container.id = containerId;
-        document.querySelector('.product-image').appendChild(container);
+    function initializeRenderer(container) {
+        if (!renderer) {
+            const newRenderer = new THREE.WebGLRenderer({ alpha: true });
+            newRenderer.setClearColor(0x000000, 0);
+            newRenderer.setSize(260, 260);
+            container.appendChild(newRenderer.domElement);
+            return newRenderer;
+        }
+        return renderer;
     }
 
-    // Clear existing content
-    container.innerHTML = '';
+    function initializeSceneAndCamera() {
+        const newScene = new THREE.Scene();
+        const newCamera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+        newCamera.position.z = 5;
+        newCamera.position.y = 0.5;
 
-    // Initialize renderer if not already initialized
-    initializeRenderer(container);
+        // Add lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        newScene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        directionalLight.position.set(5, 5, 5);
+        newScene.add(directionalLight);
 
-    // Initialize scene and camera
-    initializeSceneAndCamera();
+        return { newScene, newCamera };
+    }
 
-    // Load the model
-    loader.load(modelUrl, (gltf) => {
-        currentModel = gltf.scene;
+    function loadModel(modelUrl, containerId) {
+        let container = document.getElementById(containerId);
+        if (!container) {
+            console.warn(`Container not found: ${containerId}. Creating a new one.`);
+            container = document.createElement('div');
+            container.id = containerId;
+            document.querySelector('.product-image').appendChild(container);
+        }
 
-        // Scale the model
-        const box = new THREE.Box3().setFromObject(currentModel);
-        const height = box.max.y - box.min.y;
-        const scale = 7 / height;
-        currentModel.scale.set(scale, scale, scale);
+        // Clear existing content
+        container.innerHTML = '';
 
-        scene.add(currentModel);
-    }, undefined, (error) => {
-        console.error('An error happened', error);
+        // Initialize renderer if not already initialized
+        const renderer = initializeRenderer(container);
+
+        // Initialize scene and camera
+        const { newScene, newCamera } = initializeSceneAndCamera();
+        scene = newScene;
+        camera = newCamera;
+
+        // Load the model
+        loader.load(modelUrl, (gltf) => {
+            currentModel = gltf.scene;
+
+            // Scale the model
+            const box = new THREE.Box3().setFromObject(currentModel);
+            const height = box.max.y - box.min.y;
+            const scale = 7 / height;
+            currentModel.scale.set(scale, scale, scale);
+
+            scene.add(currentModel);
+        }, undefined, (error) => {
+            console.error('An error happened', error);
+        });
+    }
+
+    document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        mouseY = (event.clientY / window.innerHeight) * 2 - 1;
     });
-}
 
-let mouseX = 0, mouseY = 0;
+    function animate() {
+        requestAnimationFrame(animate);
 
-document.addEventListener('mousemove', (event) => {
-    mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-    mouseY = (event.clientY / window.innerHeight) * 2 - 1;
-});
+        if (currentModel) {
+            currentModel.rotation.y = mouseX * Math.PI;
+            currentModel.rotation.x = mouseY * Math.PI;
+        }
 
-function animate() {
-    requestAnimationFrame(animate);
-
-    if (currentModel) {
-        currentModel.rotation.y = mouseX * Math.PI;
-        currentModel.rotation.x = mouseY * Math.PI;
+        if (renderer && scene && camera) {
+            renderer.render(scene, camera);
+        }
     }
 
-    if (renderer && scene && camera) {
-        renderer.render(scene, camera);
-    }
-}
-
-// Вызов функции animate для начала анимационного цикла
-animate();
+    // Вызов функции animate для начала анимационного цикла
+    animate();
 
 
 
