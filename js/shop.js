@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let mouseX = 0;
     let mouseY = 0;
     let currentModel;
+    const loaderElement = document.getElementById('loader');
 
     // Toggle popup menu
     const menuIcon = document.querySelector('.menu-icon');
@@ -63,6 +64,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Загрузка 3D модели
     const loader = new GLTFLoader();
 
+    function showLoader() {
+        loaderElement.classList.add('visible');
+    }
+
+    function hideLoader() {
+        loaderElement.classList.remove('visible');
+    }
+
     function initializeRenderer(container) {
         const newRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         newRenderer.setClearColor(0x000000, 0);
@@ -107,6 +116,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const sceneInstance = newScene;
         const cameraInstance = newCamera;
 
+        // Show loader
+        showLoader();
+
         // Load the model
         loader.load(modelUrl, (gltf) => {
             currentModel = gltf.scene;
@@ -119,10 +131,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
             sceneInstance.add(currentModel);
 
+            // Hide loader
+            hideLoader();
+
             // Animate the model
             animate(rendererInstance, sceneInstance, cameraInstance);
         }, undefined, (error) => {
             console.error('An error happened', error);
+            // Hide loader in case of error
+            hideLoader();
         });
     }
 
