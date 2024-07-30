@@ -111,13 +111,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         scene.add(model);
         
-        // Animate the model
+       /* // Animate the model
         function animate() {
             requestAnimationFrame(animate);
             model.rotation.y += 0.01;
             renderer.render(scene, camera);
         }
-        animate();
+        animate(); */
     }, undefined, (error) => {
         console.error('An error happened', error);
     });
