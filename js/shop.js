@@ -5,13 +5,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Инициализация 3D сцены
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ alpha: true });
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setClearColor(0x000000, 0); // Полностью прозрачный фон
     renderer.setSize(260, 260);
     document.getElementById('book-3d-model').appendChild(renderer.domElement);
 
     let mouseX = 0;
     let mouseY = 0;
+    let currentModel;
 
     // Toggle popup menu
     const menuIcon = document.querySelector('.menu-icon');
@@ -61,10 +62,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Загрузка 3D модели
     const loader = new GLTFLoader();
-    let currentModel;
 
     function initializeRenderer(container) {
-        const newRenderer = new THREE.WebGLRenderer({ alpha: true });
+        const newRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         newRenderer.setClearColor(0x000000, 0);
         newRenderer.setSize(260, 260);
         container.appendChild(newRenderer.domElement);
