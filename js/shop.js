@@ -135,8 +135,8 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(() => animate(rendererInstance, sceneInstance, cameraInstance));
 
         if (currentModel) {
-            currentModel.rotation.y = mouseX * Math.PI * 0.1;
-            currentModel.rotation.x = mouseY * Math.PI * 0.1;
+            currentModel.rotation.y = mouseX * Math.PI * 0.03;
+            currentModel.rotation.x = mouseY * Math.PI * 0.03;
         }
 
         if (rendererInstance && sceneInstance && cameraInstance) {
