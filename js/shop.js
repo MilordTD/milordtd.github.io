@@ -14,6 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let mouseY = 0;
     let currentModel;
     const loaderElement = document.getElementById('loader');
+    const largeImageContainer = document.getElementById('large-image-container');
+    const largeImage = document.getElementById('large-image');
 
     // Toggle popup menu
     const menuIcon = document.querySelector('.menu-icon');
@@ -237,11 +239,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('product-buffs').innerHTML = product.buffs;
         document.getElementById('product-debuffs').innerHTML = product.debuffs;
 
-        // В мобильной версии вместо 3D модели показываем первую картинку из галереи
         if (window.innerWidth <= 860) {
-            if (product.gallery && Array.isArray(product.gallery) && product.gallery.length > 0) {
-                setLargeImage(product.gallery[0]);
-            }
+            largeImage.src = product.gallery[0];
         } else {
             loadModel(product.modelUrl, 'book-3d-model');
         }
@@ -275,7 +274,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Обновить галерею и добавить обработчики для изменения "большой" фотографии при клике
     function updateGallery(galleryImages, container) {
         if (typeof container === 'string') {
             container = document.querySelector(container);
@@ -292,21 +290,15 @@ document.addEventListener('DOMContentLoaded', function() {
             img.src = imgSrc;
             img.alt = `Product image ${index + 1}`;
             img.classList.add('gallery-item');
-            img.addEventListener('click', () => setLargeImage(imgSrc));
+            img.addEventListener('click', () => {
+                if (window.innerWidth <= 860) {
+                    largeImage.src = imgSrc;
+                } else {
+                    openModal(imgSrc);
+                }
+            });
             container.appendChild(img);
         });
-
-        // Устанавливаем первую картинку как "большую"
-        if (galleryImages.length > 0) {
-            setLargeImage(galleryImages[0]);
-        }
-    }
-
-    function setLargeImage(imageSrc) {
-        const largeImage = document.getElementById('modal-large-image');
-        if (largeImage) {
-            largeImage.src = imageSrc;
-        }
     }
 
     let currentProductId;
@@ -344,7 +336,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Функция для модального окна с деталями продукта
     function updateProductDetailModal(productId) {
         console.log('Updating product detail modal for product:', productId);
         const product = products[productId];
@@ -358,7 +349,7 @@ document.addEventListener('DOMContentLoaded', function() {
         modalContent.innerHTML = `
             <h2>${product.name}</h2>
             <div class="modal-product-image">
-                <img id="modal-large-image" class="large-image" src="" alt="Large Product Image">
+                <div id="modal-book-3d-model"></div>
                 <div class="modal-product-gallery"></div>
             </div>
             <p>Price: €${product.price.toFixed(2)}</p>
@@ -377,14 +368,10 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
         `;
 
-        if (window.innerWidth <= 860) {
-            if (product.gallery && Array.isArray(product.gallery) && product.gallery.length > 0) {
-                setLargeImage(product.gallery[0]);
-            }
-        } else {
-            loadModel(product.modelUrl, 'modal-book-3d-model');
-        }
+        // Load 3D model
+        loadModel(product.modelUrl, 'modal-book-3d-model');
 
+        // Update gallery
         const modalGallery = modalContent.querySelector('.modal-product-gallery');
         if (product.gallery && Array.isArray(product.gallery) && modalGallery) {
             updateGallery(product.gallery, modalGallery);
@@ -406,7 +393,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Product clicked:', productId);
             console.log('Window size:', window.innerWidth, 'x', window.innerHeight);
 
-            if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
+            if (window.innerWidth <= 860) {
                 console.log('Opening modal for product:', productId);
                 currentProductId = productId;
                 openModal('#productDetailModal');
@@ -421,10 +408,12 @@ document.addEventListener('DOMContentLoaded', function() {
             item.addEventListener('click', handleProductClick);
         });
 
-        if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
+        if (window.innerWidth <= 860) {
             if (productDetail) productDetail.style.display = 'none';
+            largeImageContainer.style.display = 'block';
         } else {
             if (productDetail) productDetail.style.display = 'flex';
+            largeImageContainer.style.display = 'none';
         }
 
         updateArrowVisibility();
@@ -560,7 +549,7 @@ document.addEventListener('DOMContentLoaded', function() {
             productListContainer.classList.add('with-cart');
 
             // Проверяем размер экрана и применяем соответствующие стили
-            if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
+            if (window.innerWidth <= 860) {
                 productListContainer.style.bottom = '220px';
             }
         } else {
@@ -568,7 +557,7 @@ document.addEventListener('DOMContentLoaded', function() {
             productListContainer.classList.remove('with-cart');
 
             // Возвращаем исходное положение при пустой корзине
-            if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
+            if (window.innerWidth <= 860) {
                 productListContainer.style.bottom = '20px';
             }
         }
