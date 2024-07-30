@@ -151,8 +151,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Вызов функции animate для начала анимационного цикла
     animate();
 
-
-
     let products = {};
     let cart = [];
     const cartContainer = document.querySelector('.cart-container');
@@ -165,77 +163,77 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Загрузка данных о товарах из JSON файла
     fetch('/products.json')
-    .then(response => response.json())
-    .then(data => {
-        products = data;
-        initializeProducts();
-    })
-    .catch(error => {
-        console.error('Error loading products:', error);
-    });
+        .then(response => response.json())
+        .then(data => {
+            products = data;
+            initializeProducts();
+        })
+        .catch(error => {
+            console.error('Error loading products:', error);
+        });
 
     function initializeProducts() {
-    // Create product items
-    productListWrapper.innerHTML = '';
+        // Create product items
+        productListWrapper.innerHTML = '';
 
-    for (const [id, product] of Object.entries(products)) {
-        const productItem = document.createElement('div');
-        productItem.className = 'product-item';
-        productItem.dataset.productId = id;
-        productItem.dataset.category = product.category;
+        for (const [id, product] of Object.entries(products)) {
+            const productItem = document.createElement('div');
+            productItem.className = 'product-item';
+            productItem.dataset.productId = id;
+            productItem.dataset.category = product.category;
 
-        const img = document.createElement('img');
-        img.src = `/images/pin_${id}.svg`;
-        img.alt = product.name;
+            const img = document.createElement('img');
+            img.src = `/images/pin_${id}.svg`;
+            img.alt = product.name;
 
-        if (product.inStock === 0) {
-            const soldOutOverlay = document.createElement('div');
-            soldOutOverlay.className = 'sold-out-overlay';
-            soldOutOverlay.textContent = 'Sold Out';
-            productItem.appendChild(soldOutOverlay);
+            if (product.inStock === 0) {
+                const soldOutOverlay = document.createElement('div');
+                soldOutOverlay.className = 'sold-out-overlay';
+                soldOutOverlay.textContent = 'Sold Out';
+                productItem.appendChild(soldOutOverlay);
+            }
+
+            productItem.appendChild(img);
+            productListWrapper.appendChild(productItem);
         }
 
-        productItem.appendChild(img);
-        productListWrapper.appendChild(productItem);
-    }
-
-    // Update event handlers for products
-    document.querySelectorAll('.product-item').forEach(item => {
-        item.addEventListener('click', function() {
-            const productId = this.dataset.productId;
-            updateProductInfo(productId);
+        // Update event handlers for products
+        document.querySelectorAll('.product-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const productId = this.dataset.productId;
+                updateProductInfo(productId);
+            });
         });
-    });
 
-    // Initialize first product
-    const firstProductId = Object.keys(products)[0];
-    updateProductInfo(firstProductId);
+        // Initialize first product
+        const firstProductId = Object.keys(products)[0];
+        updateProductInfo(firstProductId);
 
-    // Update slider and filters
-    initializeSlider();
-    updateCategoryFilter();
+        // Update slider and filters
+        initializeSlider();
+        updateCategoryFilter();
 
-    // Call handleResponsive after initializing products
-    handleResponsive();
-}
+        // Call handleResponsive after initializing products
+        handleResponsive();
+    }
 
     // Обновление информации о продукте
     function updateProductInfo(productId) {
-    const product = products[productId];
-    document.getElementById('product-name').textContent = product.name;
-    document.getElementById('product-price').textContent = `€${product.price.toFixed(2)}`;
-    document.getElementById('product-ingredients').innerHTML = product.ingredients;
-    document.getElementById('product-characteristics').innerHTML = product.characteristics;
-    document.getElementById('product-buffs').innerHTML = product.buffs;
-    document.getElementById('product-debuffs').innerHTML = product.debuffs;
-    loadModel(product.modelUrl, 'book-3d-model');
+        const product = products[productId];
+        document.getElementById('product-name').textContent = product.name;
+        document.getElementById('product-price').textContent = `€${product.price.toFixed(2)}`;
+        document.getElementById('product-ingredients').innerHTML = product.ingredients;
+        document.getElementById('product-characteristics').innerHTML = product.characteristics;
+        document.getElementById('product-buffs').innerHTML = product.buffs;
+        document.getElementById('product-debuffs').innerHTML = product.debuffs;
+        loadModel(product.modelUrl, 'book-3d-model');
 
-    const productGallery = document.querySelector('.product-gallery');
-    if (product.gallery && Array.isArray(product.gallery) && productGallery) {
-        updateGallery(product.gallery, productGallery);
-    } else {
-        console.error('Product gallery not found or invalid gallery data');
-    }
+        const productGallery = document.querySelector('.product-gallery');
+        if (product.gallery && Array.isArray(product.gallery) && productGallery) {
+            updateGallery(product.gallery, productGallery);
+        } else {
+            console.error('Product gallery not found or invalid gallery data');
+        }
 
         document.querySelectorAll('.product-item').forEach(item => {
             item.classList.remove('active');
@@ -260,29 +258,29 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateGallery(galleryImages, container) {
-    if (typeof container === 'string') {
-        container = document.querySelector(container);
-    }
-    
-    if (!container) {
-        console.error('Gallery container not found');
-        return;
-    }
-    
-    container.innerHTML = '';
-    galleryImages.forEach((imgSrc, index) => {
-        if (index < 4) {
-            const img = document.createElement('img');
-            img.src = imgSrc;
-            img.alt = `Product image ${index + 1}`;
-            img.classList.add('gallery-item');
-            img.addEventListener('click', () => openModal(imgSrc));
-            container.appendChild(img);
+        if (typeof container === 'string') {
+            container = document.querySelector(container);
         }
-    });
-}
 
-let currentProductId;
+        if (!container) {
+            console.error('Gallery container not found');
+            return;
+        }
+
+        container.innerHTML = '';
+        galleryImages.forEach((imgSrc, index) => {
+            if (index < 4) {
+                const img = document.createElement('img');
+                img.src = imgSrc;
+                img.alt = `Product image ${index + 1}`;
+                img.classList.add('gallery-item');
+                img.addEventListener('click', () => openModal(imgSrc));
+                container.appendChild(img);
+            }
+        });
+    }
+
+    let currentProductId;
 
     function openModal(modalIdOrImgSrc) {
         console.log('Opening modal:', modalIdOrImgSrc);
@@ -318,52 +316,52 @@ let currentProductId;
     }
 
     function updateProductDetailModal(productId) {
-    console.log('Updating product detail modal for product:', productId);
-    const product = products[productId];
-    const modalContent = document.querySelector('#productDetailModal .product-detail-modal-content');
-    
-    if (!modalContent) {
-        console.error('Modal content element not found');
-        return;
+        console.log('Updating product detail modal for product:', productId);
+        const product = products[productId];
+        const modalContent = document.querySelector('#productDetailModal .product-detail-modal-content');
+
+        if (!modalContent) {
+            console.error('Modal content element not found');
+            return;
+        }
+
+        modalContent.innerHTML = `
+            <h2>${product.name}</h2>
+            <div class="modal-product-image">
+                <div id="modal-book-3d-model"></div>
+                <div class="modal-product-gallery"></div>
+            </div>
+            <p>Price: €${product.price.toFixed(2)}</p>
+            <div>
+                <h3>Ingredients</h3>
+                <p>${product.ingredients}</p>
+            </div>
+            <div>
+                <h3>Characteristics</h3>
+                <p>${product.characteristics}</p>
+            </div>
+            <div>
+                <h3>Item info</h3>
+                <p>${product.buffs}</p>
+            </div>
+            <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
+        `;
+
+        // Load 3D model
+        loadModel(product.modelUrl, 'modal-book-3d-model');
+
+        // Update gallery
+        const modalGallery = modalContent.querySelector('.modal-product-gallery');
+        if (product.gallery && Array.isArray(product.gallery) && modalGallery) {
+            updateGallery(product.gallery, modalGallery);
+        }
+
+        const addToCartButton = modalContent.querySelector('.add-to-cart');
+        addToCartButton.addEventListener('click', function() {
+            addToCart(this.dataset.productId);
+            closeModal('productDetailModal');
+        });
     }
-    
-    modalContent.innerHTML = `
-        <h2>${product.name}</h2>
-        <div class="modal-product-image">
-            <div id="modal-book-3d-model"></div>
-            <div class="modal-product-gallery"></div>
-        </div>
-        <p>Price: €${product.price.toFixed(2)}</p>
-        <div>
-            <h3>Ingredients</h3>
-            <p>${product.ingredients}</p>
-        </div>
-        <div>
-            <h3>Characteristics</h3>
-            <p>${product.characteristics}</p>
-        </div>
-        <div>
-            <h3>Item info</h3>
-            <p>${product.buffs}</p>
-        </div>
-        <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
-    `;
-
-    // Load 3D model
-    loadModel(product.modelUrl, 'modal-book-3d-model');
-
-    // Update gallery
-    const modalGallery = modalContent.querySelector('.modal-product-gallery');
-    if (product.gallery && Array.isArray(product.gallery) && modalGallery) {
-        updateGallery(product.gallery, modalGallery);
-    }
-
-    const addToCartButton = modalContent.querySelector('.add-to-cart');
-    addToCartButton.addEventListener('click', function() {
-        addToCart(this.dataset.productId);
-        closeModal('productDetailModal');
-    });
-}
 
     function handleResponsive() {
         const productDetail = document.querySelector('.product-detail');
@@ -373,7 +371,7 @@ let currentProductId;
             const productId = e.currentTarget.dataset.productId;
             console.log('Product clicked:', productId);
             console.log('Window size:', window.innerWidth, 'x', window.innerHeight);
-            
+
             if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
                 console.log('Opening modal for product:', productId);
                 currentProductId = productId;
@@ -431,7 +429,7 @@ let currentProductId;
         const categories = [...new Set(Object.values(products).map(product => product.category))];
         const categoryFilter = document.querySelector('.category-filter-container');
         categoryFilter.innerHTML = '<button class="category-button active" data-category="all">All</button>';
-        
+
         categories.forEach(category => {
             const button = document.createElement('button');
             button.className = 'category-button';
@@ -458,7 +456,7 @@ let currentProductId;
 
                 currentPosition = 0;
                 updateSliderPosition();
-                
+
                 setTimeout(updateArrowVisibility, 0);
             });
         });
@@ -474,7 +472,7 @@ let currentProductId;
     function updateArrowVisibility() {
         const productListWidth = productListWrapper.scrollWidth;
         const containerWidth = productListContainer.clientWidth;
-        
+
         if (productListWidth <= containerWidth) {
             leftArrow.style.display = 'none';
             rightArrow.style.display = 'none';
@@ -484,7 +482,7 @@ let currentProductId;
             } else {
                 leftArrow.style.display = 'none';
             }
-            
+
             if (currentPosition > containerWidth - productListWidth) {
                 rightArrow.style.display = 'flex';
             } else {
@@ -495,9 +493,9 @@ let currentProductId;
 
     function initializeSlider() {
         updateArrowVisibility();
-        
+
         window.addEventListener('resize', updateArrowVisibility);
-        
+
         leftArrow.addEventListener('click', () => {
             currentPosition += 120;
             if (currentPosition > 0) currentPosition = 0;
@@ -516,31 +514,31 @@ let currentProductId;
 
     // Функция обновления корзины
     function updateCart() {
-    const cartItemCount = cart.length;
-    
-    cartItems.textContent = `Items in cart: ${cartItemCount}`;
+        const cartItemCount = cart.length;
 
-    let total = cart.reduce((sum, productId) => sum + products[productId].price, 0);
-    cartTotal.textContent = total.toFixed(2);
+        cartItems.textContent = `Items in cart: ${cartItemCount}`;
 
-    if (cartItemCount > 0) {
-        cartContainer.classList.add('active');
-        productListContainer.classList.add('with-cart');
-        
-        // Проверяем размер экрана и применяем соответствующие стили
-        if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
-            productListContainer.style.bottom = '220px';
-        }
-    } else {
-        cartContainer.classList.remove('active');
-        productListContainer.classList.remove('with-cart');
-        
-        // Возвращаем исходное положение при пустой корзине
-        if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
-            productListContainer.style.bottom = '20px';
+        let total = cart.reduce((sum, productId) => sum + products[productId].price, 0);
+        cartTotal.textContent = total.toFixed(2);
+
+        if (cartItemCount > 0) {
+            cartContainer.classList.add('active');
+            productListContainer.classList.add('with-cart');
+
+            // Проверяем размер экрана и применяем соответствующие стили
+            if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
+                productListContainer.style.bottom = '220px';
+            }
+        } else {
+            cartContainer.classList.remove('active');
+            productListContainer.classList.remove('with-cart');
+
+            // Возвращаем исходное положение при пустой корзине
+            if (window.innerWidth <= 860 /*|| window.innerHeight <= 860*/) {
+                productListContainer.style.bottom = '20px';
+            }
         }
     }
-}
 
     // Обработчик для кнопки "Empty cart"
     const emptyCartButton = document.querySelector('.empty-cart-button');
@@ -570,37 +568,37 @@ let currentProductId;
 
             localStorage.setItem('cart', JSON.stringify(Object.values(cartWithQuantity)));
             localStorage.setItem('products', JSON.stringify(products));
-            
+
             window.location.href = '/checkout/index.html';
         });
     }
 
-let startX;
-let scrollLeft;
+    let startX;
+    let scrollLeft;
 
-function handleTouchStart(e) {
-    startX = e.touches[0].pageX - productListWrapper.offsetLeft;
-    scrollLeft = productListWrapper.scrollLeft;
-}
+    function handleTouchStart(e) {
+        startX = e.touches[0].pageX - productListWrapper.offsetLeft;
+        scrollLeft = productListWrapper.scrollLeft;
+    }
 
-function handleTouchMove(e) {
-    if (!startX) return;
-    const x = e.touches[0].pageX - productListWrapper.offsetLeft;
-    const walk = (x - startX) * 2;
-    productListWrapper.scrollLeft = scrollLeft - walk;
-}
+    function handleTouchMove(e) {
+        if (!startX) return;
+        const x = e.touches[0].pageX - productListWrapper.offsetLeft;
+        const walk = (x - startX) * 2;
+        productListWrapper.scrollLeft = scrollLeft - walk;
+    }
 
-productListWrapper.addEventListener('touchstart', handleTouchStart);
-productListWrapper.addEventListener('touchmove', handleTouchMove);
-productListWrapper.addEventListener('touchend', () => {
-    startX = null;
-});
+    productListWrapper.addEventListener('touchstart', handleTouchStart);
+    productListWrapper.addEventListener('touchmove', handleTouchMove);
+    productListWrapper.addEventListener('touchend', () => {
+        startX = null;
+    });
 
     function animateAddToCart() {
         const modelContainer = document.getElementById('book-3d-model');
         const cartIcon = document.querySelector('.cart-container');
         const activeProduct = document.querySelector('.product-item.active');
-        
+
         if (!modelContainer || !cartIcon || !activeProduct) {
             console.error('Required elements not found');
             return;
@@ -634,12 +632,12 @@ productListWrapper.addEventListener('touchend', () => {
             const controlX = (startX + endX) / 2;
             const controlY = startY - 100; // Регулируйте это значение для изменения высоты дуги
 
-            const x = Math.pow(1 - progress, 2) * startX + 
-                      2 * (1 - progress) * progress * controlX + 
-                      Math.pow(progress, 2) * endX;
-            const y = Math.pow(1 - progress, 2) * startY + 
-                      2 * (1 - progress) * progress * controlY + 
-                      Math.pow(progress, 2) * endY;
+            const x = Math.pow(1 - progress, 2) * startX +
+                2 * (1 - progress) * progress * controlX +
+                Math.pow(progress, 2) * endX;
+            const y = Math.pow(1 - progress, 2) * startY +
+                2 * (1 - progress) * progress * controlY +
+                Math.pow(progress, 2) * endY;
 
             return { x, y };
         }
@@ -716,19 +714,19 @@ productListWrapper.addEventListener('touchend', () => {
         console.log('Explore loot button clicked');
         event.preventDefault();
         event.stopPropagation();
-        
+
         // Скрываем intro-content
         introContent.style.opacity = '0';
-        
+
         // Перемещаем и увеличиваем изображение Эрин
         erinImage.classList.add('moved');
-        
+
         // Ждем завершения анимации скрытия intro-content
         setTimeout(() => {
             introOverlay.classList.remove('active');
             document.body.classList.remove('overlay-active');
             introOverlay.style.display = 'none';
-            
+
             // Показываем product-detail и product-list-container
             productDetail.style.opacity = '1';
             productListContainer.style.opacity = '1';
@@ -746,7 +744,7 @@ productListWrapper.addEventListener('touchend', () => {
         introOverlay.style.display = 'none';
         productDetail.style.opacity = '1';
         productListContainer.style.opacity = '1';
-        
+
         console.log('Calling checkStatus()');
         checkStatus();
     } else {
@@ -772,11 +770,10 @@ productListWrapper.addEventListener('touchend', () => {
     // Вызываем функцию при изменении размера окна
     window.addEventListener('resize', handleResponsive);
 
-// Добавляем обработчик изменения размера окна
-window.addEventListener('resize', function() {
-    updateCart(); // Вызываем updateCart при изменении размера окна
-});
-
+    // Добавляем обработчик изменения размера окна
+    window.addEventListener('resize', function() {
+        updateCart(); // Вызываем updateCart при изменении размера окна
+    });
 
     // Запускаем анимацию
     animate();
