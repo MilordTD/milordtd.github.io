@@ -15,6 +15,28 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentModel;
     const loaderElement = document.getElementById('loader');
 
+    // Инициализация Lottie анимации
+    const loaderAnimation = lottie.loadAnimation({
+        container: loaderElement,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        animationData: {
+            "v": "5.6.10",
+            "fr": 25,
+            "ip": 0,
+            "op": 50,
+            "w": 200,
+            "h": 220,
+            "nm": "合成 1",
+            "ddd": 0,
+            "assets": [],
+            "layers": [
+                // (Lottie JSON data here)
+            ]
+        }
+    });
+
     // Toggle popup menu
     const menuIcon = document.querySelector('.menu-icon');
     const popupMenu = document.querySelector('.popup-menu');
@@ -65,11 +87,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const loader = new GLTFLoader();
 
     function showLoader() {
-        loaderElement.classList.add('visible');
+        loaderElement.style.display = 'block';
     }
 
     function hideLoader() {
-        loaderElement.classList.remove('visible');
+        loaderElement.style.display = 'none';
     }
 
     function initializeRenderer(container) {
@@ -152,8 +174,8 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(() => animate(rendererInstance, sceneInstance, cameraInstance));
 
         if (currentModel) {
-            currentModel.rotation.y = mouseX * Math.PI * 0.03;
-            currentModel.rotation.x = mouseY * Math.PI * 0.03;
+            currentModel.rotation.y = mouseX * Math.PI * 0.1;
+            currentModel.rotation.x = mouseY * Math.PI * 0.1;
         }
 
         if (rendererInstance && sceneInstance && cameraInstance) {
