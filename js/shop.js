@@ -81,9 +81,11 @@ function loadModel(modelUrl, containerId) {
     container.innerHTML = '';
 
     // Create a new renderer
-    renderer = new THREE.WebGLRenderer({ alpha: true });
-    renderer.setClearColor(0x000000, 0);
-    renderer.setSize(260, 260);
+    if (!renderer) {
+        renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setClearColor(0x000000, 0);
+        renderer.setSize(260, 260);
+    }
     container.appendChild(renderer.domElement);
 
     // Create a new scene and camera
