@@ -78,9 +78,9 @@ document.addEventListener('DOMContentLoaded', function() {
         newCamera.position.y = 0.5;
 
         // Add lighting
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
         newScene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
         directionalLight.position.set(5, 5, 5);
         newScene.add(directionalLight);
 
@@ -135,8 +135,8 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(() => animate(rendererInstance, sceneInstance, cameraInstance));
 
         if (currentModel) {
-            currentModel.rotation.y = mouseX * Math.PI;
-            currentModel.rotation.x = mouseY * Math.PI;
+            currentModel.rotation.y = mouseX * Math.PI * 0.1;
+            currentModel.rotation.x = mouseY * Math.PI * 0.1;
         }
 
         if (rendererInstance && sceneInstance && cameraInstance) {
