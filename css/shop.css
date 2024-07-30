@@ -21,7 +21,7 @@ h1, h2, h3, h4, h5, h6, .logo {
     box-sizing: border-box;
 }
 
-.header, .artifact-collection {
+.header {
     z-index: 10000;
 }
 
@@ -36,12 +36,6 @@ h1, h2, h3, h4, h5, h6, .logo {
     top: 0;
     left: 0;
     right: 0;
-}
-
-.artifact-collection {
-    position: absolute;
-    top: 70px;
-    right: 40px;
 }
 
 .logo {
