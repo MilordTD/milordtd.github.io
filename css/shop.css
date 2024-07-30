@@ -21,6 +21,13 @@ h1, h2, h3, h4, h5, h6, .logo {
     box-sizing: border-box;
 }
 
+.large-image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
 .header {
     z-index: 10000;
 }

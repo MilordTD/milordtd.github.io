@@ -153,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (currentModel) {
             currentModel.rotation.y = mouseX * Math.PI * 0.03;
-            currentModel.rotation.x = mouseY * Math.PI * 0.;
+            currentModel.rotation.x = mouseY * Math.PI * 0.03;
         }
 
         if (rendererInstance && sceneInstance && cameraInstance) {
@@ -236,12 +236,12 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('product-characteristics').innerHTML = product.characteristics;
         document.getElementById('product-buffs').innerHTML = product.buffs;
         document.getElementById('product-debuffs').innerHTML = product.debuffs;
-        
-        // Проверка на мобильное устройство
+
+        // В мобильной версии вместо 3D модели показываем первую картинку из галереи
         if (window.innerWidth <= 860) {
-            const firstGalleryImage = product.gallery ? product.gallery[0] : '';
-            document.getElementById('book-3d-model').style.display = 'none';
-            document.querySelector('.product-image').innerHTML = `<img src="${firstGalleryImage}" class="main-gallery-image">`;
+            if (product.gallery && Array.isArray(product.gallery) && product.gallery.length > 0) {
+                setLargeImage(product.gallery[0]);
+            }
         } else {
             loadModel(product.modelUrl, 'book-3d-model');
         }
@@ -275,6 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Обновить галерею и добавить обработчики для изменения "большой" фотографии при клике
     function updateGallery(galleryImages, container) {
         if (typeof container === 'string') {
             container = document.querySelector(container);
@@ -287,15 +288,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
         container.innerHTML = '';
         galleryImages.forEach((imgSrc, index) => {
-            if (index < 4) {
-                const img = document.createElement('img');
-                img.src = imgSrc;
-                img.alt = `Product image ${index + 1}`;
-                img.classList.add('gallery-item');
-                img.addEventListener('click', () => openModal(imgSrc));
-                container.appendChild(img);
-            }
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.alt = `Product image ${index + 1}`;
+            img.classList.add('gallery-item');
+            img.addEventListener('click', () => setLargeImage(imgSrc));
+            container.appendChild(img);
         });
+
+        // Устанавливаем первую картинку как "большую"
+        if (galleryImages.length > 0) {
+            setLargeImage(galleryImages[0]);
+        }
+    }
+
+    function setLargeImage(imageSrc) {
+        const largeImage = document.getElementById('modal-large-image');
+        if (largeImage) {
+            largeImage.src = imageSrc;
+        }
     }
 
     let currentProductId;
@@ -333,6 +344,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Функция для модального окна с деталями продукта
     function updateProductDetailModal(productId) {
         console.log('Updating product detail modal for product:', productId);
         const product = products[productId];
@@ -343,12 +355,10 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        const firstGalleryImage = product.gallery ? product.gallery[0] : '';
-
         modalContent.innerHTML = `
             <h2>${product.name}</h2>
             <div class="modal-product-image">
-                <img src="${firstGalleryImage}" class="main-gallery-image">
+                <img id="modal-large-image" class="large-image" src="" alt="Large Product Image">
                 <div class="modal-product-gallery"></div>
             </div>
             <p>Price: €${product.price.toFixed(2)}</p>
@@ -367,17 +377,17 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
         `;
 
+        if (window.innerWidth <= 860) {
+            if (product.gallery && Array.isArray(product.gallery) && product.gallery.length > 0) {
+                setLargeImage(product.gallery[0]);
+            }
+        } else {
+            loadModel(product.modelUrl, 'modal-book-3d-model');
+        }
+
         const modalGallery = modalContent.querySelector('.modal-product-gallery');
         if (product.gallery && Array.isArray(product.gallery) && modalGallery) {
             updateGallery(product.gallery, modalGallery);
-
-            // Добавляем обработчик для замены основной картинки в модалке
-            modalGallery.querySelectorAll('.gallery-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    const newSrc = this.src;
-                    modalContent.querySelector('.main-gallery-image').src = newSrc;
-                });
-            });
         }
 
         const addToCartButton = modalContent.querySelector('.add-to-cart');
