@@ -252,7 +252,7 @@ h1, h2, h3, h4, h5, h6, .logo {
 }
 
 .add-to-cart {
-    font-family: 'Crimson Pro', serif;
+    font-family: 'MedievalSharp', cursive;
     margin-top: auto;
     background-color: rgba(155, 183, 100, 1);
     color: white;
@@ -318,7 +318,7 @@ h1, h2, h3, h4, h5, h6, .logo {
 }
 
 .category-filter button {
-    font-family: 'Crimson Pro', serif;
+    font-family: 'MedievalSharp', cursive;
     padding: 10px 20px;
     background-color: transparent;
     border: none;
@@ -506,7 +506,7 @@ h1, h2, h3, h4, h5, h6, .logo {
 }
 
 .checkout-button {
-    font-family: 'Crimson Pro', serif;
+    font-family: 'MedievalSharp', cursive;
     background-color: rgba(155, 183, 100, 1);
     color: white;
     border: 2px solid rgba(155, 183, 100, 1);
@@ -765,7 +765,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
 .erin-image.moved {
     position: fixed;
     top: 20%;  
-    right: -100px; /* Отступ справа */
+    right: 0; /* Отступ справа */
     width: 60%; /* Та же ширина, что и у .product-detail */
     /*height: calc(100vh - 90px - 15vh - 80px);  Высота равна высоте .product-detail */
     object-fit: cover; /* Сохраняет пропорции изображения */
