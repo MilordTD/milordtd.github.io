@@ -134,14 +134,11 @@ h1, h2, h3, h4, h5, h6, .logo {
 }
 
 .product-image {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-height: 600px; /* Максимальная высота для десктопа */
-    overflow: hidden;
+    margin-right: 240px;
 }
-
 
 #large-image-container {
     display: none; /* Hide by default on larger screens */
