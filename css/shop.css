@@ -818,12 +818,14 @@ body.overlay-active .container > *:not(.intro-overlay) {
 #productDetailModal .modal-product-gallery {
     display: flex;
     justify-content: center;
-    gap: 10px;
+    gap: 4px; /* Фиксированный отступ */
     margin-top: 10px;
+    overflow: hidden;
 }
 
 #productDetailModal .modal-product-gallery img {
-    max-width: 100px;
+    flex: 1;
+    max-width: calc(25% - 4px); /* Адаптивный размер с учетом отступов */
     cursor: pointer;
     border-radius: 5px;
     transition: transform 0.3s ease;
