@@ -811,6 +811,20 @@ body.overlay-active .container > *:not(.intro-overlay) {
 }
 
 @media screen and (max-width: 860px) /*, screen and (max-height: 860px)*/ {
+
+    .add-to-cart {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        font-size: 18px; /* Увеличиваем размер шрифта */
+        padding: 15px 0; /* Увеличиваем высоту кнопки */
+        background-color: rgba(255, 255, 255, 0.9); /* Белая подложка */
+        color: black;
+        border: none; /* Убираем границу */
+        text-align: center;
+    }
+
     .erin-image.moved {
         position: fixed;
         bottom: 0;
