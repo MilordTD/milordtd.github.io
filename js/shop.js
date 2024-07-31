@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Обновляем большую картинку или 3D модель в зависимости от ширины экрана
         if (window.innerWidth <= 860) {
-            largeImage.src = product.gallery[0];
+            largeImage.src = product.gallery[0];  // Устанавливаем первую картинку из галереи как "большое" изображение на мобильных устройствах
         } else {
             loadModel(product.modelUrl, 'book-3d-model');
         }
@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
             img.alt = `Product image ${index + 1}`;
             img.classList.add('gallery-item');
             img.addEventListener('click', () => {
-                largeImage.src = imgSrc;
+                largeImage.src = imgSrc;  // Обновляем "большое" изображение при клике на картинку в галерее
                 if (window.innerWidth > 860) {
                     openModal(imgSrc);
                 }
