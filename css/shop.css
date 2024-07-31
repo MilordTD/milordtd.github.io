@@ -160,6 +160,13 @@ h1, h2, h3, h4, h5, h6, .logo {
     position: relative;
 }
 
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
+
 .loader {
     position: fixed;
     top: 50%;

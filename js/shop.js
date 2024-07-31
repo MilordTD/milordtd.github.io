@@ -4,7 +4,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 document.addEventListener('DOMContentLoaded', function() {
     const book3DModel = document.getElementById('book-3d-model');
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+    const camera = new THREE.PerspectiveCamera(75, book3DModel.clientWidth / book3DModel.clientHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setClearColor(0x000000, 0);
     renderer.setSize(book3DModel.clientWidth, book3DModel.clientHeight);
@@ -78,9 +78,10 @@ document.addEventListener('DOMContentLoaded', function() {
         return newRenderer;
     }
 
-    function initializeSceneAndCamera() {
+    function initializeSceneAndCamera(container) {
         const newScene = new THREE.Scene();
-        const newCamera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+        const aspect = container.clientWidth / container.clientHeight;
+        const newCamera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
         newCamera.position.z = 5;
         newCamera.position.y = 0.5;
 
@@ -105,8 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
         container.innerHTML = '';
 
         const rendererInstance = initializeRenderer(container);
-
-        const { newScene, newCamera } = initializeSceneAndCamera();
+        const { newScene, newCamera } = initializeSceneAndCamera(container);
         const sceneInstance = newScene;
         const cameraInstance = newCamera;
 
@@ -760,6 +760,29 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('resize', function() {
         updateCart();
     });
+
+    function resizeRendererToDisplaySize(renderer, camera) {
+        const canvas = renderer.domElement;
+        const width = book3DModel.clientWidth;
+        const height = book3DModel.clientHeight;
+        const needResize = canvas.width !== width || canvas.height !== height;
+        if (needResize) {
+            renderer.setSize(width, height, false);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+        }
+        return needResize;
+    }
+
+    function animate(rendererInstance, sceneInstance, cameraInstance) {
+        requestAnimationFrame(() => animate(rendererInstance, sceneInstance, cameraInstance));
+        resizeRendererToDisplaySize(rendererInstance, cameraInstance);
+        if (currentModel) {
+            currentModel.rotation.y = mouseX * Math.PI * 0.03;
+            currentModel.rotation.x = mouseY * Math.PI * 0.03;
+        }
+        rendererInstance.render(sceneInstance, cameraInstance);
+    }
 
     animate(renderer, scene, camera);
 });
