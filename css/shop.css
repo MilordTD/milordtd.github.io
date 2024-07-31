@@ -806,18 +806,16 @@ body.overlay-active .container > *:not(.intro-overlay) {
 }
 
 #productDetailModal .add-to-cart {
+    color: white;
     margin-top: 20px;
-    width: 100%;
+    width: 90%;
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: white;
+    bottom: 5px;
+    background: rgba(155, 183, 100, 1);
     border: none;
     font-size: 18px;
     padding: 20px;
-    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
-}
+    }
 
 @media screen and (max-width: 860px) /*, screen and (max-height: 860px)*/ {
     .erin-image.moved {
