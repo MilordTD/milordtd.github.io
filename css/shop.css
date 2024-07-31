@@ -152,11 +152,12 @@ h1, h2, h3, h4, h5, h6, .logo {
 }
 
 #book-3d-model {
-    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 10px;
+    width: 100%;
+    height: 100%;
+    position: relative;
 }
 
 .loader {
