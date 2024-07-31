@@ -269,9 +269,8 @@ document.addEventListener('DOMContentLoaded', function() {
             img.alt = `Product image ${index + 1}`;
             img.classList.add('gallery-item');
             img.addEventListener('click', () => {
-                if (window.innerWidth <= 860) {
-                    largeImage.src = imgSrc;
-                } else {
+                largeImage.src = imgSrc;
+                if (window.innerWidth > 860) {
                     openModal(imgSrc);
                 }
             });

@@ -820,6 +820,16 @@ body.overlay-active .container > *:not(.intro-overlay) {
     }
 
 @media screen and (max-width: 860px) {
+    #large-image-container {
+        display: block;
+    }
+
+    #book-3d-model {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 860px) {
     .erin-image.moved {
         position: fixed;
         bottom: 0;
