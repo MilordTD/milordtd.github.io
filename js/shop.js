@@ -2,13 +2,13 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 document.addEventListener('DOMContentLoaded', function() {
-    const book3DModel = document.getElementById('book-3d-model'); // Определение переменной здесь
+    const book3DModel = document.getElementById('book-3d-model');
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setClearColor(0x000000, 0);
-    renderer.setSize(260, 260);
-    document.getElementById('book-3d-model').appendChild(renderer.domElement);
+    renderer.setSize(book3DModel.clientWidth, book3DModel.clientHeight);
+    book3DModel.appendChild(renderer.domElement);
 
     let mouseX = 0;
     let mouseY = 0;
@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function initializeRenderer(container) {
         const newRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
         newRenderer.setClearColor(0x000000, 0);
-        newRenderer.setSize(260, 260);
+        newRenderer.setSize(container.clientWidth, container.clientHeight);
         container.appendChild(newRenderer.domElement);
         return newRenderer;
     }
@@ -120,6 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const scale = 7 / height;
             currentModel.scale.set(scale, scale, scale);
 
+            currentModel.position.y = -(box.max.y - box.min.y) / 2; // Центрирование модели по вертикали
             sceneInstance.add(currentModel);
 
             hideLoader();
@@ -226,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             loadModel(product.modelUrl, 'book-3d-model');
             largeImageContainer.style.display = 'none';  // Hide the large image container
-            book3DModel.style.display = 'block';  // Show the 3D model
+            book3DModel.style.display = 'flex';  // Show the 3D model
         }
 
         const productGallery = document.querySelector('.product-gallery');
@@ -320,62 +321,59 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateProductDetailModal(productId) {
-    const product = products[productId];
-    const modalContent = document.querySelector('#productDetailModal .product-detail-modal-content');
-    const modalLargeImage = document.createElement('img');
-    modalLargeImage.id = 'modal-large-image';
-    modalLargeImage.src = product.gallery[0]; // Установка первой картинки
+        console.log('Updating product detail modal for product:', productId);
+        const product = products[productId];
+        const modalContent = document.querySelector('#productDetailModal .product-detail-modal-content');
 
-    const modalGallery = document.createElement('div');
-    modalGallery.className = 'modal-product-gallery';
+        if (!modalContent) {
+            console.error('Modal content element not found');
+            return;
+        }
 
-    if (!modalContent) {
-        console.error('Modal content element not found');
-        return;
-    }
+        modalContent.innerHTML = `
+            <h2>${product.name}</h2>
+            <div class="modal-product-image">
+                <img id="modal-large-image" src="${product.gallery[0]}" alt="Large product image">
+                <div class="modal-product-gallery"></div>
+            </div>
+            <p>Price: €${product.price.toFixed(2)}</p>
+            <div>
+                <h3>Ingredients</h3>
+                <p>${product.ingredients}</p>
+            </div>
+            <div>
+                <h3>Characteristics</h3>
+                <p>${product.characteristics}</p>
+            </div>
+            <div>
+                <h3>Item info</h3>
+                <p>${product.buffs}</p>
+            </div>
+            <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
+        `;
 
-    modalContent.innerHTML = `
-        <h2>${product.name}</h2>
-        <div class="modal-product-image"></div>
-        <p>Price: €${product.price.toFixed(2)}</p>
-        <div>
-            <h3>Ingredients</h3>
-            <p>${product.ingredients}</p>
-        </div>
-        <div>
-            <h3>Characteristics</h3>
-            <p>${product.characteristics}</p>
-        </div>
-        <div>
-            <h3>Item info</h3>
-            <p>${product.buffs}</p>
-        </div>
-        <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
-    `;
-
-    const modalProductImage = modalContent.querySelector('.modal-product-image');
-    modalProductImage.appendChild(modalLargeImage);
-    modalProductImage.appendChild(modalGallery);
-
-    // Заполнение галереи
-    product.gallery.forEach((imgSrc, index) => {
-        const img = document.createElement('img');
-        img.src = imgSrc;
-        img.alt = `Product image ${index + 1}`;
-        img.classList.add('gallery-item');
-        img.addEventListener('click', () => {
-            modalLargeImage.src = imgSrc;  // Обновление большой картинки
+        const modalLargeImage = document.getElementById('modal-large-image');
+        const modalGallery = document.querySelector('.modal-product-gallery');
+        
+        // Заполнение галереи
+        modalGallery.innerHTML = '';
+        product.gallery.forEach((imgSrc, index) => {
+            const img = document.createElement('img');
+            img.src = imgSrc;
+            img.alt = `Product image ${index + 1}`;
+            img.classList.add('gallery-item');
+            img.addEventListener('click', () => {
+                modalLargeImage.src = imgSrc;  // Обновление большой картинки
+            });
+            modalGallery.appendChild(img);
         });
-        modalGallery.appendChild(img);
-    });
 
-    const addToCartButton = modalContent.querySelector('.add-to-cart');
-    addToCartButton.addEventListener('click', function() {
-        addToCart(this.dataset.productId);
-        closeModal('productDetailModal');
-    });
-}
-
+        const addToCartButton = modalContent.querySelector('.add-to-cart');
+        addToCartButton.addEventListener('click', function() {
+            addToCart(this.dataset.productId);
+            closeModal('productDetailModal');
+        });
+    }
 
     function handleResponsive() {
         const productDetail = document.querySelector('.product-detail');
