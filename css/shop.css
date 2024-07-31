@@ -819,6 +819,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
     padding: 20px;
     }
 
+/* Адаптация для мобильных устройств */
 @media screen and (max-width: 860px) {
     #large-image-container {
         display: block;
@@ -827,9 +828,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
     #book-3d-model {
         display: none;
     }
-}
 
-@media screen and (max-width: 860px) {
     .erin-image.moved {
         position: fixed;
         bottom: 0;
@@ -877,22 +876,22 @@ body.overlay-active .container > *:not(.intro-overlay) {
     }
 
     .modal-product-image {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
     }
 
     #modal-book-3d-model {
-    width: 260px;
-    height: 260px;
-    margin-bottom: 10px;
+        width: 260px;
+        height: 260px;
+        margin-bottom: 10px;
     }
 
     .modal-product-gallery {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
     }
 
     .product-list-container.with-cart {
@@ -900,9 +899,10 @@ body.overlay-active .container > *:not(.intro-overlay) {
     }
 
     .modal-product-gallery .gallery-item {
-    width: 60px;
-    height: 60px;
-    object-fit: cover;
-    cursor: pointer;
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        cursor: pointer;
     }
 }
+

@@ -217,9 +217,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('product-buffs').innerHTML = product.buffs;
         document.getElementById('product-debuffs').innerHTML = product.debuffs;
 
-        // Обновляем большую картинку или 3D модель в зависимости от ширины экрана
+        // Update the large image or 3D model based on screen width
         if (window.innerWidth <= 860) {
-            largeImage.src = product.gallery[0];  // Устанавливаем первую картинку из галереи как "большое" изображение на мобильных устройствах
+            largeImage.src = product.gallery[0];  // Use the first image in the gallery as the "large" image on mobile devices
         } else {
             loadModel(product.modelUrl, 'book-3d-model');
         }
@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', function() {
             img.alt = `Product image ${index + 1}`;
             img.classList.add('gallery-item');
             img.addEventListener('click', () => {
-                largeImage.src = imgSrc;  // Обновляем "большое" изображение при клике на картинку в галерее
+                largeImage.src = imgSrc;  // Update the "large" image on gallery image click
                 if (window.innerWidth > 860) {
                     openModal(imgSrc);
                 }
