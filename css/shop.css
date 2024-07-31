@@ -815,17 +815,22 @@ body.overlay-active .container > *:not(.intro-overlay) {
     padding: 20px;
 }
 
+#productDetailModal .product-detail-modal-content {
+    padding: 0; /* Убираем внутренние отступы */
+}
+
 #productDetailModal .modal-product-gallery {
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* Обеспечивает равные отступы между элементами */
     gap: 4px; /* Фиксированный отступ */
-    margin-top: 10px;
+    margin: 10px 0; /* Отступ сверху и снизу */
     overflow: hidden;
 }
 
 #productDetailModal .modal-product-gallery img {
     flex: 1;
-    max-width: calc(25% - 4px); /* Адаптивный размер с учетом отступов */
+    aspect-ratio: 1 / 1; /* Обеспечивает квадратные изображения */
+    object-fit: cover;
     cursor: pointer;
     border-radius: 5px;
     transition: transform 0.3s ease;
