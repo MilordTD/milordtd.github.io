@@ -840,6 +840,10 @@ body.overlay-active .container > *:not(.intro-overlay) {
         display: none;
     }
 
+.gallery-item {
+    height: 80px;
+    }
+
     .product-list-container {
         left: 5%;
         right: 5%;
