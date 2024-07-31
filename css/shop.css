@@ -823,7 +823,6 @@ body.overlay-active .container > *:not(.intro-overlay) {
     display: flex;
     justify-content: space-between; /* Обеспечивает равные отступы между элементами */
     gap: 4px; /* Фиксированный отступ */
-    margin: 10px 0; /* Отступ сверху и снизу */
     overflow: hidden;
 }
 
@@ -845,7 +844,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
     max-height: 400px;
     object-fit: cover;
     border-radius: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 4px;
 }
 
 /* Media query for mobile devices */
