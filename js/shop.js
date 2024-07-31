@@ -217,6 +217,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('product-buffs').innerHTML = product.buffs;
         document.getElementById('product-debuffs').innerHTML = product.debuffs;
 
+        // Обновляем большую картинку или 3D модель в зависимости от ширины экрана
         if (window.innerWidth <= 860) {
             largeImage.src = product.gallery[0];
         } else {
