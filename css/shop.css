@@ -17,7 +17,7 @@ h1, h2, h3, h4, h5, h6, .logo {
     background-image: url('/images/background.png');
     background-size: cover;
     background-position: center;
-    padding-top: 90px; /* Обновлено */
+    padding-top: 90px; /* Updated */
     box-sizing: border-box;
 }
 
@@ -102,8 +102,8 @@ h1, h2, h3, h4, h5, h6, .logo {
 }
 
 .product-detail {
-    width: 50vw; /* 50% от ширины viewport */
-    height: 50vh; /* 50% высоты viewport */
+    width: 50vw; /* 50% of viewport width */
+    height: 50vh; /* 50% of viewport height */
     min-height: 470px;
     max-height: 700px;
     min-width: 690px;
@@ -116,14 +116,12 @@ h1, h2, h3, h4, h5, h6, .logo {
     box-sizing: border-box;
     overflow-y: auto;
     position: absolute;
-    top: 10%; /* Учитываем padding-top контейнера */
-    left: 10%; /* Позиционируем на 1/3 ширины экрана */
-    /* transform: translateX(-50%); Сдвигаем влево на половину своей ширины для центрирования */
+    top: 10%; /* Consider the padding-top of the container */
+    left: 10%; /* Position 1/3 from the left */
     bottom: 40%;
     z-index: 10000;
     backdrop-filter: blur(15px);
 }
-
 
 #product-name {
     color: white;
@@ -194,16 +192,15 @@ h1, h2, h3, h4, h5, h6, .logo {
     opacity: 1;
 }
 
-
 .product-gallery {
     display: flex;
     justify-content: space-between;
     height: 95px;
-    gap: 10px; /* Фиксированный отступ между картинками */
+    gap: 10px; /* Fixed spacing between images */
 }
 
 .gallery-item {
-    flex: 1; /* Позволяет изображениям изменять размер */
+    flex: 1; /* Allows images to resize */
     height: 95px;
     object-fit: cover;
     cursor: pointer;
@@ -234,7 +231,7 @@ h1, h2, h3, h4, h5, h6, .logo {
 .scrollable-content {
     flex-grow: 1;
     overflow-y: auto;
-    margin-bottom: 15px; /* Добавляем отступ снизу для пространства между контентом и кнопкой */
+    margin-bottom: 15px; /* Adds space between content and button */
 }
 
 .info-block {
@@ -270,7 +267,7 @@ h1, h2, h3, h4, h5, h6, .logo {
 
 .product-list-container {
     height: 15vh;
-    min-height: 180px; /* Минимальная высота */
+    min-height: 180px; /* Minimum height */
     bottom: 40px;
     left: 10%;
     right: 10%;
@@ -299,7 +296,7 @@ h1, h2, h3, h4, h5, h6, .logo {
 .product-price {
     font-size: 16px !important;
     font-weight: bold;
-    color: rgba(155, 183, 100, 1); /* Зеленый цвет для цены, можете изменить по желанию */
+    color: rgba(155, 183, 100, 1); /* Green color for price, change as needed */
 }
 
 .category-filter {
@@ -442,7 +439,7 @@ h1, h2, h3, h4, h5, h6, .logo {
     background-color: rgba(0, 0, 0, 0.7);
 }
 
-/* Добавим стили для обеспечения видимости стрелок */
+/* Add styles to ensure arrow visibility */
 .slider-arrow.visible {
     display: flex;
 }
@@ -453,7 +450,7 @@ h1, h2, h3, h4, h5, h6, .logo {
     bottom: 40px;
     width: 280px;
     height: 15vh;
-    min-height: 180px; /* Минимальная высота */
+    min-height: 180px; /* Minimum height */
     background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
@@ -468,7 +465,7 @@ h1, h2, h3, h4, h5, h6, .logo {
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
     overflow-y: auto;
-    }
+}
 
 .cart-container.active {
     opacity: 1;
@@ -663,14 +660,14 @@ h1, h2, h3, h4, h5, h6, .logo {
     }
 }
 
-/* Медиа-запрос для маленьких экранов */
+/* Media query for small screens */
 @media (max-height: 600px) {
     .product-list-container {
-        height: 20vh; /* Увеличиваем высоту на маленьких экранах */
+        height: 20vh; /* Increase height on small screens */
     }
 }
 
-/* Стили для intro overlay */
+/* Styles for intro overlay */
 .intro-overlay {
     position: fixed;
     top: 0;
@@ -751,7 +748,6 @@ body.overlay-active .container > *:not(.intro-overlay) {
     overflow: hidden;
 }
 
-
 .erin-image {
     position: fixed;
     /*top: 20%;*/
@@ -765,10 +761,10 @@ body.overlay-active .container > *:not(.intro-overlay) {
 .erin-image.moved {
     position: fixed;
     top: 20%;  
-    right: -100px; /* Отступ справа */
-    width: 60%; /* Та же ширина, что и у .product-detail */
-    /*height: calc(100vh - 90px - 15vh - 80px);  Высота равна высоте .product-detail */
-    object-fit: cover; /* Сохраняет пропорции изображения */
+    right: -100px; /* Right margin */
+    width: 60%; /* Same width as .product-detail */
+    /*height: calc(100vh - 90px - 15vh - 80px);  Height same as .product-detail */
+    object-fit: cover; /* Maintain image proportions */
     z-index: 9999;
     transition: all 2s ease;
     bottom: 0;
@@ -792,7 +788,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
     transition: opacity 2s ease-in-out;
 }
 
-/* Специфичные стили для модального окна с деталями продукта */
+/* Specific styles for the product detail modal */
 #productDetailModal .modal-content {
     text-align: left;
     background-color: rgba(255, 255, 255, 0.95);
@@ -817,9 +813,9 @@ body.overlay-active .container > *:not(.intro-overlay) {
     border: none;
     font-size: 18px;
     padding: 20px;
-    }
+}
 
-/* Адаптация для мобильных устройств */
+/* Media query for mobile devices */
 @media screen and (max-width: 860px) {
     #large-image-container {
         display: block;
@@ -840,14 +836,6 @@ body.overlay-active .container > *:not(.intro-overlay) {
     }
 
     .product-detail {
-        display: none;
-    }
-
-    #large-image-container {
-        display: block;
-    }
-
-    #book-3d-model {
         display: none;
     }
 
@@ -877,41 +865,4 @@ body.overlay-active .container > *:not(.intro-overlay) {
     #modal-book-3d-model {
         display: none;
     }
-
-    #productDetailModal .modal-content {
-        max-width: 90%;
-        max-height: 90%;
-        overflow-y: auto;
-    }
-
-    .modal-product-image {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-bottom: 20px;
-    }
-
-    #modal-book-3d-model {
-        width: 260px;
-        height: 260px;
-        margin-bottom: 10px;
-    }
-
-    .modal-product-gallery {
-        display: flex;
-        justify-content: center;
-        gap: 20px;
-    }
-
-    .product-list-container.with-cart {
-        bottom: 240px; /* Сдвигаем список продуктов выше при активной корзине */
-    }
-
-    .modal-product-gallery .gallery-item {
-        width: 60px;
-        height: 60px;
-        object-fit: cover;
-        cursor: pointer;
-    }
 }
-
