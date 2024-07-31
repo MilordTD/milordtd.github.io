@@ -2,11 +2,10 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Инициализация 3D сцены
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setClearColor(0x000000, 0); // Полностью прозрачный фон
+    renderer.setClearColor(0x000000, 0);
     renderer.setSize(260, 260);
     document.getElementById('book-3d-model').appendChild(renderer.domElement);
 
@@ -17,14 +16,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const largeImageContainer = document.getElementById('large-image-container');
     const largeImage = document.getElementById('large-image');
 
-    // Toggle popup menu
     const menuIcon = document.querySelector('.menu-icon');
     const popupMenu = document.querySelector('.popup-menu');
     menuIcon.addEventListener('click', () => {
         popupMenu.style.display = popupMenu.style.display === 'block' ? 'none' : 'block';
     });
 
-    // Close popup menu when clicking outside
     document.addEventListener('click', (event) => {
         if (!menuIcon.contains(event.target) && !popupMenu.contains(event.target)) {
             popupMenu.style.display = 'none';
@@ -58,12 +55,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const typewriterText = document.getElementById('typewriter-text');
     const textToType = "I'm Erin, an artist, traveler and adventurer.\nI've got a neat collection of trinkets, artifacts\nand equipment. Wanna trade?";
 
-    // Запускаем эффект печатной машинки после открытия интро
     setTimeout(() => {
         typewriterEffect(typewriterText, textToType, 10);
-    }, 1000); // Задержка в 1 секунду перед началом печати
+    }, 1000);
 
-    // Загрузка 3D модели
     const loader = new GLTFLoader();
 
     function showLoader() {
@@ -88,7 +83,6 @@ document.addEventListener('DOMContentLoaded', function() {
         newCamera.position.z = 5;
         newCamera.position.y = 0.5;
 
-        // Add lighting
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
         newScene.add(ambientLight);
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
@@ -107,25 +101,19 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('.product-image').appendChild(container);
         }
 
-        // Clear existing content
         container.innerHTML = '';
 
-        // Initialize renderer if not already initialized
         const rendererInstance = initializeRenderer(container);
 
-        // Initialize scene and camera
         const { newScene, newCamera } = initializeSceneAndCamera();
         const sceneInstance = newScene;
         const cameraInstance = newCamera;
 
-        // Show loader
         showLoader();
 
-        // Load the model
         loader.load(modelUrl, (gltf) => {
             currentModel = gltf.scene;
 
-            // Scale the model
             const box = new THREE.Box3().setFromObject(currentModel);
             const height = box.max.y - box.min.y;
             const scale = 7 / height;
@@ -133,14 +121,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
             sceneInstance.add(currentModel);
 
-            // Hide loader
             hideLoader();
 
-            // Animate the model
             animate(rendererInstance, sceneInstance, cameraInstance);
         }, undefined, (error) => {
             console.error('An error happened', error);
-            // Hide loader in case of error
             hideLoader();
         });
     }
@@ -173,7 +158,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const leftArrow = document.querySelector('.slider-arrow.left');
     const rightArrow = document.querySelector('.slider-arrow.right');
 
-    // Загрузка данных о товарах из JSON файла
     fetch('/products.json')
         .then(response => response.json())
         .then(data => {
@@ -185,7 +169,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
     function initializeProducts() {
-        // Create product items
         productListWrapper.innerHTML = '';
 
         for (const [id, product] of Object.entries(products)) {
@@ -209,7 +192,6 @@ document.addEventListener('DOMContentLoaded', function() {
             productListWrapper.appendChild(productItem);
         }
 
-        // Update event handlers for products
         document.querySelectorAll('.product-item').forEach(item => {
             item.addEventListener('click', function() {
                 const productId = this.dataset.productId;
@@ -217,19 +199,15 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
 
-        // Initialize first product
         const firstProductId = Object.keys(products)[0];
         updateProductInfo(firstProductId);
 
-        // Update slider and filters
         initializeSlider();
         updateCategoryFilter();
 
-        // Call handleResponsive after initializing products
         handleResponsive();
     }
 
-    // Обновление информации о продукте
     function updateProductInfo(productId) {
         const product = products[productId];
         document.getElementById('product-name').textContent = product.name;
@@ -368,10 +346,8 @@ document.addEventListener('DOMContentLoaded', function() {
             <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
         `;
 
-        // Load 3D model
         loadModel(product.modelUrl, 'modal-book-3d-model');
 
-        // Update gallery
         const modalGallery = modalContent.querySelector('.modal-product-gallery');
         if (product.gallery && Array.isArray(product.gallery) && modalGallery) {
             updateGallery(product.gallery, modalGallery);
@@ -419,11 +395,9 @@ document.addEventListener('DOMContentLoaded', function() {
         updateArrowVisibility();
     }
 
-    // Вызываем handleResponsive при загрузке страницы и при изменении размера окна
     handleResponsive();
     window.addEventListener('resize', handleResponsive);
 
-    // Добавляем обработчики для закрытия модальных окон
     document.querySelectorAll('.modal .close').forEach(closeBtn => {
         closeBtn.addEventListener('click', () => {
             const modalId = closeBtn.closest('.modal').id;
@@ -431,7 +405,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Закрытие модального окна при клике вне его содержимого
     document.querySelectorAll('.modal').forEach(modal => {
         modal.addEventListener('click', (event) => {
             if (event.target === modal) {
@@ -447,7 +420,6 @@ document.addEventListener('DOMContentLoaded', function() {
         closeModal('productDetailModal');
     }
 
-    // Обновление фильтра категорий
     function updateCategoryFilter() {
         const categories = [...new Set(Object.values(products).map(product => product.category))];
         const categoryFilter = document.querySelector('.category-filter-container');
@@ -461,7 +433,6 @@ document.addEventListener('DOMContentLoaded', function() {
             categoryFilter.appendChild(button);
         });
 
-        // Обновление обработчиков событий для кнопок категорий
         document.querySelectorAll('.category-button').forEach(button => {
             button.addEventListener('click', function() {
                 const category = this.dataset.category;
@@ -485,7 +456,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Реализация горизонтального слайдера
     let currentPosition = 0;
 
     function updateSliderPosition() {
@@ -535,7 +505,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Функция обновления корзины
     function updateCart() {
         const cartItemCount = cart.length;
 
@@ -548,7 +517,6 @@ document.addEventListener('DOMContentLoaded', function() {
             cartContainer.classList.add('active');
             productListContainer.classList.add('with-cart');
 
-            // Проверяем размер экрана и применяем соответствующие стили
             if (window.innerWidth <= 860) {
                 productListContainer.style.bottom = '220px';
             }
@@ -556,14 +524,12 @@ document.addEventListener('DOMContentLoaded', function() {
             cartContainer.classList.remove('active');
             productListContainer.classList.remove('with-cart');
 
-            // Возвращаем исходное положение при пустой корзине
             if (window.innerWidth <= 860) {
                 productListContainer.style.bottom = '20px';
             }
         }
     }
 
-    // Обработчик для кнопки "Empty cart"
     const emptyCartButton = document.querySelector('.empty-cart-button');
     if (emptyCartButton) {
         emptyCartButton.addEventListener('click', () => {
@@ -573,10 +539,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Инициализация корзины
     updateCart();
 
-    // Обработчик для кнопки оформления заказа
     const checkoutButton = document.querySelector('.checkout-button');
     if (checkoutButton) {
         checkoutButton.addEventListener('click', () => {
@@ -644,16 +608,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         console.log('Animated image created and appended to body');
 
-        // Функция для расчета положения на дуге
         function calculatePosition(progress) {
             const startX = startRect.left;
             const startY = startRect.top;
             const endX = endRect.right - 20;
             const endY = endRect.bottom - 20;
 
-            // Контрольная точка для кривой Безье (вершина дуги)
             const controlX = (startX + endX) / 2;
-            const controlY = startY - 100; // Регулируйте это значение для изменения высоты дуги
+            const controlY = startY - 100;
 
             const x = Math.pow(1 - progress, 2) * startX +
                 2 * (1 - progress) * progress * controlX +
@@ -665,9 +627,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return { x, y };
         }
 
-        // Функция анимации
         function animate(currentTime) {
-            const duration = 1000; // Продолжительность анимации в мс
+            const duration = 1000;
             const progress = Math.min((currentTime - startTime) / duration, 1);
             const { x, y } = calculatePosition(progress);
 
@@ -688,7 +649,6 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(animate);
     }
 
-    // Проверка статуса оплаты и waitlist
     function checkStatus() {
         console.log('Checking status');
         const urlParams = new URLSearchParams(window.location.search);
@@ -703,7 +663,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (paymentStatus === 'success') {
             console.log('Opening success modal');
             openModal('#successModal');
-            // Очистка корзины после успешной оплаты
             cart = [];
             updateCart();
         } else if (waitlistStatus === 'success') {
@@ -711,12 +670,10 @@ document.addEventListener('DOMContentLoaded', function() {
             openModal('#waitlistSuccessModal');
         }
 
-        // Удаление параметров статуса из URL
         console.log('Removing status parameters from URL');
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 
-    // Основной код, выполняющийся после загрузки DOM
     console.log('DOM fully loaded');
     const introOverlay = document.querySelector('.intro-overlay');
     const introContent = document.querySelector('.intro-content');
@@ -724,11 +681,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const productDetail = document.querySelector('.product-detail');
     const erinImage = document.querySelector('.erin-image');
 
-    // Добавляем класс active к оверлею и body при загрузке страницы
     introOverlay.classList.add('active');
     document.body.classList.add('overlay-active');
 
-    // Показываем контент с эффектом fade in
     setTimeout(() => {
         introContent.style.opacity = '1';
     }, 500);
@@ -738,19 +693,15 @@ document.addEventListener('DOMContentLoaded', function() {
         event.preventDefault();
         event.stopPropagation();
 
-        // Скрываем intro-content
         introContent.style.opacity = '0';
 
-        // Перемещаем и увеличиваем изображение Эрин
         erinImage.classList.add('moved');
 
-        // Ждем завершения анимации скрытия intro-content
         setTimeout(() => {
             introOverlay.classList.remove('active');
             document.body.classList.remove('overlay-active');
             introOverlay.style.display = 'none';
 
-            // Показываем product-detail и product-list-container
             productDetail.style.opacity = '1';
             productListContainer.style.opacity = '1';
         }, 500);
@@ -777,7 +728,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500);
     }
 
-    // Обработчики для закрытия модальных окон
     document.querySelectorAll('.payment-status-modal .close').forEach(closeBtn => {
         closeBtn.addEventListener('click', () => {
             closeModal(closeBtn.closest('.modal').id);
@@ -790,15 +740,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Вызываем функцию при изменении размера окна
     window.addEventListener('resize', handleResponsive);
 
-    // Добавляем обработчик изменения размера окна
     window.addEventListener('resize', function() {
-        updateCart(); // Вызываем updateCart при изменении размера окна
+        updateCart();
     });
 
-    // Запускаем анимацию
     animate(renderer, scene, camera);
 });
 
