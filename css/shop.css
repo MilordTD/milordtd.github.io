@@ -870,6 +870,15 @@ body.overlay-active .container > *:not(.intro-overlay) {
     }
 
     #productDetailModal .modal-content {
+        /* Add any specific styling for the modal content on mobile devices */
+    }
+
+    /* Add this new rule to hide the 3D model container in the modal on mobile */
+    #modal-book-3d-model {
+        display: none;
+    }
+
+    #productDetailModal .modal-content {
         max-width: 90%;
         max-height: 90%;
         overflow-y: auto;
