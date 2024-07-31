@@ -241,10 +241,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (window.innerWidth <= 860) {
             largeImage.src = product.gallery[0];
-            document.getElementById('book-3d-model').style.display = 'none';
         } else {
             loadModel(product.modelUrl, 'book-3d-model');
-            document.getElementById('book-3d-model').style.display = 'block';
         }
 
         const productGallery = document.querySelector('.product-gallery');

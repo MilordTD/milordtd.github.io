@@ -252,7 +252,7 @@ h1, h2, h3, h4, h5, h6, .logo {
 }
 
 .add-to-cart {
-    font-family: 'MedievalSharp', cursive;
+    font-family: 'Crimson Pro', serif;
     margin-top: auto;
     background-color: rgba(155, 183, 100, 1);
     color: white;
@@ -506,7 +506,7 @@ h1, h2, h3, h4, h5, h6, .logo {
 }
 
 .checkout-button {
-    font-family: 'MedievalSharp', cursive;
+    font-family: 'Crimson Pro', serif;
     background-color: rgba(155, 183, 100, 1);
     color: white;
     border: 2px solid rgba(155, 183, 100, 1);
@@ -765,7 +765,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
 .erin-image.moved {
     position: fixed;
     top: 20%;  
-    right: 0; /* Отступ справа */
+    right: -100px; /* Отступ справа */
     width: 60%; /* Та же ширина, что и у .product-detail */
     /*height: calc(100vh - 90px - 15vh - 80px);  Высота равна высоте .product-detail */
     object-fit: cover; /* Сохраняет пропорции изображения */
@@ -808,23 +808,18 @@ body.overlay-active .container > *:not(.intro-overlay) {
 #productDetailModal .add-to-cart {
     margin-top: 20px;
     width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border: none;
+    font-size: 18px;
+    padding: 20px;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
 }
 
 @media screen and (max-width: 860px) /*, screen and (max-height: 860px)*/ {
-
-    .add-to-cart {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        font-size: 18px; /* Увеличиваем размер шрифта */
-        padding: 15px 0; /* Увеличиваем высоту кнопки */
-        background-color: rgba(255, 255, 255, 0.9); /* Белая подложка */
-        color: black;
-        border: none; /* Убираем границу */
-        text-align: center;
-    }
-
     .erin-image.moved {
         position: fixed;
         bottom: 0;
