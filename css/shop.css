@@ -810,7 +810,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
     margin-top: 20px;
     left: 20px;
     right: 20px;
-    width: 100%;
+    width: 90%;
     position: fixed;
     bottom: 10px;
     background: rgba(155, 183, 100, 1);
@@ -819,7 +819,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
     padding: 20px;
     }
 
-@media screen and (max-width: 860px) /*, screen and (max-height: 860px)*/ {
+@media screen and (max-width: 860px) {
     .erin-image.moved {
         position: fixed;
         bottom: 0;
@@ -836,6 +836,10 @@ body.overlay-active .container > *:not(.intro-overlay) {
 
     #large-image-container {
         display: block;
+    }
+
+    #book-3d-model {
+        display: none;
     }
 
     .product-list-container {
