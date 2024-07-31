@@ -220,8 +220,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update the large image or 3D model based on screen width
         if (window.innerWidth <= 860) {
             largeImage.src = product.gallery[0];  // Use the first image in the gallery as the "large" image on mobile devices
+            largeImageContainer.style.display = 'block';  // Ensure the container is displayed
+            book3DModel.style.display = 'none';  // Hide the 3D model
         } else {
             loadModel(product.modelUrl, 'book-3d-model');
+            largeImageContainer.style.display = 'none';  // Hide the large image container
+            book3DModel.style.display = 'block';  // Show the 3D model
         }
 
         const productGallery = document.querySelector('.product-gallery');
