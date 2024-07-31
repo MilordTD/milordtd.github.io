@@ -815,6 +815,32 @@ body.overlay-active .container > *:not(.intro-overlay) {
     padding: 20px;
 }
 
+#productDetailModal .modal-product-gallery {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+#productDetailModal .modal-product-gallery img {
+    max-width: 100px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: transform 0.3s ease;
+}
+
+#productDetailModal .modal-product-gallery img:hover {
+    transform: scale(1.05);
+}
+
+#modal-large-image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
 /* Media query for mobile devices */
 @media screen and (max-width: 860px) {
     #large-image-container {

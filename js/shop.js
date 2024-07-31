@@ -320,50 +320,62 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateProductDetailModal(productId) {
-        console.log('Updating product detail modal for product:', productId);
-        const product = products[productId];
-        const modalContent = document.querySelector('#productDetailModal .product-detail-modal-content');
+    const product = products[productId];
+    const modalContent = document.querySelector('#productDetailModal .product-detail-modal-content');
+    const modalLargeImage = document.createElement('img');
+    modalLargeImage.id = 'modal-large-image';
+    modalLargeImage.src = product.gallery[0]; // Установка первой картинки
 
-        if (!modalContent) {
-            console.error('Modal content element not found');
-            return;
-        }
+    const modalGallery = document.createElement('div');
+    modalGallery.className = 'modal-product-gallery';
 
-        modalContent.innerHTML = `
-            <h2>${product.name}</h2>
-            <div class="modal-product-image">
-                <div id="modal-book-3d-model"></div>
-                <div class="modal-product-gallery"></div>
-            </div>
-            <p>Price: €${product.price.toFixed(2)}</p>
-            <div>
-                <h3>Ingredients</h3>
-                <p>${product.ingredients}</p>
-            </div>
-            <div>
-                <h3>Characteristics</h3>
-                <p>${product.characteristics}</p>
-            </div>
-            <div>
-                <h3>Item info</h3>
-                <p>${product.buffs}</p>
-            </div>
-            <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
-        `;
-
-        loadModel(product.modelUrl, 'modal-book-3d-model');
-
-        const modalGallery = modalContent.querySelector('.modal-product-gallery');
-        if (product.gallery && Array.isArray(product.gallery) && modalGallery) {
-            updateGallery(product.gallery, modalGallery);
-        }
-
-        const addToCartButton = modalContent.querySelector('.add-to-cart');
-        addToCartButton.addEventListener('click', function() {
-            addToCart(this.dataset.productId);
-            closeModal('productDetailModal');
-        });
+    if (!modalContent) {
+        console.error('Modal content element not found');
+        return;
     }
+
+    modalContent.innerHTML = `
+        <h2>${product.name}</h2>
+        <div class="modal-product-image"></div>
+        <p>Price: €${product.price.toFixed(2)}</p>
+        <div>
+            <h3>Ingredients</h3>
+            <p>${product.ingredients}</p>
+        </div>
+        <div>
+            <h3>Characteristics</h3>
+            <p>${product.characteristics}</p>
+        </div>
+        <div>
+            <h3>Item info</h3>
+            <p>${product.buffs}</p>
+        </div>
+        <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
+    `;
+
+    const modalProductImage = modalContent.querySelector('.modal-product-image');
+    modalProductImage.appendChild(modalLargeImage);
+    modalProductImage.appendChild(modalGallery);
+
+    // Заполнение галереи
+    product.gallery.forEach((imgSrc, index) => {
+        const img = document.createElement('img');
+        img.src = imgSrc;
+        img.alt = `Product image ${index + 1}`;
+        img.classList.add('gallery-item');
+        img.addEventListener('click', () => {
+            modalLargeImage.src = imgSrc;  // Обновление большой картинки
+        });
+        modalGallery.appendChild(img);
+    });
+
+    const addToCartButton = modalContent.querySelector('.add-to-cart');
+    addToCartButton.addEventListener('click', function() {
+        addToCart(this.dataset.productId);
+        closeModal('productDetailModal');
+    });
+}
+
 
     function handleResponsive() {
         const productDetail = document.querySelector('.product-detail');
