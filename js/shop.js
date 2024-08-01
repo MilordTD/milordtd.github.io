@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const largeImageContainer = document.getElementById('large-image-container');
     const largeImage = document.getElementById('large-image');
 
-if (window.innerWidth > 600) {
+if (window.innerWidth > 860) {
         introOverlay.classList.add('active');
         document.body.classList.add('overlay-active');
 
