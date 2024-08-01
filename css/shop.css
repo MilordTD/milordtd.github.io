@@ -897,7 +897,12 @@ body.overlay-active .container > *:not(.intro-overlay) {
 
 /* Add this media query for height <= 770px */
 @media (max-height: 770px) {
-    body {
+    .product-detail {
+        transform: scale(0.9);
+        transform-origin: top center;
+    }
+
+    .product-list-container{
         transform: scale(0.9);
         transform-origin: top center;
     }
