@@ -701,7 +701,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     setTimeout(() => {
         introContent.style.opacity = '1';
-    }, 500);
+    }, 1000);
 
     introButton.addEventListener('click', (event) => {
         console.log('Explore loot button clicked');
