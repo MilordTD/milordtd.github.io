@@ -840,6 +840,13 @@ body.overlay-active .container > *:not(.intro-overlay) {
         left: 5%;
         right: 5%;
         width: 90%;
+        bottom: 20px !important;
+    }
+
+    .product-list-container.with-cart {
+        left: 5%;
+        right: 5%;
+        width: 90%;
         bottom: 150px !important;
     }
 
