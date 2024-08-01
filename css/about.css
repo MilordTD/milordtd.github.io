@@ -165,26 +165,6 @@ body, html {
     mix-blend-mode: screen;
 }
 
-.instagram-icon {
-    position: fixed;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10002;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.instagram-icon img {
-    width: 286px; /* исходный размер изображения */
-    height: 447px;
-}
-
-/* Эффект увеличения и свечения при наведении */
-.instagram-icon:hover {
-    transform: translateX(-50%) scale(1.1);
-    box-shadow: 0 0 20px rgba(173, 216, 230, 0.8); /* бело-голубое свечение */
-}
-
 @keyframes fairyDustAnimation {
     0% {
         transform: translateY(0) translateX(0) scale(1);
@@ -222,5 +202,35 @@ body, html {
     }
     .section p {
         font-size: 0.8rem;
+    }
+}
+
+/* Стилизация изображения Instagram */
+.instagram-icon {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10002;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.instagram-icon img {
+    height: 20vh;
+    width: auto; /* пропорциональная ширина */
+}
+
+/* Эффект увеличения и пульсирующего свечения при наведении */
+.instagram-icon:hover {
+    transform: translateX(-50%) scale(1.2);
+    animation: pulseGlow 1.5s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    from {
+        box-shadow: 0 0 10px rgba(173, 216, 230, 0.8);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(173, 216, 230, 1);
     }
 }
