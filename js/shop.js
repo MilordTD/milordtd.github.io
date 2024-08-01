@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function loadModel(modelUrl, containerId) {
         let container = document.getElementById(containerId);
         if (!container) {
-            console.warn(Container not found: ${containerId}. Creating a new one.);
+            console.warn(`Container not found: ${containerId}. Creating a new one.`);
             container = document.createElement('div');
             container.id = containerId;
             document.querySelector('.product-image').appendChild(container);
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
             productItem.dataset.category = product.category;
 
             const img = document.createElement('img');
-            img.src = /images/pin_${id}.svg;
+            img.src = `/images/pin_${id}.svg`;
             img.alt = product.name;
 
             if (product.inStock === 0) {
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateProductInfo(productId) {
         const product = products[productId];
         document.getElementById('product-name').textContent = product.name;
-        document.getElementById('product-price').textContent = €${product.price.toFixed(2)};
+        document.getElementById('product-price').textContent = `€${product.price.toFixed(2)}`;
         document.getElementById('product-ingredients').innerHTML = product.ingredients;
         document.getElementById('product-characteristics').innerHTML = product.characteristics;
         document.getElementById('product-buffs').innerHTML = product.buffs;
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.product-item').forEach(item => {
             item.classList.remove('active');
         });
-        const activeItem = document.querySelector(.product-item[data-product-id="${productId}"]);
+        const activeItem = document.querySelector(`.product-item[data-product-id="${productId}"]`);
         activeItem.classList.add('active');
 
         const addToCartButton = document.querySelector('.add-to-cart');
@@ -273,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
         galleryImages.forEach((imgSrc, index) => {
             const img = document.createElement('img');
             img.src = imgSrc;
-            img.alt = Product image ${index + 1};
+            img.alt = `Product image ${index + 1}`;
             img.classList.add('gallery-item');
             img.addEventListener('click', () => {
                 largeImage.src = imgSrc;  // Update the "large" image on gallery image click
@@ -330,7 +330,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        modalContent.innerHTML = 
+        modalContent.innerHTML = `
             <h2>${product.name}</h2>
             <div class="modal-product-image">
                 <img id="modal-large-image" src="${product.gallery[0]}" alt="Large product image">
@@ -350,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p>${product.buffs}</p>
             </div>
             <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
-        ;
+        `;
 
         const modalLargeImage = document.getElementById('modal-large-image');
         const modalGallery = document.querySelector('.modal-product-gallery');
@@ -360,7 +360,7 @@ document.addEventListener('DOMContentLoaded', function() {
         product.gallery.forEach((imgSrc, index) => {
             const img = document.createElement('img');
             img.src = imgSrc;
-            img.alt = Product image ${index + 1};
+            img.alt = `Product image ${index + 1}`;
             img.classList.add('gallery-item');
             img.addEventListener('click', () => {
                 modalLargeImage.src = imgSrc;  // Обновление большой картинки
@@ -474,7 +474,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentPosition = 0;
 
     function updateSliderPosition() {
-        productListWrapper.style.transform = translateX(${currentPosition}px);
+        productListWrapper.style.transform = `translateX(${currentPosition}px)`;
     }
 
     function updateArrowVisibility() {
@@ -523,7 +523,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateCart() {
         const cartItemCount = cart.length;
 
-        cartItems.textContent = Items in cart: ${cartItemCount};
+        cartItems.textContent = `Items in cart: ${cartItemCount}`;
 
         let total = cart.reduce((sum, productId) => sum + products[productId].price, 0);
         cartTotal.textContent = total.toFixed(2);
@@ -613,10 +613,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const animatedImage = document.createElement('img');
         animatedImage.src = productImage;
         animatedImage.style.position = 'fixed';
-        animatedImage.style.left = ${startRect.left}px;
-        animatedImage.style.top = ${startRect.top}px;
-        animatedImage.style.width = ${startRect.width}px;
-        animatedImage.style.height = ${startRect.height}px;
+        animatedImage.style.left = `${startRect.left}px`;
+        animatedImage.style.top = `${startRect.top}px`;
+        animatedImage.style.width = `${startRect.width}px`;
+        animatedImage.style.height = `${startRect.height}px`;
         animatedImage.style.zIndex = '9999';
         animatedImage.style.pointerEvents = 'none';
         document.body.appendChild(animatedImage);
@@ -647,9 +647,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const progress = Math.min((currentTime - startTime) / duration, 1);
             const { x, y } = calculatePosition(progress);
 
-            animatedImage.style.left = ${x}px;
-            animatedImage.style.top = ${y}px;
-            animatedImage.style.transform = scale(${1 - progress * 0.9});
+            animatedImage.style.left = `${x}px`;
+            animatedImage.style.top = `${y}px`;
+            animatedImage.style.transform = `scale(${1 - progress * 0.9})`;
             animatedImage.style.opacity = 1 - progress;
 
             if (progress < 1) {
