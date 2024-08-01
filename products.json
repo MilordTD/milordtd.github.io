@@ -6,7 +6,7 @@
     "buffs": "This heavy tome, most certainly magical and likely powerful, is locked, and no key was found to open it. Whoever wrote it, they made sure to protect its secrets… or were they protecting you from whatever is hidden within? Could also be a mimic or an innocent cookbook! Who knows. You might be the first in centuries to see its pages. Either way, good luck with this one!",
     "debuffs": "",
     "modelUrl": "/models/tome.gltf",
-    "category": "pin",
+    "category": "pins",
     "inStock": 50,
     "price": 12.50,
     "gallery": [
