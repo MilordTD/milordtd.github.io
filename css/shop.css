@@ -899,11 +899,27 @@ body.overlay-active .container > *:not(.intro-overlay) {
 @media (max-height: 770px) {
     .product-detail {
         transform: scale(0.9);
-        transform-origin: top center;
+        transform-origin: left;
+        top: 5%;
     }
 
     .product-list-container{
         transform: scale(0.9);
-        transform-origin: top center;
+        transform-origin: left;
+        bottom: 20px;
+    }
+}
+
+@media (max-height: 670px) {
+    .product-detail {
+        transform: scale(0.7);
+        transform-origin: left;
+        top: 3%;
+    }
+
+    .product-list-container{
+        transform: scale(0.7);
+        transform-origin: left;
+        bottom: 0px;
     }
 }
