@@ -17,6 +17,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const largeImageContainer = document.getElementById('large-image-container');
     const largeImage = document.getElementById('large-image');
 
+if (window.innerWidth > 600) {
+        introOverlay.classList.add('active');
+        document.body.classList.add('overlay-active');
+
+        setTimeout(() => {
+            introContent.style.opacity = '1';
+        }, 500);
+
+        introButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            introContent.style.opacity = '0';
+            erinImage.classList.add('moved');
+
+            setTimeout(() => {
+                introOverlay.classList.remove('active');
+                document.body.classList.remove('overlay-active');
+                introOverlay.style.display = 'none';
+
+                productDetail.style.opacity = '1';
+                document.querySelector('.product-list-container').style.opacity = '1';
+            }, 500);
+        });
+    }
+
+
     const menuIcon = document.querySelector('.menu-icon');
     const popupMenu = document.querySelector('.popup-menu');
     menuIcon.addEventListener('click', () => {
