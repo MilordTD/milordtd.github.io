@@ -82,12 +82,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const newScene = new THREE.Scene();
         const aspect = container.clientWidth / container.clientHeight;
         const newCamera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
-        newCamera.position.z = 10;
+        newCamera.position.z = 8;
         newCamera.position.y = 0.5;
 
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.01);
         newScene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.1);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.01);
         directionalLight.position.set(5, 5, 5);
         newScene.add(directionalLight);
 
