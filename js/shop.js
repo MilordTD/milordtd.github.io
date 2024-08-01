@@ -85,11 +85,10 @@ document.addEventListener('DOMContentLoaded', function() {
         newCamera.position.z = 8;
         newCamera.position.y = 0.5;
 
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.01);
-        newScene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.01);
-        directionalLight.position.set(5, 5, 5);
-        newScene.add(directionalLight);
+        
+        const hemisphereLight = new THREE.HemisphereLight(0xffffff, 0x444444, 0.01);
+    hemisphereLight.position.set(0, 20, 0);
+    newScene.add(hemisphereLight);
 
         return { newScene, newCamera };
     }
