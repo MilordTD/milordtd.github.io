@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let cart = [];
     let products = {};
 
-    const Icon = document.querySelector('.menu-icon');
+    const menuIcon = document.querySelector('.menu-icon');
     const popupMenu = document.querySelector('.popup-menu');
     menuIcon.addEventListener('click', () => {
         popupMenu.style.display = popupMenu.style.display === 'block' ? 'none' : 'block';
