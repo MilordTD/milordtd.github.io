@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showLoader();
 
         loader.load(modelUrl, (gltf) => {
-            currentModel = gltf.scene;
+            const currentModel = gltf.scene;
 
             const box = new THREE.Box3().setFromObject(currentModel);
             const height = box.max.y - box.min.y;

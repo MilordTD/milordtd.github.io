@@ -11,15 +11,13 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
 </head>
-
-<nav class="popup-menu">
-    <ul>
-        <li><a href="/shop">Shop</a></li>
-        <li><a href="/about">About</a></li>
-    </ul>
-</nav>
-
 <body>
+    <nav class="popup-menu">
+        <ul>
+            <li><a href="/shop">Shop</a></li>
+            <li><a href="/about">About</a></li>
+        </ul>
+    </nav>
     <img src="/images/erin.png" alt="Erin" class="erin-image">
     <div class="intro-overlay">
         <div class="intro-content">
@@ -28,7 +26,6 @@
             <button class="intro-button">ENTER THE SHOP</button>
         </div>
     </div>
-
     <div class="container">
         <div class="header">
             <div class="logo">
@@ -45,13 +42,11 @@
                     </div>
                     <div id="book-3d-model"></div>
                     <div id="loader" class="loader">
-                        <span>K</span>
-                        <span>A</span>
-                        <span>R</span>
-                        <span>H</span>
-                        <span>A</span>
-                        <span>T</span>
-                    </div>
+    <div style="width:100%;height:0;padding-bottom:58%;position:relative;">
+        <iframe src="https://giphy.com/embed/S6lmNqpJ3v94NzHe5b" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+    </div>
+</div>
+
                     <div class="product-gallery"></div>
                 </div>
                 <div class="product-info">
@@ -78,7 +73,6 @@
                 </div>
             </div>
         </main>
-
         <div class="product-list-container">
             <button class="slider-arrow left">◀</button>
             <div class="category-filter-wrapper">
@@ -92,7 +86,6 @@
             </div>
             <button class="slider-arrow right">▶</button>
         </div>
-
         <div class="cart-container">
             <div class="cart-header">
                 <h3>Cart</h3>
@@ -103,14 +96,12 @@
             <button class="checkout-button">TO CHECKOUT</button>
         </div>
     </div>
-
     <div id="imageModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <img id="modalImage" alt="Modal Image">
         </div>
     </div>
-
     <div id="successModal" class="modal payment-status-modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -119,7 +110,6 @@
             <p>Thank you for your purchase. Your order has been processed successfully. Please expect an email with details about receiving your order.</p>
         </div>
     </div>
-
     <div id="failureModal" class="modal payment-status-modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -128,7 +118,6 @@
             <p>We're sorry, but there was an error processing your payment. Please try again or contact support.</p>
         </div>
     </div>
-
     <div id="waitlistSuccessModal" class="modal payment-status-modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -138,20 +127,16 @@
             <p>Thank you for your interest in our products!</p>
         </div>
     </div>
-
     <div id="productDetailModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <div class="product-detail-modal-content">
-            <img id="modal-large-image" src="" alt="Large product image">
-            <div class="modal-product-gallery"></div>
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="product-detail-modal-content">
+                <img id="modal-large-image" src="" alt="Large product image">
+                <div class="modal-product-gallery"></div>
+            </div>
         </div>
     </div>
-</div>
-
-
     <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
-
     <script type="importmap">
     {
         "imports": {
@@ -160,7 +145,6 @@
         }
     }
     </script>
-
     <script type="module" src="/js/shop.js"></script>
 </body>
 </html>
