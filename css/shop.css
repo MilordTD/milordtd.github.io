@@ -908,6 +908,14 @@ body.overlay-active .container > *:not(.intro-overlay) {
         transform-origin: left;
         bottom: 20px;
     }
+
+    .cart-container{
+        transform: scale(0.9);
+        transform-origin: left;
+        bottom: 20px;
+        height: 123px;
+    }
+
 }
 
 @media (max-height: 670px) {
@@ -921,5 +929,12 @@ body.overlay-active .container > *:not(.intro-overlay) {
         transform: scale(0.7);
         transform-origin: left;
         bottom: 0px;
+    }
+
+    .cart-container{
+        transform: scale(0.9);
+        transform-origin: left;
+        bottom: 20px;
+        height: 95px;
     }
 }
