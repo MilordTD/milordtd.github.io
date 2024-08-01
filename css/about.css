@@ -175,13 +175,13 @@ body, html {
 }
 
 .instagram-icon img {
-    width: 50px; /* исходный размер изображения */
-    height: 50px;
+    width: 286px; /* исходный размер изображения */
+    height: 447px;
 }
 
 /* Эффект увеличения и свечения при наведении */
 .instagram-icon:hover {
-    transform: translateX(-50%) scale(1.2);
+    transform: translateX(-50%) scale(1.1);
     box-shadow: 0 0 20px rgba(173, 216, 230, 0.8); /* бело-голубое свечение */
 }
 
