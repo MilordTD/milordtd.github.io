@@ -15,6 +15,18 @@ document.addEventListener('DOMContentLoaded', function() {
     let cart = [];
     let products = {};
 
+    const Icon = document.querySelector('.menu-icon');
+    const popupMenu = document.querySelector('.popup-menu');
+    menuIcon.addEventListener('click', () => {
+        popupMenu.style.display = popupMenu.style.display === 'block' ? 'none' : 'block';
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!menuIcon.contains(event.target) && !popupMenu.contains(event.target)) {
+            popupMenu.style.display = 'none';
+        }
+    });
+
     // Загрузка данных корзины
     function loadCartData() {
         cart = JSON.parse(localStorage.getItem('cart')) || [];
