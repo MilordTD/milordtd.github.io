@@ -457,8 +457,7 @@ canvas {
     right: 10%;
     bottom: 40px;
     width: 280px;
-    height: 15vh;
-    min-height: 180px; /* Minimum height */
+    height: 137px; /* Default to 15vh */
     background-color: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
