@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const letter = section.querySelector('h2');
     const rect = letter.getBoundingClientRect();
 
-    for (let i = 0; i < 30; i++) {
+    for (let i = 0; i < 15; i++) {
         const particle = document.createElement('div');
         particle.classList.add('fairy-dust');
         
