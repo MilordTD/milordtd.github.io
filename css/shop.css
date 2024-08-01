@@ -121,6 +121,7 @@ h1, h2, h3, h4, h5, h6, .logo {
     bottom: 40%;
     z-index: 10000;
     backdrop-filter: blur(15px);
+    justify-content: space-between;
 }
 
 #product-name {
