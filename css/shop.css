@@ -913,8 +913,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
         transform: scale(0.9);
         transform-origin: left;
         bottom: 20px;
-        height: 123px;
-    }
+        }
 
 }
 
@@ -935,6 +934,5 @@ body.overlay-active .container > *:not(.intro-overlay) {
         transform: scale(0.9);
         transform-origin: left;
         bottom: 20px;
-        height: 95px;
-    }
+        }
 }
