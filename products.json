@@ -6,7 +6,7 @@
     "buffs": "This heavy tome, most certainly magical and likely powerful, is locked, and no key was found to open it. Whoever wrote it, they made sure to protect its secrets… or were they protecting you from whatever is hidden within? Could also be a mimic or an innocent cookbook! Who knows. You might be the first in centuries to see its pages. Either way, good luck with this one!",
     "debuffs": "",
     "modelUrl": "/models/tome.gltf",
-    "category": "pins",
+    "category": "pin",
     "inStock": 50,
     "price": 12.50,
     "gallery": [
@@ -134,6 +134,23 @@
       "/images/guitar_2.jpg",
       "/images/guitar_3.jpg",
       "/images/guitar_4.jpg"
+    ]
+  },
+  "postCard": {
+    "name": "Blu Blu Post Cards",
+    "ingredients": "Signed",
+    "characteristics": "A6",
+    "buffs": "Can be random",
+    "debuffs": "",
+    "modelUrl": "/models/guitar.gltf",
+    "category": "pin",
+    "inStock": 50,
+    "price": 2,
+    "gallery": [
+      "/images/postCard_1.png",
+      "/images/postCard_2.png",
+      "/images/postCard_3.png",
+      "/images/postCard_4.png"
     ]
   },
   "toteBag1": {
