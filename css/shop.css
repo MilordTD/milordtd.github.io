@@ -804,6 +804,15 @@ body.overlay-active .container > *:not(.intro-overlay) {
 }
 
 @media screen and (max-width: 860px) {
+
+    .intro-overlay {
+        display: none;
+    }
+
+    body.overlay-active .container > *:not(.intro-overlay) {
+        pointer-events: all;
+    }
+
     #large-image-container {
         display: block;
     }
