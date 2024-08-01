@@ -23,11 +23,13 @@ body, html {
     padding: 40px;
     background-color: rgba(0, 0, 0, 0.8);
     margin: 5%;
+    margin-top: 10%;
     border-radius: 12px;
     opacity: 0;
     animation: fadeIn 1s ease-in-out forwards;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    padding-bottom: 80px;
 }
 
 @keyframes fadeIn {
