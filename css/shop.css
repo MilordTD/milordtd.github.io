@@ -134,13 +134,10 @@ h1, h2, h3, h4, h5, h6, .logo {
 }
 
 .product-image {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-height: 620px; /* Максимальная высота для десктопа */
-    overflow: hidden;
-    position: relative;
+    margin-right: 240px;
 }
 
 #large-image-container {
@@ -155,13 +152,12 @@ h1, h2, h3, h4, h5, h6, .logo {
 }
 
 #book-3d-model {
-    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 50%; /* Задаем высоту 50% от высоты контейнера */
-    margin-bottom: 10px;
+    height: 100%;
+    position: relative;
 }
 
 canvas {
