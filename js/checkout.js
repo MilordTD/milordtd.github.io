@@ -135,7 +135,7 @@ quantityButtons.forEach(button => {
                 stripeCheckoutBtn.style.display = 'block';
                 otherFields.style.display = 'block';
                 orderSummary.style.display = 'none';
-                paymentDetails.querySelector('p').textContent = 'Delivery is currently available only within Grande Porto. If you would like delivery to another region, please fill out the fields below and we will notify you as soon as delivery becomes available in your area.';
+                paymentDetails.querySelector('p').textContent = '⚠️Delivery is currently available only within Grande Porto. If you would like delivery to another region, please fill out the fields below and we will notify you as soon as delivery becomes available in your area.⚠️';
             }
             updateTotalCost();
         });
