@@ -831,7 +831,6 @@ body.overlay-active .container > *:not(.intro-overlay) {
         display: none;
     }
 
-
     .gallery-item {
         height: 80px;
     }
