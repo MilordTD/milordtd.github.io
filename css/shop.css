@@ -271,12 +271,6 @@ canvas {
     flex-direction: column;
     z-index: 10000;
     position: fixed;
-    overflow: hidden;
-}
-
-.swiper-container {
-    width: 100%;
-    height: 100%;
 }
 
 .category-filter-wrapper {
@@ -342,7 +336,8 @@ canvas {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: hidden;
     padding: 20px 40px;
     position: relative;
     border-radius: 0 8px 8px 8px;
@@ -408,16 +403,9 @@ canvas {
     border-radius: 10px;
 }
 
-.swiper-pagination {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
 .slider-arrow {
     position: absolute;
-    top: 50%;
+    top: 110px;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
@@ -913,6 +901,7 @@ body.overlay-active .container > *:not(.intro-overlay) {
     }
 }
 
+/* Add this media query for height <= 770px */
 @media (max-height: 770px) {
     .product-detail {
         transform: scale(0.9);
@@ -931,4 +920,5 @@ body.overlay-active .container > *:not(.intro-overlay) {
         transform-origin: left;
         bottom: 20px;
         }
+
 }
