@@ -2,7 +2,7 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 document.addEventListener('DOMContentLoaded', function() {
-    let currentPosition = 0; // Перемещено наверх
+    let currentPosition = 0;
 
     const book3DModel = document.getElementById('book-3d-model');
     const scene = new THREE.Scene();
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const scale = 7 / height;
             currentModel.scale.set(scale, scale, scale);
 
-            currentModel.position.y = -(box.max.y - box.min.y) / 2; // Центрирование модели по вертикали
+            currentModel.position.y = -(box.max.y - box.min.y) / 2;
             sceneInstance.add(currentModel);
 
             hideLoader();
@@ -429,8 +429,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateCategoryFilter() {
-        const categories = [...new Set(Object.values(products).map(product => product.category))];
         const categoryFilter = document.querySelector('.category-filter-container');
+        if (!categoryFilter) {
+            console.error('Category filter container not found');
+            return;
+        }
+
+        const categories = [...new Set(Object.values(products).map(product => product.category))];
         categoryFilter.innerHTML = '<button class="category-button active" data-category="all">All</button>';
 
         categories.forEach(category => {
