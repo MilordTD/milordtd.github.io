@@ -1,0 +1,57 @@
+/* Мобильные стили */
+@media only screen and (max-width: 860px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+        padding-top: 70px;
+    }
+
+    .header {
+        padding: 8px;
+    }
+
+    .logo {
+        font-size: 20px;
+        margin-left: 10px;
+    }
+
+    .logo-link {
+        font-size: 18px;
+    }
+
+    .product-detail {
+        width: 90vw;
+        height: auto;
+        min-height: auto;
+        max-height: none;
+        min-width: auto;
+        max-width: none;
+        margin: 0 auto;
+        padding: 10px;
+    }
+
+    .product-info {
+        width: 100%;
+        position: static;
+        margin-top: 20px;
+    }
+
+    .scrollable-content {
+        max-height: 150px;
+        overflow-y: auto;
+    }
+
+    .product-list-container {
+        width: 90%;
+        left: 5%;
+        right: 5%;
+        bottom: 10px;
+    }
+
+    .cart-container {
+        width: 90%;
+        right: 5%;
+        left: 5%;
+        bottom: 10px;
+    }
+}
