@@ -2,6 +2,8 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
 document.addEventListener('DOMContentLoaded', function() {
+    let currentPosition = 0; // Перемещено наверх
+
     const book3DModel = document.getElementById('book-3d-model');
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, book3DModel.clientWidth / book3DModel.clientHeight, 0.1, 1000);
@@ -461,8 +463,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-
-    let currentPosition = 0;
 
     function initializeSlider() {
         const swiper = new Swiper('.product-list-container', {
