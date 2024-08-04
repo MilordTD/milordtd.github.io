@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ka.RHAT Test Shop</title>
+    <link rel="stylesheet" href="/css/shop.css">
+    <link rel="stylesheet" href="/css/shop-mobile.css" media="only screen and (max-width: 860px)">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+</head>
+<body>
+    <nav class="popup-menu">
+        <ul>
+            <li><a href="/testshop">Test Shop</a></li>
+            <li><a href="/about">About</a></li>
+        </ul>
+    </nav>
+    <img src="/images/erin.png" alt="Erin" class="erin-image">
+    <div class="intro-overlay">
+        <div class="intro-content">
+            <h1>Welcome to the camp</h1>
+            <p id="typewriter-text"></p>
+            <button class="intro-button">ENTER THE SHOP</button>
+        </div>
+    </div>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <a href="https://ka.rhat.world/testshop/" class="logo-link">KA.RHAT</a>
+            </div>
+            <div class="menu-icon">☰</div>
+        </div>
+        <main class="main-content">
+            <div class="product-detail">
+                <h2 id="product-name"></h2>
+                <div class="product-image">
+                    <div id="large-image-container">
+                        <img id="large-image" src="" alt="Large product image">
+                    </div>
+                    <div id="book-3d-model"></div>
+                    <div id="loader" class="loader">
+                        <div style="width:100%;height:0;padding-bottom:58%;position:relative;">
+                            <iframe src="https://giphy.com/embed/S6lmNqpJ3v94NzHe5b" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+                        </div>
+                    </div>
+                    <div class="product-gallery"></div>
+                </div>
+                <div class="product-info">
+                    <div class="scrollable-content">
+                        <div class="info-block">
+                            <h3>Ingredients</h3>
+                            <p id="product-ingredients"></p>
+                        </div>
+                        <div class="info-block">
+                            <h3>Characteristics</h3>
+                            <p id="product-characteristics"></p>
+                        </div>
+                        <div class="info-block">
+                            <h3>Item info</h3>
+                            <p id="product-buffs"></p>
+                            <p id="product-debuffs"></p>
+                        </div>
+                    </div>
+                    <div class="info-block price-block">
+                        <h3>Price (VAT inc.)</h3>
+                        <span id="product-price" class="product-price"></span>
+                    </div>
+                    <button class="add-to-cart">ADD TO CART</button>
+                </div>
+            </div>
+        </main>
+        <div class="product-list-container">
+            <button class="slider-arrow left">◀</button>
+            <div class="category-filter-wrapper">
+                <div class="category-filter">
+                    <div class="category-filter-container"></div>
+                </div>
+                <div class="category-filter-line"></div>
+            </div>
+            <div class="product-list">
+                <div class="product-list-wrapper"></div>
+            </div>
+            <button class="slider-arrow right">▶</button>
+        </div>
+        <div class="cart-container">
+            <div class="cart-header">
+                <h3>Cart</h3>
+                <button class="empty-cart-button">Empty cart</button>
+            </div>
+            <div class="cart-items"></div>
+            <div class="cart-total">Total (VAT inc.): $<span class="total-amount">0</span></div>
+            <button class="checkout-button">TO CHECKOUT</button>
+        </div>
+    </div>
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="modalImage" alt="Modal Image">
+        </div>
+    </div>
+    <div id="successModal" class="modal payment-status-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-icon success">&#10004;</div>
+            <h2>Payment Successful!</h2>
+            <p>Thank you for your purchase. Your order has been processed successfully. Please expect an email with details about receiving your order.</p>
+        </div>
+    </div>
+    <div id="failureModal" class="modal payment-status-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-icon failure">&#10008;</div>
+            <h2>Payment Failed</h2>
+            <p>We're sorry, but there was an error processing your payment. Please try again or contact support.</p>
+        </div>
+    </div>
+    <div id="waitlistSuccessModal" class="modal payment-status-modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-icon success">✔</div>
+            <h2>Thank You for Joining Our Waitlist!</h2>
+            <p>We've received your information and will contact you as soon as delivery becomes available in your city.</p>
+            <p>Thank you for your interest in our products!</p>
+        </div>
+    </div>
+    <div id="productDetailModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="product-detail-modal-content">
+                <img id="modal-large-image" src="" alt="Large product image">
+                <div class="modal-product-gallery"></div>
+            </div>
+        </div>
+    </div>
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.150.1/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.150.1/examples/jsm/"
+        }
+    }
+    </script>
+    <script>
+        if (window.innerWidth <= 860) {
+            document.write('<script type="module" src="/js/shop-mobile.js"><\/script>');
+        } else {
+            document.write('<script type="module" src="/js/shop-web.js"><\/script>');
+        }
+    </script>
+</body>
+</html>
