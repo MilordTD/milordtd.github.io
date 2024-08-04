@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ka.RHAT Test Shop</title>
+    <title>Ka.RHAT Shop</title>
     <link rel="stylesheet" href="/css/testshop.css">
     <link rel="stylesheet" href="/css/testshop-mobile.css" media="only screen and (max-width: 860px)">
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;700&family=MedievalSharp&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
 <body>
     <nav class="popup-menu">
         <ul>
-            <li><a href="/testshop">Test Shop</a></li>
+            <li><a href="/shop">Shop</a></li>
             <li><a href="/about">About</a></li>
         </ul>
     </nav>
@@ -30,7 +30,7 @@
     <div class="container">
         <div class="header">
             <div class="logo">
-                <a href="https://ka.rhat.world/testshop/" class="logo-link">KA.RHAT</a>
+                <a href="https://ka.rhat.world/shop/" class="logo-link">KA.RHAT</a>
             </div>
             <div class="menu-icon">☰</div>
         </div>
@@ -145,11 +145,12 @@
         }
     }
     </script>
-    <script>
+    <script type="module">
+        // Определяем устройство и загружаем соответствующий скрипт
         if (window.innerWidth <= 860) {
-            document.write('<script type="module" src="/js/shop-mobile.js"><\/script>');
+            import('/js/shop-mobile.js');
         } else {
-            document.write('<script type="module" src="/js/shop-web.js"><\/script>');
+            import('/js/shop-web.js');
         }
     </script>
 </body>
