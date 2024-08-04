@@ -10,6 +10,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 </head>
 <body>
     <nav class="popup-menu">
@@ -72,18 +74,15 @@
                 </div>
             </div>
         </main>
-        <div class="product-list-container">
+        <div class="product-list-container swiper-container">
+            <div class="swiper-wrapper product-list-wrapper">
+                <!-- Продукты -->
+            </div>
+            <!-- Навигационные кнопки для десктопа -->
             <button class="slider-arrow left">◀</button>
-            <div class="category-filter-wrapper">
-                <div class="category-filter">
-                    <div class="category-filter-container"></div>
-                </div>
-                <div class="category-filter-line"></div>
-            </div>
-            <div class="product-list">
-                <div class="product-list-wrapper"></div>
-            </div>
             <button class="slider-arrow right">▶</button>
+            <!-- Пагинация для мобильных устройств -->
+            <div class="swiper-pagination"></div>
         </div>
         <div class="cart-container">
             <div class="cart-header">
@@ -135,6 +134,8 @@
             </div>
         </div>
     </div>
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
     <script type="importmap">
     {
