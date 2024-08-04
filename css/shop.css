@@ -1,3 +1,5 @@
+/* Исходные стили */
+
 body, html {
     margin: 0;
     padding: 0;
@@ -405,7 +407,7 @@ canvas {
 
 .slider-arrow {
     position: absolute;
-    top: 50%;
+    top: 110px;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
@@ -923,18 +925,42 @@ body.overlay-active .container > *:not(.intro-overlay) {
 
 }
 
-/* Swiper styles */
+/* Swiper стили */
 .swiper-container {
     width: 100%;
     height: 100%;
 }
 
-.swiper-slide {
+.swiper-wrapper {
     display: flex;
-    align-items: center;
+}
+
+.swiper-slide {
+    flex-shrink: 0;
+    width: auto;
+}
+
+.swiper-pagination {
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    display: flex;
     justify-content: center;
+    align-items: center;
 }
 
 .swiper-pagination-bullet {
-    background: #fff;
+    width: 10px;
+    height: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 0.5;
+    transition: opacity 0.3s, background-color 0.3s;
+    border-radius: 50%;
+    margin: 0 5px;
+}
+
+.swiper-pagination-bullet-active {
+    opacity: 1;
+    background-color: rgba(0, 0, 0, 1);
 }

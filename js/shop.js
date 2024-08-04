@@ -462,6 +462,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    let currentPosition = 0;
+
     function initializeSlider() {
         const swiper = new Swiper('.product-list-container', {
             direction: 'horizontal',
@@ -484,8 +486,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         updateArrowVisibility();
     }
-
-    let currentPosition = 0;
 
     function updateSliderPosition() {
         const productListWrapper = document.querySelector('.product-list-wrapper');
