@@ -405,7 +405,7 @@ canvas {
 
 .slider-arrow {
     position: absolute;
-    top: 110px;
+    top: 50%;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
@@ -921,4 +921,20 @@ body.overlay-active .container > *:not(.intro-overlay) {
         bottom: 20px;
         }
 
+}
+
+/* Swiper styles */
+.swiper-container {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.swiper-pagination-bullet {
+    background: #fff;
 }
