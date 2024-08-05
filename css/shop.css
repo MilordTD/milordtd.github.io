@@ -277,10 +277,10 @@ canvas {
     display: flex;
     align-items: flex-end;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.7); /* Добавление фона для Safari */
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px); /* Префикс для Safari */
-    z-index: 1; /* Убедитесь, что z-index правильно установлен */
+    background-color: transparent !important; /* Убедимся, что фон прозрачен */
+    backdrop-filter: none !important; /* Убираем все фильтры */
+    -webkit-backdrop-filter: none !important; /* Убираем все фильтры для Safari */
+    z-index: 1;
 }
 
 .price-block {
@@ -303,13 +303,12 @@ canvas {
     flex-shrink: 0;
     display: flex;
     justify-content: flex-start;
-    background-color: transparent;
+    background-color: transparent !important; /* Убедимся, что фон прозрачен */
     padding: 5px 5px 0;
     position: relative;
     z-index: 2;
-    background-color: rgba(0, 0, 0, 0.7); /* Добавление фона для Safari */
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px); /* Префикс для Safari */
+    backdrop-filter: none !important; /* Убираем все фильтры */
+    -webkit-backdrop-filter: none !important; /* Убираем все фильтры для Safari */
     width: fit-content;
     border-radius: 8px 8px 0 0;
 }
