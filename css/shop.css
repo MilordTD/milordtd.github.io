@@ -277,10 +277,6 @@ canvas {
     display: flex;
     align-items: flex-end;
     width: 100%;
-    background-color: transparent !important; /* Убедимся, что фон прозрачен */
-    backdrop-filter: none !important; /* Убираем все фильтры */
-    -webkit-backdrop-filter: none !important; /* Убираем все фильтры для Safari */
-    z-index: 1;
 }
 
 .price-block {
@@ -303,12 +299,13 @@ canvas {
     flex-shrink: 0;
     display: flex;
     justify-content: flex-start;
-    background-color: transparent !important; /* Убедимся, что фон прозрачен */
+    background-color: transparent;
     padding: 5px 5px 0;
     position: relative;
     z-index: 2;
-    backdrop-filter: none !important; /* Убираем все фильтры */
-    -webkit-backdrop-filter: none !important; /* Убираем все фильтры для Safari */
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
     width: fit-content;
     border-radius: 8px 8px 0 0;
 }
@@ -645,11 +642,11 @@ canvas {
     opacity: 1;
 }
 
-@supports not (backdrop-filter: blur(10px)) {
+/* @supports not (backdrop-filter: blur(10px)) {
     .product-list-container {
         background-color: rgba(51, 51, 51, 0.95);
     }
-}
+} */
 
 @media (max-width: 768px) {
     .checkout-columns {
