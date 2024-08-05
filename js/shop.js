@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+THREE.Cache.enabled = true; // Включаем кэширование
 
 document.addEventListener('DOMContentLoaded', function() {
     const book3DModel = document.getElementById('book-3d-model');
@@ -95,42 +96,37 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function loadModel(modelUrl, containerId) {
-        let container = document.getElementById(containerId);
-        if (!container) {
-            console.warn(`Container not found: ${containerId}. Creating a new one.`);
-            container = document.createElement('div');
-            container.id = containerId;
-            document.querySelector('.product-image').appendChild(container);
-        }
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
 
-        container.innerHTML = '';
+    const rendererInstance = initializeRenderer(container);
+    const { newScene, newCamera } = initializeSceneAndCamera(container);
+    const sceneInstance = newScene;
+    const cameraInstance = newCamera;
 
-        const rendererInstance = initializeRenderer(container);
-        const { newScene, newCamera } = initializeSceneAndCamera(container);
-        const sceneInstance = newScene;
-        const cameraInstance = newCamera;
+    showLoader();
 
-        showLoader();
+    const loader = new GLTFLoader();
 
-        loader.load(modelUrl, (gltf) => {
-            const currentModel = gltf.scene;
+    loader.load(modelUrl, (gltf) => {
+        const currentModel = gltf.scene;
 
-            const box = new THREE.Box3().setFromObject(currentModel);
-            const height = box.max.y - box.min.y;
-            const scale = 7 / height;
-            currentModel.scale.set(scale, scale, scale);
+        const box = new THREE.Box3().setFromObject(currentModel);
+        const height = box.max.y - box.min.y;
+        const scale = 7 / height;
+        currentModel.scale.set(scale, scale, scale);
 
-            currentModel.position.y = -(box.max.y - box.min.y) / 2; // Центрирование модели по вертикали
-            sceneInstance.add(currentModel);
+        currentModel.position.y = -(box.max.y - box.min.y) / 2; // Центрирование модели по вертикали
+        sceneInstance.add(currentModel);
 
-            hideLoader();
+        hideLoader();
 
-            animate(rendererInstance, sceneInstance, cameraInstance);
-        }, undefined, (error) => {
-            console.error('An error happened', error);
-            hideLoader();
-        });
-    }
+        animate(rendererInstance, sceneInstance, cameraInstance);
+    }, undefined, (error) => {
+        console.error('An error happened', error);
+        hideLoader();
+    });
+}
 
     document.addEventListener('mousemove', (event) => {
         mouseX = (event.clientX / window.innerWidth) * 2 - 1;
@@ -211,53 +207,54 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateProductInfo(productId) {
-        const product = products[productId];
-        document.getElementById('product-name').textContent = product.name;
-        document.getElementById('product-price').textContent = `€${product.price.toFixed(2)}`;
-        document.getElementById('product-ingredients').innerHTML = product.ingredients;
-        document.getElementById('product-characteristics').innerHTML = product.characteristics;
-        document.getElementById('product-buffs').innerHTML = product.buffs;
-        document.getElementById('product-debuffs').innerHTML = product.debuffs;
+    const product = products[productId];
+    document.getElementById('product-name').textContent = product.name;
+    document.getElementById('product-price').textContent = `€${product.price.toFixed(2)}`;
+    document.getElementById('product-ingredients').innerHTML = product.ingredients;
+    document.getElementById('product-characteristics').innerHTML = product.characteristics;
+    document.getElementById('product-buffs').innerHTML = product.buffs;
+    document.getElementById('product-debuffs').innerHTML = product.debuffs;
 
-        // Update the large image or 3D model based on screen width
-        if (window.innerWidth <= 860) {
-            largeImage.src = product.gallery[0];  // Use the first image in the gallery as the "large" image on mobile devices
-            largeImageContainer.style.display = 'block';  // Ensure the container is displayed
-            book3DModel.style.display = 'none';  // Hide the 3D model
-        } else {
-            loadModel(product.modelUrl, 'book-3d-model');
-            largeImageContainer.style.display = 'none';  // Hide the large image container
-            book3DModel.style.display = 'flex';  // Show the 3D model
-        }
-
-        const productGallery = document.querySelector('.product-gallery');
-        if (product.gallery && Array.isArray(product.gallery) && productGallery) {
-            updateGallery(product.gallery, productGallery);
-        } else {
-            console.error('Product gallery not found or invalid gallery data');
-        }
-
-        document.querySelectorAll('.product-item').forEach(item => {
-            item.classList.remove('active');
-        });
-        const activeItem = document.querySelector(`.product-item[data-product-id="${productId}"]`);
-        activeItem.classList.add('active');
-
-        const addToCartButton = document.querySelector('.add-to-cart');
-
-        if (product.inStock > 0) {
-            addToCartButton.textContent = 'ADD TO CART';
-            addToCartButton.disabled = false;
-            addToCartButton.onclick = () => {
-                cart.push(productId);
-                updateCart();
-                animateAddToCart();
-            };
-        } else {
-            addToCartButton.textContent = 'SOLD OUT';
-            addToCartButton.disabled = true;
-        }
+    // Обновление изображения или 3D модели
+    if (window.innerWidth <= 860) {
+        largeImage.src = product.gallery[0];
+        largeImageContainer.style.display = 'block';
+        book3DModel.style.display = 'none';
+    } else {
+        loadModel(product.modelUrl, 'book-3d-model');
+        largeImageContainer.style.display = 'none';
+        book3DModel.style.display = 'flex';
     }
+
+    const productGallery = document.querySelector('.product-gallery');
+    if (product.gallery && Array.isArray(product.gallery) && productGallery) {
+        updateGallery(product.gallery, productGallery);
+    } else {
+        console.error('Product gallery not found or invalid gallery data');
+    }
+
+    document.querySelectorAll('.product-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    const activeItem = document.querySelector(`.product-item[data-product-id="${productId}"]`);
+    activeItem.classList.add('active');
+
+    const addToCartButton = document.querySelector('.add-to-cart');
+
+    if (product.inStock > 0) {
+        addToCartButton.textContent = 'ADD TO CART';
+        addToCartButton.disabled = false;
+        addToCartButton.onclick = () => {
+            cart.push(productId);
+            updateCart();
+            animateAddToCart();
+        };
+    } else {
+        addToCartButton.textContent = 'SOLD OUT';
+        addToCartButton.disabled = true;
+    }
+}
+
 
     function updateGallery(galleryImages, container) {
         if (typeof container === 'string') {
