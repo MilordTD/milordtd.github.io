@@ -57,12 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function preloadImage(url) {
     const img = new Image();
     img.src = url;
-    // Добавляем изображение в DOM для его загрузки и кэширования
-    img.style.display = 'none';
-    document.body.appendChild(img);
-    img.onload = () => {
-        document.body.removeChild(img); // Удаляем изображение из DOM после загрузки
-    };
 }
 
     const typewriterText = document.getElementById('typewriter-text');
@@ -217,7 +211,8 @@ function preloadImage(url) {
         handleResponsive();
     }
 
-    function updateProductInfo(productId) {
+    // Функция для обновления информации о продукте
+function updateProductInfo(productId) {
     const product = products[productId];
     document.getElementById('product-name').textContent = product.name;
     document.getElementById('product-price').textContent = `€${product.price.toFixed(2)}`;
@@ -269,6 +264,33 @@ function preloadImage(url) {
         addToCartButton.textContent = 'SOLD OUT';
         addToCartButton.disabled = true;
     }
+}
+
+// Функция для обновления галереи изображений
+function updateGallery(galleryImages, container) {
+    if (typeof container === 'string') {
+        container = document.querySelector(container);
+    }
+
+    if (!container) {
+        console.error('Gallery container not found');
+        return;
+    }
+
+    container.innerHTML = '';
+    galleryImages.forEach((imgSrc, index) => {
+        const img = document.createElement('img');
+        img.src = imgSrc;
+        img.alt = `Product image ${index + 1}`;
+        img.classList.add('gallery-item');
+        img.addEventListener('click', () => {
+            largeImage.src = imgSrc;  // Обновление большого изображения при клике на миниатюру
+            if (window.innerWidth > 860) {
+                openModal(imgSrc);
+            }
+        });
+        container.appendChild(img);
+    });
 }
 
 
