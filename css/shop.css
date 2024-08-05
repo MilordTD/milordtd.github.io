@@ -358,8 +358,6 @@ canvas {
 .product-list-wrapper {
     display: flex;
     transition: transform 0.3s ease;
-    overflow-x: auto; /* Enable horizontal scroll */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
 .product-item {
@@ -806,10 +804,6 @@ body.overlay-active .container > *:not(.intro-overlay) {
 }
 
 @media screen and (max-width: 860px) {
-
-    .slider-arrow {
-        display: none;
-    }
 
     #large-image-container {
         display: block;
