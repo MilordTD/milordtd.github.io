@@ -211,33 +211,3 @@ h1, h2, h3, h4, h5, h6, .logo {
         font-size: 0.8rem;
     }
 }
-
-/* Стилизация изображения Instagram */
-.instagram-icon {
-    position: fixed;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10002;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.instagram-icon img {
-    height: 20vh;
-    width: auto; /* пропорциональная ширина */
-}
-
-/* Эффект увеличения и пульсирующего свечения при наведении */
-.instagram-icon:hover {
-    transform: translateX(-50%) scale(1.2);
-    animation: pulseGlow 1.5s infinite alternate;
-}
-
-@keyframes pulseGlow {
-    from {
-        box-shadow: 0 0 10px rgba(173, 216, 230, 0.8);
-    }
-    to {
-        box-shadow: 0 0 20px rgba(173, 216, 230, 1);
-    }
-}
