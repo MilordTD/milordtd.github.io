@@ -215,6 +215,11 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('product-buffs').innerHTML = product.buffs;
     document.getElementById('product-debuffs').innerHTML = product.debuffs;
 
+    // Предварительная загрузка галереи изображений
+    product.gallery.forEach(imageUrl => {
+        preloadImage(imageUrl);
+    });
+
     // Обновление изображения или 3D модели
     if (window.innerWidth <= 860) {
         largeImage.src = product.gallery[0];
@@ -254,6 +259,7 @@ document.addEventListener('DOMContentLoaded', function() {
         addToCartButton.disabled = true;
     }
 }
+
 
 
     function updateGallery(galleryImages, container) {
