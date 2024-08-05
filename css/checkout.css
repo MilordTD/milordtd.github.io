@@ -1,11 +1,13 @@
-/* checkout.css */
 body, html {
     margin: 0;
     padding: 0;
     height: 100vh;
-    font-family: 'Roboto', Arial, sans-serif;
+    font-family: 'Crimson Pro', serif;
     overflow: hidden;
-    color: #ffffff;
+}
+
+h1, h2, h3, h4, h5, h6, .logo {
+    font-family: 'MedievalSharp', cursive;
 }
 
 .container {
@@ -39,9 +41,6 @@ body, html {
 
 .header {
     z-index: 10000;
-}
-
-.header {
     display: flex;
     justify-content: left;
     align-items: left;
@@ -107,6 +106,12 @@ body, html {
 
 .popup-menu a:hover {
     opacity: 0.8;
+}
+
+.popup-menu .copyright {
+    font-size: 12px;
+    color: #ccc;
+    margin-top: 20px;
 }
 
 .checkout-columns {
