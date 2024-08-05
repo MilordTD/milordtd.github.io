@@ -575,25 +575,25 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Swipe functionality for mobile view
     let startX;
-            let scrollLeft;
-            const productListWrapper = document.querySelector('.product-list-wrapper');
+    let scrollLeft;
 
-            productListWrapper.addEventListener('touchstart', (e) => {
-                startX = e.touches[0].pageX;
-                scrollLeft = productListWrapper.scrollLeft;
-            });
+    productListWrapper.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].pageX;
+        scrollLeft = productListWrapper.scrollLeft;
+    });
 
-            productListWrapper.addEventListener('touchmove', (e) => {
-                if (!startX) return;
-                const x = e.touches[0].pageX;
-                const walk = (x - startX) * 2; // Multiply by 2 for faster scroll
-                productListWrapper.scrollLeft = scrollLeft - walk;
-            });
+    productListWrapper.addEventListener('touchmove', (e) => {
+        if (!startX) return;
+        const x = e.touches[0].pageX;
+        const walk = (x - startX) * 2; // Multiply by 2 for faster scroll
+        productListWrapper.scrollLeft = scrollLeft - walk;
+    });
 
-            productListWrapper.addEventListener('touchend', () => {
-                startX = null;
-            });
+    productListWrapper.addEventListener('touchend', () => {
+        startX = null;
+    });
 
     function animateAddToCart() {
         const modelContainer = document.getElementById('book-3d-model');
