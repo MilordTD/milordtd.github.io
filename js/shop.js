@@ -54,6 +54,17 @@ document.addEventListener('DOMContentLoaded', function() {
         type();
     }
 
+function preloadImage(url) {
+    const img = new Image();
+    img.src = url;
+    // Добавляем изображение в DOM для его загрузки и кэширования
+    img.style.display = 'none';
+    document.body.appendChild(img);
+    img.onload = () => {
+        document.body.removeChild(img); // Удаляем изображение из DOM после загрузки
+    };
+}
+
     const typewriterText = document.getElementById('typewriter-text');
     const textToType = "I'm Erin, an artist, traveler and adventurer.\nI've got a neat collection of trinkets, artifacts\nand equipment. Wanna trade?";
 
