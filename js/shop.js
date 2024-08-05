@@ -576,25 +576,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     let startX;
-    let scrollLeft;
+            let scrollLeft;
+            const productListWrapper = document.querySelector('.product-list-wrapper');
 
-    function handleTouchStart(e) {
-        startX = e.touches[0].pageX - productListWrapper.offsetLeft;
-        scrollLeft = productListWrapper.scrollLeft;
-    }
+            productListWrapper.addEventListener('touchstart', (e) => {
+                startX = e.touches[0].pageX;
+                scrollLeft = productListWrapper.scrollLeft;
+            });
 
-    function handleTouchMove(e) {
-        if (!startX) return;
-        const x = e.touches[0].pageX - productListWrapper.offsetLeft;
-        const walk = (x - startX) * 2;
-        productListWrapper.scrollLeft = scrollLeft - walk;
-    }
+            productListWrapper.addEventListener('touchmove', (e) => {
+                if (!startX) return;
+                const x = e.touches[0].pageX;
+                const walk = (x - startX) * 2; // Multiply by 2 for faster scroll
+                productListWrapper.scrollLeft = scrollLeft - walk;
+            });
 
-    productListWrapper.addEventListener('touchstart', handleTouchStart);
-    productListWrapper.addEventListener('touchmove', handleTouchMove);
-    productListWrapper.addEventListener('touchend', () => {
-        startX = null;
-    });
+            productListWrapper.addEventListener('touchend', () => {
+                startX = null;
+            });
 
     function animateAddToCart() {
         const modelContainer = document.getElementById('book-3d-model');
