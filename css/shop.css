@@ -805,6 +805,20 @@ body.overlay-active .container > *:not(.intro-overlay) {
 
 @media screen and (max-width: 860px) {
 
+    .slider-arrow {
+        display: none;
+    }
+
+    .product-list {
+        overflow-x: scroll;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .product-list-wrapper {
+        display: flex;
+        gap: 10px; /* Разделение между элементами */
+    }
+
     #large-image-container {
         display: block;
     }

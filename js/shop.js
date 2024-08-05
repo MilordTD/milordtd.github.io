@@ -376,42 +376,38 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function handleResponsive() {
-        const productDetail = document.querySelector('.product-detail');
-        const productItems = document.querySelectorAll('.product-item');
+    const productDetail = document.querySelector('.product-detail');
+    const productItems = document.querySelectorAll('.product-item');
 
-        function handleProductClick(e) {
-            const productId = e.currentTarget.dataset.productId;
-            console.log('Product clicked:', productId);
-            console.log('Window size:', window.innerWidth, 'x', window.innerHeight);
-
-            if (window.innerWidth <= 860) {
-                console.log('Opening modal for product:', productId);
-                currentProductId = productId;
-                openModal('#productDetailModal');
-            } else {
-                console.log('Updating product info for:', productId);
-                updateProductInfo(productId);
-            }
-        }
-
-        productItems.forEach(item => {
-            item.removeEventListener('click', handleProductClick);
-            item.addEventListener('click', handleProductClick);
-        });
-
+    function handleProductClick(e) {
+        const productId = e.currentTarget.dataset.productId;
         if (window.innerWidth <= 860) {
-            if (productDetail) productDetail.style.display = 'none';
-            largeImageContainer.style.display = 'block';
+            currentProductId = productId;
+            openModal('#productDetailModal');
         } else {
-            if (productDetail) productDetail.style.display = 'flex';
-            largeImageContainer.style.display = 'none';
+            updateProductInfo(productId);
         }
-
-        updateArrowVisibility();
     }
 
-    handleResponsive();
-    window.addEventListener('resize', handleResponsive);
+    productItems.forEach(item => {
+        item.removeEventListener('click', handleProductClick);
+        item.addEventListener('click', handleProductClick);
+    });
+
+    if (window.innerWidth <= 860) {
+        if (productDetail) productDetail.style.display = 'none';
+        largeImageContainer.style.display = 'block';
+        leftArrow.style.display = 'none';
+        rightArrow.style.display = 'none';
+    } else {
+        if (productDetail) productDetail.style.display = 'flex';
+        largeImageContainer.style.display = 'none';
+        updateArrowVisibility();
+    }
+}
+
+handleResponsive();
+window.addEventListener('resize', handleResponsive);
 
     document.querySelectorAll('.modal .close').forEach(closeBtn => {
         closeBtn.addEventListener('click', () => {
@@ -576,25 +572,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     let startX;
-    let scrollLeft;
+let scrollLeft;
 
-    function handleTouchStart(e) {
-        startX = e.touches[0].pageX - productListWrapper.offsetLeft;
-        scrollLeft = productListWrapper.scrollLeft;
-    }
+function handleTouchStart(e) {
+    startX = e.touches[0].pageX - productListWrapper.offsetLeft;
+    scrollLeft = productListWrapper.scrollLeft;
+}
 
-    function handleTouchMove(e) {
-        if (!startX) return;
-        const x = e.touches[0].pageX - productListWrapper.offsetLeft;
-        const walk = (x - startX) * 2;
-        productListWrapper.scrollLeft = scrollLeft - walk;
-    }
+function handleTouchMove(e) {
+    if (!startX) return;
+    const x = e.touches[0].pageX - productListWrapper.offsetLeft;
+    const walk = (x - startX) * 2; // Ускорение прокрутки
+    productListWrapper.scrollLeft = scrollLeft - walk;
+}
 
-    productListWrapper.addEventListener('touchstart', handleTouchStart);
-    productListWrapper.addEventListener('touchmove', handleTouchMove);
-    productListWrapper.addEventListener('touchend', () => {
-        startX = null;
-    });
+productListWrapper.addEventListener('touchstart', handleTouchStart);
+productListWrapper.addEventListener('touchmove', handleTouchMove);
+productListWrapper.addEventListener('touchend', () => {
+    startX = null;
+});
 
     function animateAddToCart() {
         const modelContainer = document.getElementById('book-3d-model');
