@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://ka.rhat.world/sitemap-index.xml
+Sitemap: https://ka.rhat.world/sitemap.xml
