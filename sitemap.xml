@@ -8,12 +8,12 @@
     <priority>1.00</priority>
 </url>
 <url>
-    <loc>https://ka.rhat.world/shop/</loc>
+    <loc>https://ka.rhat.world/shop</loc>
     <lastmod>2024-08-05T02:03:57+00:00</lastmod>
     <priority>0.80</priority>
 </url>
 <url>
-    <loc>https://ka.rhat.world/about/</loc>
+    <loc>https://ka.rhat.world/about</loc>
     <lastmod>2024-08-05T02:03:57+00:00</lastmod>
     <priority>0.64</priority>
 </url>
