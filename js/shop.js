@@ -1,19 +1,22 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-
-// Глобальные переменные для 3D-рендеринга
-let renderer, scene, camera, currentModel;
-const loader = new GLTFLoader();
-THREE.Cache.enabled = true;
+THREE.Cache.enabled = true; // Включаем кэширование
 
 document.addEventListener('DOMContentLoaded', function() {
     const book3DModel = document.getElementById('book-3d-model');
-    const loaderElement = document.getElementById('loader');
-    const largeImageContainer = document.getElementById('large-image-container');
-    const largeImage = document.getElementById('large-image');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, book3DModel.clientWidth / book3DModel.clientHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setClearColor(0x000000, 0);
+    renderer.setSize(book3DModel.clientWidth, book3DModel.clientHeight);
+    book3DModel.appendChild(renderer.domElement);
 
     let mouseX = 0;
     let mouseY = 0;
+    let currentModel;
+    const loaderElement = document.getElementById('loader');
+    const largeImageContainer = document.getElementById('large-image-container');
+    const largeImage = document.getElementById('large-image');
 
     const menuIcon = document.querySelector('.menu-icon');
     const popupMenu = document.querySelector('.popup-menu');
@@ -51,10 +54,10 @@ document.addEventListener('DOMContentLoaded', function() {
         type();
     }
 
-    function preloadImage(url) {
-        const img = new Image();
-        img.src = url;
-    }
+function preloadImage(url) {
+    const img = new Image();
+    img.src = url;
+}
 
     const typewriterText = document.getElementById('typewriter-text');
     const textToType = "I'm Erin, an artist, traveler and adventurer.\nI've got a neat collection of trinkets, artifacts\nand equipment. Wanna trade?";
@@ -63,36 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
         typewriterEffect(typewriterText, textToType, 10);
     }, 1000);
 
-    // Инициализация 3D-рендеринга
-    function init3DRendering() {
-        if (!renderer) {
-            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-            renderer.setClearColor(0x000000, 0);
-        }
-        
-        renderer.setSize(book3DModel.clientWidth, book3DModel.clientHeight);
-        book3DModel.appendChild(renderer.domElement);
-
-        if (!scene) {
-            scene = new THREE.Scene();
-        }
-        
-        if (!camera) {
-            camera = new THREE.PerspectiveCamera(75, book3DModel.clientWidth / book3DModel.clientHeight, 0.1, 1000);
-            camera.position.z = 8;
-            camera.position.y = 0.5;
-        }
-
-        if (scene.children.length === 0) {
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-            scene.add(ambientLight);
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-            directionalLight.position.set(5, 5, 5);
-            scene.add(directionalLight);
-        }
-
-        animate();
-    }
+    const loader = new GLTFLoader();
 
     function showLoader() {
         loaderElement.classList.add('visible');
@@ -102,57 +76,79 @@ document.addEventListener('DOMContentLoaded', function() {
         loaderElement.classList.remove('visible');
     }
 
-    // Загрузка модели
-    function loadModel(modelUrl) {
-        if (currentModel) {
-            scene.remove(currentModel);
-            currentModel.traverse((object) => {
-                if (object.isMesh) {
-                    object.geometry.dispose();
-                    object.material.dispose();
-                }
-            });
-        }
-
-        showLoader();
-
-        loader.load(modelUrl, (gltf) => {
-            currentModel = gltf.scene;
-
-            const box = new THREE.Box3().setFromObject(currentModel);
-            const height = box.max.y - box.min.y;
-            const scale = 7 / height;
-            currentModel.scale.set(scale, scale, scale);
-
-            currentModel.position.y = -(box.max.y - box.min.y) / 2;
-            scene.add(currentModel);
-
-            hideLoader();
-        }, undefined, (error) => {
-            console.error('An error happened', error);
-            hideLoader();
-        });
+    function initializeRenderer(container) {
+        const newRenderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        newRenderer.setClearColor(0x000000, 0);
+        newRenderer.setSize(container.clientWidth, container.clientHeight);
+        container.appendChild(newRenderer.domElement);
+        return newRenderer;
     }
 
-    // Анимация
-    function animate() {
-        requestAnimationFrame(animate);
+    function initializeSceneAndCamera(container) {
+        const newScene = new THREE.Scene();
+        const aspect = container.clientWidth / container.clientHeight;
+        const newCamera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
+        newCamera.position.z = 8;
+        newCamera.position.y = 0.5;
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.01);
+        newScene.add(ambientLight);
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.01);
+        directionalLight.position.set(5, 5, 5);
+        newScene.add(directionalLight);
+
+        return { newScene, newCamera };
+    }
+
+    function loadModel(modelUrl, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+
+    const rendererInstance = initializeRenderer(container);
+    const { newScene, newCamera } = initializeSceneAndCamera(container);
+    const sceneInstance = newScene;
+    const cameraInstance = newCamera;
+
+    showLoader();
+
+    const loader = new GLTFLoader();
+
+    loader.load(modelUrl, (gltf) => {
+        const currentModel = gltf.scene;
+
+        const box = new THREE.Box3().setFromObject(currentModel);
+        const height = box.max.y - box.min.y;
+        const scale = 7 / height;
+        currentModel.scale.set(scale, scale, scale);
+
+        currentModel.position.y = -(box.max.y - box.min.y) / 2; // Центрирование модели по вертикали
+        sceneInstance.add(currentModel);
+
+        hideLoader();
+
+        animate(rendererInstance, sceneInstance, cameraInstance);
+    }, undefined, (error) => {
+        console.error('An error happened', error);
+        hideLoader();
+    });
+}
+
+    document.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+        mouseY = (event.clientY / window.innerHeight) * 2 - 1;
+    });
+
+    function animate(rendererInstance, sceneInstance, cameraInstance) {
+        requestAnimationFrame(() => animate(rendererInstance, sceneInstance, cameraInstance));
 
         if (currentModel) {
             currentModel.rotation.y = mouseX * Math.PI * 0.03;
             currentModel.rotation.x = mouseY * Math.PI * 0.03;
         }
 
-        if (renderer && scene && camera) {
-            renderer.render(scene, camera);
+        if (rendererInstance && sceneInstance && cameraInstance) {
+            rendererInstance.render(sceneInstance, cameraInstance);
         }
-    }
-
-    // Обработка изменения размера окна
-    function handleResize() {
-        camera.aspect = book3DModel.clientWidth / book3DModel.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(book3DModel.clientWidth, book3DModel.clientHeight);
     }
 
     let products = {};
@@ -215,57 +211,89 @@ document.addEventListener('DOMContentLoaded', function() {
         handleResponsive();
     }
 
-    function updateProductInfo(productId) {
-        const product = products[productId];
-        document.getElementById('product-name').textContent = product.name;
-        document.getElementById('product-price').textContent = `€${product.price.toFixed(2)}`;
-        document.getElementById('product-ingredients').innerHTML = product.ingredients;
-        document.getElementById('product-characteristics').innerHTML = product.characteristics;
-        document.getElementById('product-buffs').innerHTML = product.buffs;
-        document.getElementById('product-debuffs').innerHTML = product.debuffs;
+    // Функция для обновления информации о продукте
+function updateProductInfo(productId) {
+    const product = products[productId];
+    document.getElementById('product-name').textContent = product.name;
+    document.getElementById('product-price').textContent = `€${product.price.toFixed(2)}`;
+    document.getElementById('product-ingredients').innerHTML = product.ingredients;
+    document.getElementById('product-characteristics').innerHTML = product.characteristics;
+    document.getElementById('product-buffs').innerHTML = product.buffs;
+    document.getElementById('product-debuffs').innerHTML = product.debuffs;
 
-        product.gallery.forEach(imageUrl => {
-            preloadImage(imageUrl);
-        });
+    // Предварительная загрузка галереи изображений
+    product.gallery.forEach(imageUrl => {
+        preloadImage(imageUrl);
+    });
 
-        if (window.innerWidth <= 860) {
-            largeImage.src = product.gallery[0];
-            largeImageContainer.style.display = 'block';
-            book3DModel.style.display = 'none';
-        } else {
-            loadModel(product.modelUrl);
-            largeImageContainer.style.display = 'none';
-            book3DModel.style.display = 'flex';
-        }
-
-        const productGallery = document.querySelector('.product-gallery');
-        if (product.gallery && Array.isArray(product.gallery) && productGallery) {
-            updateGallery(product.gallery, productGallery);
-        } else {
-            console.error('Product gallery not found or invalid gallery data');
-        }
-
-        document.querySelectorAll('.product-item').forEach(item => {
-            item.classList.remove('active');
-        });
-        const activeItem = document.querySelector(`.product-item[data-product-id="${productId}"]`);
-        activeItem.classList.add('active');
-
-        const addToCartButton = document.querySelector('.add-to-cart');
-
-        if (product.inStock > 0) {
-            addToCartButton.textContent = 'ADD TO CART';
-            addToCartButton.disabled = false;
-            addToCartButton.onclick = () => {
-                cart.push(productId);
-                updateCart();
-                animateAddToCart();
-            };
-        } else {
-            addToCartButton.textContent = 'SOLD OUT';
-            addToCartButton.disabled = true;
-        }
+    // Обновление изображения или 3D модели
+    if (window.innerWidth <= 860) {
+        largeImage.src = product.gallery[0];
+        largeImageContainer.style.display = 'block';
+        book3DModel.style.display = 'none';
+    } else {
+        loadModel(product.modelUrl, 'book-3d-model');
+        largeImageContainer.style.display = 'none';
+        book3DModel.style.display = 'flex';
     }
+
+    const productGallery = document.querySelector('.product-gallery');
+    if (product.gallery && Array.isArray(product.gallery) && productGallery) {
+        updateGallery(product.gallery, productGallery);
+    } else {
+        console.error('Product gallery not found or invalid gallery data');
+    }
+
+    document.querySelectorAll('.product-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    const activeItem = document.querySelector(`.product-item[data-product-id="${productId}"]`);
+    activeItem.classList.add('active');
+
+    const addToCartButton = document.querySelector('.add-to-cart');
+
+    if (product.inStock > 0) {
+        addToCartButton.textContent = 'ADD TO CART';
+        addToCartButton.disabled = false;
+        addToCartButton.onclick = () => {
+            cart.push(productId);
+            updateCart();
+            animateAddToCart();
+        };
+    } else {
+        addToCartButton.textContent = 'SOLD OUT';
+        addToCartButton.disabled = true;
+    }
+}
+
+// Функция для обновления галереи изображений
+function updateGallery(galleryImages, container) {
+    if (typeof container === 'string') {
+        container = document.querySelector(container);
+    }
+
+    if (!container) {
+        console.error('Gallery container not found');
+        return;
+    }
+
+    container.innerHTML = '';
+    galleryImages.forEach((imgSrc, index) => {
+        const img = document.createElement('img');
+        img.src = imgSrc;
+        img.alt = `Product image ${index + 1}`;
+        img.classList.add('gallery-item');
+        img.addEventListener('click', () => {
+            largeImage.src = imgSrc;  // Обновление большого изображения при клике на миниатюру
+            if (window.innerWidth > 860) {
+                openModal(imgSrc);
+            }
+        });
+        container.appendChild(img);
+    });
+}
+
+
 
     function updateGallery(galleryImages, container) {
         if (typeof container === 'string') {
@@ -284,7 +312,7 @@ document.addEventListener('DOMContentLoaded', function() {
             img.alt = `Product image ${index + 1}`;
             img.classList.add('gallery-item');
             img.addEventListener('click', () => {
-                largeImage.src = imgSrc;
+                largeImage.src = imgSrc;  // Update the "large" image on gallery image click
                 if (window.innerWidth > 860) {
                     openModal(imgSrc);
                 }
@@ -363,6 +391,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const modalLargeImage = document.getElementById('modal-large-image');
         const modalGallery = document.querySelector('.modal-product-gallery');
         
+        // Заполнение галереи
         modalGallery.innerHTML = '';
         product.gallery.forEach((imgSrc, index) => {
             const img = document.createElement('img');
@@ -370,7 +399,7 @@ document.addEventListener('DOMContentLoaded', function() {
             img.alt = `Product image ${index + 1}`;
             img.classList.add('gallery-item');
             img.addEventListener('click', () => {
-                modalLargeImage.src = imgSrc;
+                modalLargeImage.src = imgSrc;  // Обновление большой картинки
             });
             modalGallery.appendChild(img);
         });
@@ -383,38 +412,38 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function handleResponsive() {
-        const productDetail = document.querySelector('.product-detail');
-        const productItems = document.querySelectorAll('.product-item');
+    const productDetail = document.querySelector('.product-detail');
+    const productItems = document.querySelectorAll('.product-item');
 
-        function handleProductClick(e) {
-            const productId = e.currentTarget.dataset.productId;
-            if (window.innerWidth <= 860) {
-                currentProductId = productId;
-                openModal('#productDetailModal');
-            } else {
-                updateProductInfo(productId);
-            }
-        }
-
-        productItems.forEach(item => {
-            item.removeEventListener('click', handleProductClick);
-            item.addEventListener('click', handleProductClick);
-        });
-
+    function handleProductClick(e) {
+        const productId = e.currentTarget.dataset.productId;
         if (window.innerWidth <= 860) {
-            if (productDetail) productDetail.style.display = 'none';
-            largeImageContainer.style.display = 'block';
-            leftArrow.style.display = 'none';
-            rightArrow.style.display = 'none';
+            currentProductId = productId;
+            openModal('#productDetailModal');
         } else {
-            if (productDetail) productDetail.style.display = 'flex';
-            largeImageContainer.style.display = 'none';
-            updateArrowVisibility();
+            updateProductInfo(productId);
         }
     }
 
-    handleResponsive();
-    window.addEventListener('resize', handleResponsive);
+    productItems.forEach(item => {
+        item.removeEventListener('click', handleProductClick);
+        item.addEventListener('click', handleProductClick);
+    });
+
+    if (window.innerWidth <= 860) {
+        if (productDetail) productDetail.style.display = 'none';
+        largeImageContainer.style.display = 'block';
+        leftArrow.style.display = 'none';
+        rightArrow.style.display = 'none';
+    } else {
+        if (productDetail) productDetail.style.display = 'flex';
+        largeImageContainer.style.display = 'none';
+        updateArrowVisibility();
+    }
+}
+
+handleResponsive();
+window.addEventListener('resize', handleResponsive);
 
     document.querySelectorAll('.modal .close').forEach(closeBtn => {
         closeBtn.addEventListener('click', () => {
@@ -579,25 +608,25 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     let startX;
-    let scrollLeft;
+let scrollLeft;
 
-    function handleTouchStart(e) {
-        startX = e.touches[0].pageX - productListWrapper.offsetLeft;
-        scrollLeft = productListWrapper.scrollLeft;
-    }
+function handleTouchStart(e) {
+    startX = e.touches[0].pageX - productListWrapper.offsetLeft;
+    scrollLeft = productListWrapper.scrollLeft;
+}
 
-    function handleTouchMove(e) {
-        if (!startX) return;
-        const x = e.touches[0].pageX - productListWrapper.offsetLeft;
-        const walk = (x - startX) * 2; // Ускорение прокрутки
-        productListWrapper.scrollLeft = scrollLeft - walk;
-    }
+function handleTouchMove(e) {
+    if (!startX) return;
+    const x = e.touches[0].pageX - productListWrapper.offsetLeft;
+    const walk = (x - startX) * 2; // Ускорение прокрутки
+    productListWrapper.scrollLeft = scrollLeft - walk;
+}
 
-    productListWrapper.addEventListener('touchstart', handleTouchStart);
-    productListWrapper.addEventListener('touchmove', handleTouchMove);
-    productListWrapper.addEventListener('touchend', () => {
-        startX = null;
-    });
+productListWrapper.addEventListener('touchstart', handleTouchStart);
+productListWrapper.addEventListener('touchmove', handleTouchMove);
+productListWrapper.addEventListener('touchend', () => {
+    startX = null;
+});
 
     function animateAddToCart() {
         const modelContainer = document.getElementById('book-3d-model');
@@ -764,37 +793,33 @@ document.addEventListener('DOMContentLoaded', function() {
         updateCart();
     });
 
-    // Очистка ресурсов при уничтожении компонента
-    function cleanup3DResources() {
-        if (renderer) {
-            renderer.dispose();
-            renderer = null;
+    function resizeRendererToDisplaySize(renderer, camera) {
+        const canvas = renderer.domElement;
+        const width = book3DModel.clientWidth;
+        const height = book3DModel.clientHeight;
+        const needResize = canvas.width !== width || canvas.height !== height;
+        if (needResize) {
+            renderer.setSize(width, height, false);
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
         }
-        if (scene) {
-            scene.traverse((object) => {
-                if (object.isMesh) {
-                    object.geometry.dispose();
-                    object.material.dispose();
-                }
-            });
-            scene = null;
-        }
-        if (camera) {
-            camera = null;
-        }
+        return needResize;
+    }
+
+    function animate(rendererInstance, sceneInstance, cameraInstance) {
+        requestAnimationFrame(() => animate(rendererInstance, sceneInstance, cameraInstance));
+        resizeRendererToDisplaySize(rendererInstance, cameraInstance);
         if (currentModel) {
-            currentModel = null;
+            currentModel.rotation.y = mouseX * Math.PI * 0.03;
+            currentModel.rotation.x = mouseY * Math.PI * 0.03;
         }
+        rendererInstance.render(sceneInstance, cameraInstance);
     }
 
-    // Инициализация 3D-рендеринга
-    init3DRendering();
-
-    // Не забудьте вызвать cleanup3DResources() при уничтожении компонента или закрытии страницы
-    window.addEventListener('unload', cleanup3DResources);
-
-    // Callback function for Google Maps API
-    function initMap() {
-        console.log('Google Maps API loaded');
-    }
+    animate(renderer, scene, camera);
 });
+
+// Callback function for Google Maps API
+function initMap() {
+    console.log('Google Maps API loaded');
+}
