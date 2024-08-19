@@ -119,7 +119,8 @@ function preloadImage(url) {
         const box = new THREE.Box3().setFromObject(currentModel);
         const height = box.max.y - box.min.y;
         const scale = 7 / height;
-        //currentModel.scale.set(scale, scale, scale);
+        currentModel.scale.set(1, 1, 1); // Defaul scale
+         currentModel.position.set(0, 0, 0);
 
         currentModel.position.y = -(box.max.y - box.min.y) / 2; // Центрирование модели по вертикали
         sceneInstance.add(currentModel);
