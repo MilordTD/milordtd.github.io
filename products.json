@@ -56,7 +56,7 @@
     "characteristics": "Height: 20 mm Wide: 12.1 mm<br>Fastening: Butterfly clutch",
     "buffs": "Helps tired casters to quickly replenish their powers and is an adventurer’s best friend in many various situations that drain your energy. It does not really have any particular flavour but it is always pleasantly cold. The very colour of it gives you a sense of calm and confidence. A total must have!",
     "debuffs": "",
-    "modelUrl": "/models/bluePotion.gltf",
+    "modelUrl": "/models/bluePotion.glb",
     "category": "pin",
     "inStock": 50,
     "price": 5.00,
