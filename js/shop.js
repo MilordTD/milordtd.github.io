@@ -6,6 +6,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const book3DModel = document.getElementById('book-3d-model');
     let renderer, scene, camera, currentModel;
     let mouseX = 0, mouseY = 0;
+    let products = {};
+    let cart = [];
+    const largeImageContainer = document.getElementById('large-image-container');
+    const largeImage = document.getElementById('large-image');
+    const cartContainer = document.querySelector('.cart-container');
+    const cartItems = document.querySelector('.cart-items');
+    const cartTotal = document.querySelector('.total-amount');
+    const productListContainer = document.querySelector('.product-list-container');
+    const productListWrapper = document.querySelector('.product-list-wrapper');
+    const leftArrow = document.querySelector('.slider-arrow.left');
+    const rightArrow = document.querySelector('.slider-arrow.right');
 
     // Инициализация рендерера, сцены и камеры
     function initialize3D(container) {
@@ -99,74 +110,18 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Обработка движения мыши
-    document.addEventListener('mousemove', (event) => {
+    function onDocumentMouseMove(event) {
         mouseX = (event.clientX / window.innerWidth) * 2 - 1;
         mouseY = (event.clientY / window.innerHeight) * 2 - 1;
-    });
-
-    // Инициализация 3D сцены и рендерера
-    initialize3D(book3DModel);
-    loadModel('initialModelUrl'); // Замените 'initialModelUrl' на URL вашей стартовой модели
-
-    // Остальной функционал
-    const loaderElement = document.getElementById('loader');
-    const largeImageContainer = document.getElementById('large-image-container');
-    const largeImage = document.getElementById('large-image');
-    const menuIcon = document.querySelector('.menu-icon');
-    const popupMenu = document.querySelector('.popup-menu');
-
-    menuIcon.addEventListener('click', () => {
-        popupMenu.style.display = popupMenu.style.display === 'block' ? 'none' : 'block';
-    });
-
-    document.addEventListener('click', (event) => {
-        if (!menuIcon.contains(event.target) && !popupMenu.contains(event.target)) {
-            popupMenu.style.display = 'none';
-        }
-    });
-
-    function typewriterEffect(element, text, speed = 10) {
-        let i = 0;
-        element.innerHTML = '';
-        function type() {
-            if (i < text.length) {
-                if (text.charAt(i) === '\n') {
-                    element.innerHTML += '<br>';
-                } else {
-                    element.innerHTML += text.charAt(i);
-                }
-                i++;
-                setTimeout(type, speed);
-            }
-        }
-        type();
     }
-
-    function preloadImage(url) {
-        const img = new Image();
-        img.src = url;
-    }
-
-    const typewriterText = document.getElementById('typewriter-text');
-    const textToType = "I'm Erin, an artist, traveler and adventurer.\nI've got a neat collection of trinkets, artifacts\nand equipment. Wanna trade?";
-
-    setTimeout(() => {
-        typewriterEffect(typewriterText, textToType, 10);
-    }, 1000);
 
     document.addEventListener('mousemove', onDocumentMouseMove, false);
 
-    let products = {};
-    let cart = [];
-    const cartContainer = document.querySelector('.cart-container');
-    const cartItems = document.querySelector('.cart-items');
-    const cartTotal = document.querySelector('.total-amount');
-    const productListContainer = document.querySelector('.product-list-container');
-    const productListWrapper = document.querySelector('.product-list-wrapper');
-    const leftArrow = document.querySelector('.slider-arrow.left');
-    const rightArrow = document.querySelector('.slider-arrow.right');
+    // Инициализация 3D сцены и рендерера
+    initialize3D(book3DModel);
 
-    fetch('/products.json')
+    // Загрузка продуктов из JSON
+    fetch('/path/to/products.json') // Замените '/path/to/products.json' на реальный путь к JSON
         .then(response => response.json())
         .then(data => {
             products = data;
@@ -176,6 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error loading products:', error);
         });
 
+    // Инициализация продуктов
     function initializeProducts() {
         productListWrapper.innerHTML = '';
 
@@ -216,6 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
         handleResponsive();
     }
 
+    // Обновление информации о продукте
     function updateProductInfo(productId) {
         const product = products[productId];
         document.getElementById('product-name').textContent = product.name;
@@ -241,18 +198,13 @@ document.addEventListener('DOMContentLoaded', function() {
             book3DModel.style.display = 'flex';
         }
 
-        const productGallery = document.querySelector('.product-gallery');
-        if (product.gallery && Array.isArray(product.gallery) && productGallery) {
-            updateGallery(product.gallery, productGallery);
-        } else {
-            console.error('Product gallery not found or invalid gallery data');
-        }
+        updateGallery(product.gallery, document.querySelector('.product-gallery'));
 
         document.querySelectorAll('.product-item').forEach(item => {
             item.classList.remove('active');
         });
         const activeItem = document.querySelector(`.product-item[data-product-id="${productId}"]`);
-        activeItem.classList.add('active');
+        if (activeItem) activeItem.classList.add('active');
 
         const addToCartButton = document.querySelector('.add-to-cart');
 
@@ -270,11 +222,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Обновление галереи изображений
     function updateGallery(galleryImages, container) {
-        if (typeof container === 'string') {
-            container = document.querySelector(container);
-        }
-
         if (!container) {
             console.error('Gallery container not found');
             return;
@@ -287,7 +236,7 @@ document.addEventListener('DOMContentLoaded', function() {
             img.alt = `Product image ${index + 1}`;
             img.classList.add('gallery-item');
             img.addEventListener('click', () => {
-                largeImage.src = imgSrc;  // Обновление большого изображения при клике на миниатюру
+                largeImage.src = imgSrc;
                 if (window.innerWidth > 860) {
                     openModal(imgSrc);
                 }
@@ -296,14 +245,68 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Функции для работы с корзиной
+    function updateCart() {
+        const cartItemCount = cart.length;
+
+        cartItems.textContent = `Items in cart: ${cartItemCount}`;
+
+        let total = cart.reduce((sum, productId) => sum + products[productId].price, 0);
+        cartTotal.textContent = total.toFixed(2);
+
+        if (cartItemCount > 0) {
+            cartContainer.classList.add('active');
+            productListContainer.classList.add('with-cart');
+
+            if (window.innerWidth <= 860) {
+                productListContainer.style.bottom = '220px';
+            }
+        } else {
+            cartContainer.classList.remove('active');
+            productListContainer.classList.remove('with-cart');
+
+            if (window.innerWidth <= 860) {
+                productListContainer.style.bottom = '20px';
+            }
+        }
+    }
+
+    const emptyCartButton = document.querySelector('.empty-cart-button');
+    if (emptyCartButton) {
+        emptyCartButton.addEventListener('click', () => {
+            cart = [];
+            updateCart();
+            updateProductInfo(Object.keys(products)[0]);
+        });
+    }
+
+    updateCart();
+
+    const checkoutButton = document.querySelector('.checkout-button');
+    if (checkoutButton) {
+        checkoutButton.addEventListener('click', () => {
+            const cartWithQuantity = cart.reduce((acc, productId) => {
+                if (acc[productId]) {
+                    acc[productId].quantity += 1;
+                } else {
+                    acc[productId] = { id: productId, quantity: 1 };
+                }
+                return acc;
+            }, {});
+
+            localStorage.setItem('cart', JSON.stringify(Object.values(cartWithQuantity)));
+            localStorage.setItem('products', JSON.stringify(products));
+
+            window.location.href = '/checkout/index.html';
+        });
+    }
+
+    // Работа с галереей и модальными окнами
     function openModal(modalIdOrImgSrc) {
         console.log('Opening modal:', modalIdOrImgSrc);
         if (modalIdOrImgSrc.startsWith('#')) {
             const modal = document.getElementById(modalIdOrImgSrc.slice(1));
             if (modal) {
-                if (modalIdOrImgSrc === '#productDetailModal') {
-                    updateProductDetailModal(currentProductId);
-                }
                 modal.style.display = 'block';
                 document.body.style.overflow = 'hidden';
                 console.log('Modal opened');
@@ -329,95 +332,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function updateProductDetailModal(productId) {
-        console.log('Updating product detail modal for product:', productId);
-        const product = products[productId];
-        const modalContent = document.querySelector('#productDetailModal .product-detail-modal-content');
-
-        if (!modalContent) {
-            console.error('Modal content element not found');
-            return;
-        }
-
-        modalContent.innerHTML = `
-            <h2>${product.name}</h2>
-            <div class="modal-product-image">
-                <img id="modal-large-image" src="${product.gallery[0]}" alt="Large product image">
-                <div class="modal-product-gallery"></div>
-            </div>
-            <p>Price: €${product.price.toFixed(2)}</p>
-            <div>
-                <h3>Ingredients</h3>
-                <p>${product.ingredients}</p>
-            </div>
-            <div>
-                <h3>Characteristics</h3>
-                <p>${product.characteristics}</p>
-            </div>
-            <div>
-                <h3>Item info</h3>
-                <p>${product.buffs}</p>
-            </div>
-            <button class="add-to-cart" data-product-id="${productId}">ADD TO CART</button>
-        `;
-
-        const modalLargeImage = document.getElementById('modal-large-image');
-        const modalGallery = document.querySelector('.modal-product-gallery');
-
-        // Заполнение галереи
-        modalGallery.innerHTML = '';
-        product.gallery.forEach((imgSrc, index) => {
-            const img = document.createElement('img');
-            img.src = imgSrc;
-            img.alt = `Product image ${index + 1}`;
-            img.classList.add('gallery-item');
-            img.addEventListener('click', () => {
-                modalLargeImage.src = imgSrc;  // Обновление большой картинки
-            });
-            modalGallery.appendChild(img);
-        });
-
-        const addToCartButton = modalContent.querySelector('.add-to-cart');
-        addToCartButton.addEventListener('click', function() {
-            addToCart(this.dataset.productId);
-            closeModal('productDetailModal');
-        });
-    }
-
-    function handleResponsive() {
-        const productDetail = document.querySelector('.product-detail');
-        const productItems = document.querySelectorAll('.product-item');
-
-        function handleProductClick(e) {
-            const productId = e.currentTarget.dataset.productId;
-            if (window.innerWidth <= 860) {
-                currentProductId = productId;
-                openModal('#productDetailModal');
-            } else {
-                updateProductInfo(productId);
-            }
-        }
-
-        productItems.forEach(item => {
-            item.removeEventListener('click', handleProductClick);
-            item.addEventListener('click', handleProductClick);
-        });
-
-        if (window.innerWidth <= 860) {
-            if (productDetail) productDetail.style.display = 'none';
-            largeImageContainer.style.display = 'block';
-            leftArrow.style.display = 'none';
-            rightArrow.style.display = 'none';
-        } else {
-            if (productDetail) productDetail.style.display = 'flex';
-            largeImageContainer.style.display = 'none';
-            updateArrowVisibility();
-        }
-    }
-
-    handleResponsive();
-    window.addEventListener('resize', handleResponsive);
-
     document.querySelectorAll('.modal .close').forEach(closeBtn => {
         closeBtn.addEventListener('click', () => {
             const modalId = closeBtn.closest('.modal').id;
@@ -433,11 +347,72 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    function addToCart(productId) {
-        cart.push(productId);
-        updateCart();
-        animateAddToCart();
-        closeModal('productDetailModal');
+    function animateAddToCart() {
+        const modelContainer = document.getElementById('book-3d-model');
+        const cartIcon = document.querySelector('.cart-container');
+        const activeProduct = document.querySelector('.product-item.active');
+
+        if (!modelContainer || !cartIcon || !activeProduct) {
+            console.error('Required elements not found');
+            return;
+        }
+
+        const productImage = activeProduct.querySelector('img').src;
+        const startRect = modelContainer.getBoundingClientRect();
+        const endRect = cartIcon.getBoundingClientRect();
+
+        const animatedImage = document.createElement('img');
+        animatedImage.src = productImage;
+        animatedImage.style.position = 'fixed';
+        animatedImage.style.left = `${startRect.left}px`;
+        animatedImage.style.top = `${startRect.top}px`;
+        animatedImage.style.width = `${startRect.width}px`;
+        animatedImage.style.height = `${startRect.height}px`;
+        animatedImage.style.zIndex = '9999';
+        animatedImage.style.pointerEvents = 'none';
+        document.body.appendChild(animatedImage);
+
+        console.log('Animated image created and appended to body');
+
+        function calculatePosition(progress) {
+            const startX = startRect.left;
+            const startY = startRect.top;
+            const endX = endRect.right - 20;
+            const endY = endRect.bottom - 20;
+
+            const controlX = (startX + endX) / 2;
+            const controlY = startY - 100;
+
+            const x = Math.pow(1 - progress, 2) * startX +
+                2 * (1 - progress) * progress * controlX +
+                Math.pow(progress, 2) * endX;
+            const y = Math.pow(1 - progress, 2) * startY +
+                2 * (1 - progress) * progress * controlY +
+                Math.pow(progress, 2) * endY;
+
+            return { x, y };
+        }
+
+        function animate(currentTime) {
+            const duration = 1000;
+            const progress = Math.min((currentTime - startTime) / duration, 1);
+            const { x, y } = calculatePosition(progress);
+
+            animatedImage.style.left = `${x}px`;
+            animatedImage.style.top = `${y}px`;
+            animatedImage.style.transform = `scale(${1 - progress * 0.9})`;
+            animatedImage.style.opacity = 1 - progress;
+
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                document.body.removeChild(animatedImage);
+                console.log('Animated image removed');
+            }
+        }
+
+        const startTime = performance.now();
+        requestAnimationFrame(animate);
     }
 
     function updateCategoryFilter() {
@@ -525,150 +500,41 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function updateCart() {
-        const cartItemCount = cart.length;
+    // Адаптация к мобильным устройствам
+    function handleResponsive() {
+        const productDetail = document.querySelector('.product-detail');
+        const productItems = document.querySelectorAll('.product-item');
 
-        cartItems.textContent = `Items in cart: ${cartItemCount}`;
-
-        let total = cart.reduce((sum, productId) => sum + products[productId].price, 0);
-        cartTotal.textContent = total.toFixed(2);
-
-        if (cartItemCount > 0) {
-            cartContainer.classList.add('active');
-            productListContainer.classList.add('with-cart');
-
+        function handleProductClick(e) {
+            const productId = e.currentTarget.dataset.productId;
             if (window.innerWidth <= 860) {
-                productListContainer.style.bottom = '220px';
-            }
-        } else {
-            cartContainer.classList.remove('active');
-            productListContainer.classList.remove('with-cart');
-
-            if (window.innerWidth <= 860) {
-                productListContainer.style.bottom = '20px';
-            }
-        }
-    }
-
-    const emptyCartButton = document.querySelector('.empty-cart-button');
-    if (emptyCartButton) {
-        emptyCartButton.addEventListener('click', () => {
-            cart = [];
-            updateCart();
-            updateProductInfo(Object.keys(products)[0]);
-        });
-    }
-
-    updateCart();
-
-    const checkoutButton = document.querySelector('.checkout-button');
-    if (checkoutButton) {
-        checkoutButton.addEventListener('click', () => {
-            const cartWithQuantity = cart.reduce((acc, productId) => {
-                if (acc[productId]) {
-                    acc[productId].quantity += 1;
-                } else {
-                    acc[productId] = { id: productId, quantity: 1 };
-                }
-                return acc;
-            }, {});
-
-            localStorage.setItem('cart', JSON.stringify(Object.values(cartWithQuantity)));
-            localStorage.setItem('products', JSON.stringify(products));
-
-            window.location.href = '/checkout/index.html';
-        });
-    }
-
-    let startX;
-    let scrollLeft;
-
-    function handleTouchStart(e) {
-        startX = e.touches[0].pageX - productListWrapper.offsetLeft;
-        scrollLeft = productListWrapper.scrollLeft;
-    }
-
-    function handleTouchMove(e) {
-        if (!startX) return;
-        const x = e.touches[0].pageX - productListWrapper.offsetLeft;
-        const walk = (x - startX) * 2; // Ускорение прокрутки
-        productListWrapper.scrollLeft = scrollLeft - walk;
-    }
-
-    productListWrapper.addEventListener('touchstart', handleTouchStart);
-    productListWrapper.addEventListener('touchmove', handleTouchMove);
-    productListWrapper.addEventListener('touchend', () => {
-        startX = null;
-    });
-
-    function animateAddToCart() {
-        const modelContainer = document.getElementById('book-3d-model');
-        const cartIcon = document.querySelector('.cart-container');
-        const activeProduct = document.querySelector('.product-item.active');
-
-        if (!modelContainer || !cartIcon || !activeProduct) {
-            console.error('Required elements not found');
-            return;
-        }
-
-        const productImage = activeProduct.querySelector('img').src;
-        const startRect = modelContainer.getBoundingClientRect();
-        const endRect = cartIcon.getBoundingClientRect();
-
-        const animatedImage = document.createElement('img');
-        animatedImage.src = productImage;
-        animatedImage.style.position = 'fixed';
-        animatedImage.style.left = `${startRect.left}px`;
-        animatedImage.style.top = `${startRect.top}px`;
-        animatedImage.style.width = `${startRect.width}px`;
-        animatedImage.style.height = `${startRect.height}px`;
-        animatedImage.style.zIndex = '9999';
-        animatedImage.style.pointerEvents = 'none';
-        document.body.appendChild(animatedImage);
-
-        console.log('Animated image created and appended to body');
-
-        function calculatePosition(progress) {
-            const startX = startRect.left;
-            const startY = startRect.top;
-            const endX = endRect.right - 20;
-            const endY = endRect.bottom - 20;
-
-            const controlX = (startX + endX) / 2;
-            const controlY = startY - 100;
-
-            const x = Math.pow(1 - progress, 2) * startX +
-                2 * (1 - progress) * progress * controlX +
-                Math.pow(progress, 2) * endX;
-            const y = Math.pow(1 - progress, 2) * startY +
-                2 * (1 - progress) * progress * controlY +
-                Math.pow(progress, 2) * endY;
-
-            return { x, y };
-        }
-
-        function animate(currentTime) {
-            const duration = 1000;
-            const progress = Math.min((currentTime - startTime) / duration, 1);
-            const { x, y } = calculatePosition(progress);
-
-            animatedImage.style.left = `${x}px`;
-            animatedImage.style.top = `${y}px`;
-            animatedImage.style.transform = `scale(${1 - progress * 0.9})`;
-            animatedImage.style.opacity = 1 - progress;
-
-            if (progress < 1) {
-                requestAnimationFrame(animate);
+                openModal('#productDetailModal');
             } else {
-                document.body.removeChild(animatedImage);
-                console.log('Animated image removed');
+                updateProductInfo(productId);
             }
         }
 
-        const startTime = performance.now();
-        requestAnimationFrame(animate);
+        productItems.forEach(item => {
+            item.removeEventListener('click', handleProductClick);
+            item.addEventListener('click', handleProductClick);
+        });
+
+        if (window.innerWidth <= 860) {
+            if (productDetail) productDetail.style.display = 'none';
+            largeImageContainer.style.display = 'block';
+            leftArrow.style.display = 'none';
+            rightArrow.style.display = 'none';
+        } else {
+            if (productDetail) productDetail.style.display = 'flex';
+            largeImageContainer.style.display = 'none';
+            updateArrowVisibility();
+        }
     }
 
+    handleResponsive();
+    window.addEventListener('resize', handleResponsive);
+
+    // Дополнительные функции, например, для работы с платежами и статусами
     function checkStatus() {
         console.log('Checking status');
         const urlParams = new URLSearchParams(window.location.search);
@@ -694,7 +560,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 
-    console.log('DOM fully loaded');
+    // Инициализация страницы
     const introOverlay = document.querySelector('.intro-overlay');
     const introContent = document.querySelector('.intro-content');
     const introButton = document.querySelector('.intro-button');
@@ -730,41 +596,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     const paymentStatus = urlParams.get('payment_status');
     const waitlistStatus = urlParams.get('waitlist_status');
-    console.log('Payment status:', paymentStatus);
-    console.log('Waitlist status:', waitlistStatus);
 
     if (paymentStatus || waitlistStatus) {
-        console.log('Status detected, hiding intro overlay');
         introOverlay.style.display = 'none';
         productDetail.style.opacity = '1';
         productListContainer.style.opacity = '1';
-
-        console.log('Calling checkStatus()');
         checkStatus();
     } else {
-        console.log('No status, showing intro overlay');
         setTimeout(() => {
             introContent.style.opacity = '1';
         }, 500);
     }
-
-    document.querySelectorAll('.payment-status-modal .close').forEach(closeBtn => {
-        closeBtn.addEventListener('click', () => {
-            closeModal(closeBtn.closest('.modal').id);
-        });
-    });
-
-    window.addEventListener('click', (event) => {
-        if (event.target.classList.contains('payment-status-modal')) {
-            closeModal(event.target.id);
-        }
-    });
-
-    window.addEventListener('resize', handleResponsive);
-
-    window.addEventListener('resize', function() {
-        updateCart();
-    });
 });
 
 // Callback function for Google Maps API
