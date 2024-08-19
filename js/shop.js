@@ -88,8 +88,8 @@ function preloadImage(url) {
         const newScene = new THREE.Scene();
         const aspect = container.clientWidth / container.clientHeight;
         const newCamera = new THREE.PerspectiveCamera(75, aspect, 0.1, 1000);
-        newCamera.position.z = 8;
-        newCamera.position.y = 0.5;
+        newCamera.position.z = 5;
+        newCamera.position.y = 0;
 
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.01);
         newScene.add(ambientLight);
@@ -119,7 +119,7 @@ function preloadImage(url) {
         const box = new THREE.Box3().setFromObject(currentModel);
         const height = box.max.y - box.min.y;
         const scale = 7 / height;
-        currentModel.scale.set(scale, scale, scale);
+        //currentModel.scale.set(scale, scale, scale);
 
         currentModel.position.y = -(box.max.y - box.min.y) / 2; // Центрирование модели по вертикали
         sceneInstance.add(currentModel);
