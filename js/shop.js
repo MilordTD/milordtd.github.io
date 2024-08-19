@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initialize3D(book3DModel);
 
     // Загрузка продуктов из JSON
-    fetch('/path/to/products.json') // Замените '/path/to/products.json' на реальный путь к JSON
+    fetch('/products.json') // Замените '/path/to/products.json' на реальный путь к JSON
         .then(response => response.json())
         .then(data => {
             products = data;
